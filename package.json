@@ -1,0 +1,22 @@
+{
+  "name": "electron-rsbuild",
+  "version": "0.0.1",
+  "description": "Next generation Electron build tooling based on Rsbuild.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/veaba/electron-rsbuild.git"
+  },
+  "keywords": [
+    "electron-builder"
+  ],
+  "author": "veaba",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/veaba/electron-rsbuild/issues"
+  },
+  "homepage": "https://github.com/veaba/electron-rsbuild#readme"
+}
