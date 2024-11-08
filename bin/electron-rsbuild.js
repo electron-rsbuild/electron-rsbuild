@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import electronBuild from '../dist/index.cjs';
-
 const debugIndex = process.argv.findIndex((arg) => /^(?:-d|--debug)$/.test(arg));
 const filterIndex = process.argv.findIndex((arg) => /^(?:-f|--filter)$/.test(arg));
 
@@ -26,10 +24,8 @@ if (debugIndex > 0) {
   }
 }
 
-// TODO rslib 没有生成 cli.js
 function run() {
-  const { cliFn } = electronBuild;
-  cliFn();
+  import('../dist/cli.cjs');
 }
 
 run();

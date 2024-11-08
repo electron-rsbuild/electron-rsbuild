@@ -7,11 +7,17 @@ const shared = {
 };
 
 export default defineConfig({
+  source: {
+    entry: {
+      index: ['./src/index.ts'],
+      cli: ['./src/cli.ts'],
+    },
+  },
   lib: [
     {
       format: 'esm',
       syntax: 'es2021',
-      ...shared
+      ...shared,
     },
     {
       format: 'cjs',
