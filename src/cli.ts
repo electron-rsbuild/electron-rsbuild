@@ -121,7 +121,7 @@ cli
     // console.log('dev options=>', options);
 
     try {
-      console.log('create server 1=>', inlineConfig)
+      // console.log('create server 1=>', inlineConfig)
       await createServer(inlineConfig, { rendererOnly: options.rendererOnly });
       console.log('create server 2')
     } catch (e) {

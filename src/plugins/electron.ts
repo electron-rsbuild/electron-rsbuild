@@ -70,6 +70,8 @@ export function electronMainVitePlugin(options?: ElectronPluginOptions): Plugin[
 
         const pkg = loadPackageData() || { type: 'commonjs' };
 
+        console.log('执行 electronMainVitePlugin')
+
         const format = pkg.type && pkg.type === 'module' && supportESM() ? 'es' : 'cjs';
 
         const defaultConfig = {
@@ -171,6 +173,8 @@ export function electronMainVitePlugin(options?: ElectronPluginOptions): Plugin[
           } else {
             const outpout = outputs[0];
             if (['es', 'cjs'].includes(outpout.format || '')) {
+
+              console.log('执行 2')
               if (outpout.format === 'es' && !supportESM()) {
                 throw new Error(
                   'The electron rsbuild main config output format does not support "es", ' +
@@ -345,6 +349,8 @@ export function electronRendererVitePlugin(options?: ElectronPluginOptions): Plu
         config.base =
           config.mode === 'production' || process.env.NODE_ENV_ELECTRON_VITE === 'production' ? './' : config.base;
         config.root = config.root || './src/renderer';
+        
+        console.log('执行 getElectronChromeTarget')
 
         const chromeTarget = getElectronChromeTarget();
 

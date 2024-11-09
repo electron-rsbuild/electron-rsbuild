@@ -1,10 +1,10 @@
-import path from 'node:path'
-import fs from 'node:fs'
-import os from 'node:os'
-import colors from 'picocolors'
-import { pathToFileURL } from 'node:url'
-import { createRequire } from 'node:module'
-import { createLogger, LogLevel } from 'rslog'
+import path from 'node:path';
+import fs from 'node:fs';
+import os from 'node:os';
+import colors from 'picocolors';
+import { pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
+import { createLogger, LogLevel } from 'rslog';
 import {
   createRsbuild,
   DistPathConfig,
@@ -13,29 +13,32 @@ import {
   mergeRsbuildConfig as mergeConfig,
   type RsbuildConfig,
   RsbuildMode,
-  type RsbuildPlugin as Plugin
-} from '@rsbuild/core'
+  type RsbuildPlugin as Plugin,
+} from '@rsbuild/core';
 
-import { electronMainVitePlugin, electronPreloadVitePlugin, electronRendererVitePlugin } from './plugins/electron'
-import assetPlugin from './plugins/asset'
-import workerPlugin from './plugins/worker'
-import importMetaPlugin from './plugins/importMeta'
-import esmShimPlugin from './plugins/esm'
-import modulePathPlugin from './plugins/modulePath'
-import { normalizePath } from './utils'
-import { LoadEnvOptions, ViteConfigExport } from './types'
+import { electronMainVitePlugin, electronPreloadVitePlugin, electronRendererVitePlugin } from './plugins/electron';
+import assetPlugin from './plugins/asset';
+import workerPlugin from './plugins/worker';
+import importMetaPlugin from './plugins/importMeta';
+import esmShimPlugin from './plugins/esm';
+import modulePathPlugin from './plugins/modulePath';
+import { normalizePath } from './utils';
+import { LoadEnvOptions, ViteConfigExport } from './types';
 
-export { type LogLevel } from 'rslog'
+export { type LogLevel } from 'rslog';
 
-export { mergeRsbuildConfig } from '@rsbuild/core'
+export { mergeRsbuildConfig } from '@rsbuild/core';
 
-export { defineConfig as defineViteConfig } from '@rsbuild/core'
+export { defineConfig as defineViteConfig } from '@rsbuild/core';
+
+
+const _require2 = createRequire(`file://${process.cwd()}/`);
 
 export function slash(p: string): string {
-  return p.replace(/\\/g, '/')
+  return p.replace(/\\/g, '/');
 }
 
-export const isWindows = os.platform() === 'win32'
+export const isWindows = os.platform() === 'win32';
 
 export interface UserConfig {
   /**
@@ -109,7 +112,7 @@ export function defineConfig(config: Promise<ElectronViteConfig>): Promise<Elect
 export function defineConfig(config: ElectronViteConfigFnObject): ElectronViteConfigFnObject;
 export function defineConfig(config: ElectronViteConfigExport): ElectronViteConfigExport;
 export function defineConfig(config: ElectronViteConfigExport): ElectronViteConfigExport {
-  return config
+  return config;
 }
 
 export interface ResolvedConfig {
@@ -126,22 +129,21 @@ export async function resolveConfig(
   command: 'build' | 'serve',
   defaultMode = 'development'
 ): Promise<ResolvedConfig> {
-  const config = inlineConfig
-  const mode = inlineConfig.mode || defaultMode
+  const config = inlineConfig;
+  const mode = inlineConfig.mode || defaultMode;
 
-  process.env.NODE_ENV = defaultMode
+  process.env.NODE_ENV = defaultMode;
 
-  let userConfig: UserConfig | undefined
-  let configFileDependencies: string[] = []
+  let userConfig: UserConfig | undefined;
+  let configFileDependencies: string[] = [];
 
-  let { configFile } = config
+  let { configFile } = config;
 
-  console.log('哈哈哈 resolveConfig==', inlineConfig)
   if (configFile !== false) {
     const configEnv = {
       mode,
-      command
-    }
+      command,
+    };
 
     const loadResult = await loadConfigFromFile(
       configEnv,
@@ -149,23 +151,21 @@ export async function resolveConfig(
       config.root,
       config.logLevel,
       config.ignoreConfigWarning
-    )
-    console.log('debug 2=>', loadResult)
-
+    );
     if (loadResult) {
-      const root = config.root
-      delete config.root
-      delete config.configFile
+      const root = config.root;
+      delete config.root;
+      delete config.configFile;
 
-      const outDir = config.output?.distPath as string
+      const outDir = config.output?.distPath as string;
 
       if (loadResult.config.main) {
-        const mainViteConfig: RsbuildConfig = mergeConfig(loadResult.config.main, deepClone(config))
+        const mainViteConfig: RsbuildConfig = mergeConfig(loadResult.config.main, deepClone(config));
 
-        mainViteConfig.mode = (inlineConfig.mode || mainViteConfig.mode || defaultMode) as RsbuildMode
+        mainViteConfig.mode = (inlineConfig.mode || mainViteConfig.mode || defaultMode) as RsbuildMode;
 
         if (outDir) {
-          resetOutDir(mainViteConfig, outDir, 'main')
+          resetOutDir(mainViteConfig, outDir, 'main');
         }
 
         mergePlugins(mainViteConfig, [
@@ -174,50 +174,49 @@ export async function resolveConfig(
           workerPlugin(),
           modulePathPlugin(),
           importMetaPlugin(),
-          esmShimPlugin()
-        ])
+          esmShimPlugin(),
+        ]);
 
-        loadResult.config.main = mainViteConfig
-        loadResult.config.main.configFile = false
+        loadResult.config.main = mainViteConfig;
+        loadResult.config.main.configFile = false;
       }
-      console.log('return x=>', loadResult)
 
       if (loadResult.config.preload) {
-        const preloadViteConfig: RsbuildConfig = mergeConfig(loadResult.config.preload, deepClone(config))
+        const preloadViteConfig: RsbuildConfig = mergeConfig(loadResult.config.preload, deepClone(config));
 
-        preloadViteConfig.mode = (inlineConfig.mode || preloadViteConfig.mode || defaultMode) as RsbuildMode
+        preloadViteConfig.mode = (inlineConfig.mode || preloadViteConfig.mode || defaultMode) as RsbuildMode;
 
         if (outDir) {
-          resetOutDir(preloadViteConfig, outDir, 'preload')
+          resetOutDir(preloadViteConfig, outDir, 'preload');
         }
         mergePlugins(preloadViteConfig, [
           ...electronPreloadVitePlugin({ root }),
           assetPlugin(),
           importMetaPlugin(),
-          esmShimPlugin()
-        ])
+          esmShimPlugin(),
+        ]);
 
-        loadResult.config.preload = preloadViteConfig
-        loadResult.config.preload.configFile = false
+        loadResult.config.preload = preloadViteConfig;
+        loadResult.config.preload.configFile = false;
       }
 
       if (loadResult.config.renderer) {
-        const rendererViteConfig: RsbuildConfig = mergeConfig(loadResult.config.renderer, deepClone(config))
+        const rendererViteConfig: RsbuildConfig = mergeConfig(loadResult.config.renderer, deepClone(config));
 
-        rendererViteConfig.mode = (inlineConfig.mode || rendererViteConfig.mode || defaultMode) as RsbuildMode
+        rendererViteConfig.mode = (inlineConfig.mode || rendererViteConfig.mode || defaultMode) as RsbuildMode;
 
         if (outDir) {
-          resetOutDir(rendererViteConfig, outDir, 'renderer')
+          resetOutDir(rendererViteConfig, outDir, 'renderer');
         }
 
-        mergePlugins(rendererViteConfig, electronRendererVitePlugin({ root }))
+        mergePlugins(rendererViteConfig, electronRendererVitePlugin({ root }));
 
-        loadResult.config.renderer = rendererViteConfig
-        loadResult.config.renderer.configFile = false
+        loadResult.config.renderer = rendererViteConfig;
+        loadResult.config.renderer.configFile = false;
       }
 
-      userConfig = loadResult.config
-      configFile = loadResult.path
+      userConfig = loadResult.config;
+      configFile = loadResult.path;
       // configFileDependencies = loadResult.dependencies
     }
   }
@@ -225,37 +224,34 @@ export async function resolveConfig(
   const resolved: ResolvedConfig = {
     config: userConfig,
     configFile: configFile ? normalizePath(configFile) : undefined,
-    configFileDependencies
-  }
+    configFileDependencies,
+  };
 
-  console.log('return resolved=>', resolved)
-
-  return resolved
+  return resolved;
 }
 
 function deepClone<T>(data: T): T {
-  return JSON.parse(JSON.stringify(data))
+  return JSON.parse(JSON.stringify(data));
 }
 
 function resetOutDir(config: RsbuildConfig, outDir: string, subOutDir: string): void {
-  let userOutDir = config.output?.distPath
+  let userOutDir = config.output?.distPath;
   if (outDir === userOutDir) {
-    userOutDir = path.resolve(config.root || process.cwd(), outDir, subOutDir) as DistPathConfig
+    userOutDir = path.resolve(config.root || process.cwd(), outDir, subOutDir) as DistPathConfig;
     if (config.output) {
-      config.output.distPath = userOutDir
+      config.output.distPath = userOutDir;
     } else {
-      config.output = { distPath: userOutDir }
+      config.output = { distPath: userOutDir };
     }
   }
 }
 
 function mergePlugins(config: RsbuildConfig, plugins: Plugin[]): void {
-  const userPlugins = config.plugins || []
-  config.plugins = userPlugins.concat(plugins)
+  const userPlugins = config.plugins || [];
+  config.plugins = userPlugins.concat(plugins);
 }
 
-const CONFIG_FILE_NAME = 'electron.rsbuild.config'
-
+const CONFIG_FILE_NAME = 'electron.rsbuild.config';
 
 /**
  * 处理和判断用药 config 配置
@@ -279,60 +275,59 @@ export async function loadConfigFromFile(
   config: UserConfig;
 }> {
   if (configFile && /^rsbuild.config.(js|ts|mjs|cjs|mts|cts)$/.test(configFile)) {
-    throw new Error(`config file cannot be named ${configFile}.`)
+    throw new Error(`config file cannot be named ${configFile}.`);
   }
 
   const resolvedPath = configFile
     ? path.resolve(configFile)
-    : findConfigFile(configRoot, ['js', 'ts', 'mjs', 'cjs', 'mts', 'cts'])
+    : findConfigFile(configRoot, ['js', 'ts', 'mjs', 'cjs', 'mts', 'cts']);
 
   if (!resolvedPath) {
     return {
       path: '',
-      config: { main: {}, preload: {}, renderer: {} }
-    }
+      config: { main: {}, preload: {}, renderer: {} },
+    };
   }
 
   try {
     // load user config file: electron.rsbuild.config.ts
-    const { content, filePath } = await loadConfig({ cwd: configRoot, path: resolvedPath })
+    const { content, filePath } = await loadConfig({ cwd: configRoot, path: resolvedPath });
     // TODO 此处省略一堆判断
-    const { preload, renderer, main } = content || {}
+    const { preload, renderer, main } = content || {};
     // TODO 附加一堆 plugins 等等
     return {
       config: {
         main: main || {},
         preload: preload || {},
-        renderer: renderer || {}
+        renderer: renderer || {},
       },
-      path: filePath as string
-    }
+      path: filePath as string,
+    };
   } catch (e) {
     createLogger({ level: logLevel }).error(colors.red(`failed to load config from ${resolvedPath}`), {
-      error: e as Error
-    })
-    throw e
+      error: e as Error,
+    });
+    throw e;
   }
-
 }
 
 function findConfigFile(configRoot: string, extensions: string[]): string {
   for (const ext of extensions) {
-    const configFile = path.resolve(configRoot, `${CONFIG_FILE_NAME}.${ext}`)
+    const configFile = path.resolve(configRoot, `${CONFIG_FILE_NAME}.${ext}`);
     if (fs.existsSync(configFile)) {
-      return configFile
+      return configFile;
     }
   }
-  return ''
+  return '';
 }
 
 /**
  * 上个版本有 esm 传入
  */
 async function bundleConfigFile(fileName: FilenameConfig) {
-  const dirnameVarName = '__electron_rsbuild_injected_dirname'
-  const filenameVarName = '__electron_rsbuild_injected_filename'
-  const importMetaUrlVarName = '__electron_rsbuild_injected_import_meta_url'
+  const dirnameVarName = '__electron_rsbuild_injected_dirname';
+  const filenameVarName = '__electron_rsbuild_injected_filename';
+  const importMetaUrlVarName = '__electron_rsbuild_injected_import_meta_url';
   // create a rsbuild instance
   const rsbuild = await createRsbuild({
     cwd: process.cwd(),
@@ -344,62 +339,62 @@ async function bundleConfigFile(fileName: FilenameConfig) {
         target: 'node',
         sourceMap: {
           js: false,
-          css: false
-        }
+          css: false,
+        },
       },
       source: {
         define: {
           __dirname: dirnameVarName,
           __filename: filenameVarName,
-          'import.meta.url': importMetaUrlVarName
-        }
+          'import.meta.url': importMetaUrlVarName,
+        },
       },
       plugins: [
         {
           name: 'externalize-deps',
           setup(build): void {
             build.onResolve({ filter: /.*/ }, (args: any) => {
-              const id = args.path
+              const id = args.path;
               if (id[0] !== '.' && !path.isAbsolute(id)) {
                 return {
-                  external: true
-                }
+                  external: true,
+                };
               }
-              return null
-            })
-          }
+              return null;
+            });
+          },
         },
         {
           name: 'replace-import-meta',
           setup(build): void {
             build.onLoad({ filter: /\.[cm]?[jt]s$/ }, async (args: any) => {
-              const contents = await fs.promises.readFile(args.path, 'utf8')
+              const contents = await fs.promises.readFile(args.path, 'utf8');
               const injectValues =
                 `const ${dirnameVarName} = ${JSON.stringify(path.dirname(args.path))};` +
                 `const ${filenameVarName} = ${JSON.stringify(args.path)};` +
-                `const ${importMetaUrlVarName} = ${JSON.stringify(pathToFileURL(args.path).href)};`
+                `const ${importMetaUrlVarName} = ${JSON.stringify(pathToFileURL(args.path).href)};`;
 
               return {
                 loader: args.path.endsWith('ts') ? 'ts' : 'js',
-                contents: injectValues + contents
-              }
-            })
-          }
-        }
-      ]
-    }
+                contents: injectValues + contents,
+              };
+            });
+          },
+        },
+      ],
+    },
     // TODO bundle: true,
     // TODO format: isESM ? 'esm' : 'cjs',
     // TODO metafile: true,
-  })
+  });
   // const { text } = result.outputFiles[0];
 
   // TODO
 
-  console.log('rsbuild 实例=>', rsbuild)
+  console.log('rsbuild 实例=>', rsbuild);
 
   // console.log('用户的config=>', result)
-  return rsbuild
+  return rsbuild;
 }
 
 interface NodeModuleWithCompile extends NodeModule {
@@ -407,7 +402,7 @@ interface NodeModuleWithCompile extends NodeModule {
   _compile(code: string, filename: string): any;
 }
 
-const _require = createRequire(import.meta.url)
+const _require = createRequire(import.meta.url);
 
 /**
  *
@@ -420,37 +415,36 @@ async function loadConfigFormBundledFile(
   isESM: boolean
 ): Promise<ElectronViteConfigExport> {
   if (isESM) {
-    const fileNameTmp = path.resolve(configRoot, `${CONFIG_FILE_NAME}.${Date.now()}.mjs`)
-    fs.writeFileSync(fileNameTmp, bundledCode)
+    const fileNameTmp = path.resolve(configRoot, `${CONFIG_FILE_NAME}.${Date.now()}.mjs`);
+    fs.writeFileSync(fileNameTmp, bundledCode);
 
-    const fileUrl = pathToFileURL(fileNameTmp)
+    const fileUrl = pathToFileURL(fileNameTmp);
     try {
-      return (await import(fileUrl.href)).default
+      return (await import(fileUrl.href)).default;
     } finally {
       try {
-        fs.unlinkSync(fileNameTmp)
-      } catch {
-      }
+        fs.unlinkSync(fileNameTmp);
+      } catch {}
     }
   } else {
     /**
      * @TODO
      * 暂时不做 require 的实现
      * */
-    const extension = path.extname(configFile)
-    const realFileName = fs.realpathSync(configFile)
-    const loaderExt = extension in _require.extensions ? extension : '.js'
-    const defaultLoader = _require.extensions[loaderExt]!
+    const extension = path.extname(configFile);
+    const realFileName = fs.realpathSync(configFile);
+    const loaderExt = extension in _require.extensions ? extension : '.js';
+    const defaultLoader = _require.extensions[loaderExt]!;
     _require.extensions[loaderExt] = (module: NodeModule, filename: string): void => {
       if (filename === realFileName) {
-        (module as NodeModuleWithCompile)._compile(bundledCode, filename)
+        (module as NodeModuleWithCompile)._compile(bundledCode, filename);
       } else {
-        defaultLoader(module, filename)
+        defaultLoader(module, filename);
       }
-    }
-    delete _require.cache[_require.resolve(configFile)]
-    const raw = _require(configFile)
-    _require.extensions[loaderExt] = defaultLoader
-    return raw.__esModule ? raw.default : raw
+    };
+    delete _require.cache[_require.resolve(configFile)];
+    const raw = _require(configFile);
+    _require.extensions[loaderExt] = defaultLoader;
+    return raw.__esModule ? raw.default : raw;
   }
 }

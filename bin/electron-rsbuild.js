@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 
 const debugIndex = process.argv.findIndex((arg) => /^(?:-d|--debug)$/.test(arg));
 const filterIndex = process.argv.findIndex((arg) => /^(?:-f|--filter)$/.test(arg));
@@ -25,7 +25,7 @@ if (debugIndex > 0) {
 }
 
 function run() {
-  import('../src/cli.ts');
+  import('../dist/cli.cjs');
 }
 
 run();

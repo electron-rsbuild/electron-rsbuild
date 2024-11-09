@@ -14,7 +14,7 @@
     "test": "vitest dev",
     "start": "electron-rsbuild preview",
     "dev": "electron-rsbuild dev",
-    "inspect": "node inspect ./bin/electron-rsbuild.ts dev",
+    "inspect": "bun --inspect ./node_modules/electron-rsbuild/bin/electron-rsbuild.ts dev",
     "build": "npm run typecheck && electron-rsbuild build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
