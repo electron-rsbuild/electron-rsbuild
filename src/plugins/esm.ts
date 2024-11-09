@@ -5,10 +5,10 @@
  */
 
 import MagicString from 'magic-string'
-import type { SourceMapInput } from 'rollup'
 import type { Plugin } from '@rsbuild/core'
 
 import { getElectronMajorVersion } from '../electron'
+import { SourceMapInput } from '../types'
 
 const CJSyntaxRe = /__filename|__dirname|require\(|require\.resolve\(/
 

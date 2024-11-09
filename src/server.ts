@@ -15,20 +15,25 @@ import { type InlineConfig, resolveConfig } from './config';
 import { resolveHostname } from './utils';
 import { startElectron } from './electron';
 
-
 export async function createServer(
   inlineConfig: InlineConfig = {},
   options: { rendererOnly?: boolean }
 ): Promise<void> {
   process.env.NODE_ENV_ELECTRON_VITE = 'development';
+  
+  console.log('config 1=>', inlineConfig);
   const config = await resolveConfig(inlineConfig, 'serve', 'development');
+
+  // TODO error
+  console.log('config 2=>', config);
   if (config.config) {
+    
     const logger = createLogger({ level: inlineConfig.logLevel });
 
     let server = undefined;
     let ps: ChildProcess | undefined;
 
-    const errorHook = (e): void => {
+    const errorHook = (e: { message: string | number | null | undefined; }): void => {
       logger.error(`${colors.bgRed(colors.white(' ERROR '))} ${colors.red(e.message)}`);
     };
 

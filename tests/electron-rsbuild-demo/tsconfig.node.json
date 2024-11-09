@@ -1,8 +1,8 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
-  "include": ["electron.vite.config.*", "src/main/**/*", "src/preload/**/*", "electron.rsbuild.config.ts"],
+  "include": ["electron.rsbuild.config.*", "src/main/**/*", "src/preload/**/*", "electron.rsbuild.config.ts"],
   "compilerOptions": {
     "composite": true,
-    "types": ["electron-vite/node"]
+    "types": ["electron-rsbuild/node"]
   }
 }

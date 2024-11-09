@@ -36,7 +36,6 @@ export async function build(inlineConfig: InlineConfig = {}): Promise<void> {
 /**
  * 
  * @TODO ？？？
- * vite
  * - build.watch 
  * rsbuild
  * - server.publicDir.watch

@@ -1,4 +1,4 @@
-# electron-vite-preview1
+# electron-rsbuild-preview1
 
 An Electron application with React and TypeScript
 

@@ -116,12 +116,14 @@ cli
     const { createServer } = await import('./server');
     const inlineConfig = createInlineConfig(root, options);
 
-    console.log('dev inlineConfig=>', inlineConfig);
-    console.log('dev root=>', root);
-    console.log('dev options=>', options);
+    // console.log('dev inlineConfig=>', inlineConfig);
+    // console.log('dev root=>', root);
+    // console.log('dev options=>', options);
 
     try {
+      console.log('create server 1=>', inlineConfig)
       await createServer(inlineConfig, { rendererOnly: options.rendererOnly });
+      console.log('create server 2')
     } catch (e) {
       const error = e as Error;
       createLogger({

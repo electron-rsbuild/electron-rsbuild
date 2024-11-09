@@ -14,6 +14,9 @@ importers:
       '@rsbuild/plugin-node-polyfill':
         specifier: ^1.2.0
         version: 1.2.0(@rsbuild/core@1.1.0)
+      jiti:
+        specifier: ^2.4.0
+        version: 2.4.0
       magic-string:
         specifier: ^0.30.12
         version: 0.30.12
@@ -443,6 +446,10 @@ packages:
 
   isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
+
+  jiti@2.4.0:
+    resolution: {integrity: sha512-H5UpaUI+aHOqZXlYOaFP/8AzKsg+guWu+Pr3Y8i7+Y3zr1aXAvCvTAQ1RxSc6oVD8R8c7brgNtTVP91E7upH/g==}
+    hasBin: true
 
   magic-string@0.30.12:
     resolution: {integrity: sha512-Ea8I3sQMVXr8JhN4z+H/d8zwo+tYDgHE9+5G4Wnrwhs0gaK9fXTKx0Tw5Xwsd/bCPTTZNRAdpyzvoeORe9LYpw==}
@@ -1109,6 +1116,8 @@ snapshots:
       which-typed-array: 1.1.15
 
   isarray@1.0.0: {}
+
+  jiti@2.4.0: {}
 
   magic-string@0.30.12:
     dependencies:
