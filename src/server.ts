@@ -13,6 +13,9 @@ import { type InlineConfig, resolveConfig } from './config'
 import { resolveHostname } from './utils'
 import { startElectron } from './electron'
 
+/**
+ * create renderer server
+ * */
 export async function createServer(
   inlineConfig: InlineConfig = {},
   options: { rendererOnly?: boolean }
@@ -86,31 +89,51 @@ export async function createServer(
     if (rendererRsbuildConfig) {
       logger.info(colors.gray(`\n-----\n`))
 
-      server = await rsbuildCreateServer(rendererRsbuildConfig)
+      console.log('rendererRsbuildConfig>', rendererRsbuildConfig)
 
-      if (!server.httpServer) {
+      const rsbuild = await rsbuildCreateServer({
+        cwd: process.cwd(),
+        rsbuildConfig: {
+          ...rendererRsbuildConfig
+          // TODO
+
+        }
+        // rsbuildConfig: rendererRsbuildConfig
+      })
+
+      // TODO
+      server = await rsbuild.startDevServer()
+      // server = await rsbuild.createDevServer()
+
+      console.log('启动服务=>', server)
+
+      const { port, urls, server: confServer } = server
+      if (!server.server) {
         throw new Error('HTTP server not available')
       }
 
-      await server.listen()
+      // await server.listen()
+      const renderDevURL = urls[0]
 
-      const conf = server.config.server
+      const hostURL = resolveHostname(renderDevURL)
+      process.env.ELECTRON_RENDERER_URL = `${hostURL}}`
+      // TODO 绿色提示 dev server running for the electron renderer process，可由外部
+      logger.info(colors.green(`dev server running for the electron renderer process at:\n`))
 
-      const protocol = conf.https ? 'https:' : 'http:'
-      const host = resolveHostname(conf.host)
-      const port = conf.port
-      process.env.ELECTRON_RENDERER_URL = `${protocol}//${host}:${port}`
 
-      const slogger = server.config.logger
-
-      slogger.info(colors.green(`dev server running for the electron renderer process at:\n`), {
-        clear: !slogger.hasWarned && !options.rendererOnly
-      })
-
-      server.printUrls()
+      // 由于 rsbuild 没有暴露相关方法，而且判断的过于复杂，此处就没必要增加复杂度了
+      let urlStr = ''
+      for (let i = 0; i < server.urls.length; i++) {
+        const url = server.urls[i]
+        urlStr += `\n url-${i + 1} ➜ ${url}`
+      }
+      if(urlStr){
+        logger.info(colors.green(urlStr))
+      }
     }
 
     console.log('ps1')
+    // TODO 记录下进度 2024年11月10日01:13:09
     ps = startElectron(inlineConfig.root)
     console.log('ps2')
 

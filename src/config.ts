@@ -209,7 +209,9 @@ export async function resolveConfig(
           resetOutDir(rendererViteConfig, outDir, 'renderer');
         }
 
-        mergePlugins(rendererViteConfig, electronRendererVitePlugin({ root }));
+        mergePlugins(rendererViteConfig, []);
+        // TODO 暂不合并组件
+        // mergePlugins(rendererViteConfig, electronRendererVitePlugin({ root }));
 
         loadResult.config.renderer = rendererViteConfig;
         loadResult.config.renderer.configFile = false;

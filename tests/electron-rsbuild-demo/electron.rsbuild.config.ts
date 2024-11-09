@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import { defineConfig } from '@rsbuild/core'
-import { pluginReact } from '@rsbuild/plugin-react';
+import { pluginReact } from '@rsbuild/plugin-react'
 
 export default defineConfig({
   main: {
@@ -10,10 +10,12 @@ export default defineConfig({
     // plugins: [externalizeDepsPlugin()]
   },
   renderer: {
-    resolve: {
+    source: {
       alias: {
         '@renderer': resolve('src/renderer/src')
-      }
+      },
+      // TODO 后期改为默认
+      entry: 'renderer/src/main.tsx'
     },
     plugins: [pluginReact()]
   }
