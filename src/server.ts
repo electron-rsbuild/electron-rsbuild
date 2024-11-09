@@ -87,18 +87,11 @@ export async function createServer(
 
     const rendererRsbuildConfig = config.config?.renderer
     if (rendererRsbuildConfig) {
-      logger.info(colors.gray(`\n-----\n`))
-
-      console.log('rendererRsbuildConfig>', rendererRsbuildConfig)
-
       const rsbuild = await rsbuildCreateServer({
         cwd: process.cwd(),
         rsbuildConfig: {
           ...rendererRsbuildConfig
-          // TODO
-
         }
-        // rsbuildConfig: rendererRsbuildConfig
       })
 
       // TODO

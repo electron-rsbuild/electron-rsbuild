@@ -16,7 +16,7 @@ import {
   type RsbuildPlugin as Plugin,
 } from '@rsbuild/core';
 
-import { electronMainVitePlugin, electronPreloadVitePlugin, electronRendererVitePlugin } from './plugins/electron';
+import { electronMainRsbuildPlugin, electronMainVitePlugin, electronPreloadVitePlugin, electronRendererVitePlugin } from './plugins/electron';
 import assetPlugin from './plugins/asset';
 import workerPlugin from './plugins/worker';
 import importMetaPlugin from './plugins/importMeta';
@@ -169,7 +169,9 @@ export async function resolveConfig(
         }
 
         mergePlugins(mainViteConfig, [
-          ...electronMainVitePlugin({ root }),
+          ...electronMainRsbuildPlugin({ root }),
+          // ...electronMainVitePlugin({ root }),
+          // TODO 2024年11月10日01:31:41
           assetPlugin(),
           workerPlugin(),
           modulePathPlugin(),

@@ -4,9 +4,7 @@ import { createRequire } from 'node:module'
 import { type ChildProcess, spawn } from 'node:child_process'
 import { loadPackageData } from './utils'
 
-// file:///F:/Github/repos/alex8088/electron-vite-preview1/node_modules/.pnpm/electron-vite@2.3.0_vite@5.4.10_@types+node@20.17.6_/node_modules/electron-vite/dist/chunks/lib-BmEkZIgk.mjs
-// TODO 期待调用的项目的路径~~~
-const _require = createRequire(import.meta.url)
+// const _require = createRequire(import.meta.url)
 
 // TODO
 // const projectPath = `file://${process.cwd()}/tests/electron-rsbuild-demo/` 外部执行~
@@ -29,13 +27,15 @@ const ensureElectronEntryFile = (root = process.cwd()): void => {
     throw new Error('Not found: package.json')
   }
 }
+// TODO dev 下也会生成 out/main/index.js
+// TODO dev 下也会生成 out/preload/index.js
 
 const getElectronMajorVer = (): string => {
   let majorVer = process.env.ELECTRON_MAJOR_VER || ''
   if (!majorVer) {
     const pkgPath = _require2.resolve('electron/package.json')
     if (fs.existsSync(pkgPath)) {
-      const { version } = _require(pkgPath)
+      const { version } = _require2(pkgPath)
       majorVer = version.split('.')[0]
 
       console.log('majorVer=>', majorVer)
@@ -59,7 +59,7 @@ export function getElectronMajorVersion(): number {
 export function getElectronPath(): string {
   let electronExecPath = process.env.ELECTRON_EXEC_PATH || ''
   if (!electronExecPath) {
-    const electronModulePath = path.dirname(_require.resolve('electron'))
+    const electronModulePath = path.dirname(_require2.resolve('electron'))
     const pathFile = path.join(electronModulePath, 'path.txt')
     let executablePath
     if (fs.existsSync(pathFile)) {

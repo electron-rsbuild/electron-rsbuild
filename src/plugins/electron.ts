@@ -193,6 +193,153 @@ export function electronMainVitePlugin(options?: ElectronPluginOptions): Plugin[
   ];
 }
 
+/**
+ * @TODO
+ * vite main 插件改写 为rsbuild
+ * */
+
+export function electronMainRsbuildPlugin(options?:ElectronPluginOptions) {
+  return [
+    {
+      name: 'rspack:electron-main-preset-config',
+      apply: 'build',
+      enforce: 'pre',
+      setup(config) {
+        const root = options?.root || process.cwd();
+        const nodeTarget = getElectronNodeTarget();
+        const pkg = loadPackageData() || { type: 'commonjs' };
+        const format = pkg.type && pkg.type === 'module' && supportESM()? 'es' : 'cjs';
+
+        const defaultConfig = {
+          resolve: {
+            browserField: false,
+            mainFields: ['module', 'jsnext:main', 'jsnext'],
+            conditions: ['node']
+          },
+          output: {
+            path: path.resolve(root, 'out-main', 'main'),
+            libraryTarget: format === 'es'? 'module' : 'commonjs2',
+            publicPath: '',
+            assetModuleFilename: path.posix.join('chunks', '[name]-[hash].[ext]')
+          },
+          target: nodeTarget,
+          externals: ['electron', /^electron\/.+/,...builtinModules.flatMap(m => [m, `node:${m}`])],
+          optimization: {
+            minimize: false
+          },
+          module: {
+            rules: []
+          },
+          stats: {
+            compress: false
+          }
+        };
+
+        const buildConfig = mergeConfig(defaultConfig, config);
+        config = buildConfig;
+
+        config.define = config.define || {};
+        config.define = {...processEnvDefine(),...config.define };
+        config.envPrefix = config.envPrefix || ['MAIN_VITE_', 'VITE_'];
+        config.publicDir = config.publicDir || 'resources';
+        // do not copy public dir
+        config.plugins.push({
+          apply: (compiler) => {
+            compiler.hooks.beforeRun.tap('rspack:noCopyPublicDir', () => {
+              // 这里模拟Vite中不复制public目录的功能，具体实现可能需要根据rspack的插件机制进一步完善
+              console.log('Not copying public dir');
+            });
+          }
+        });
+        // module preload polyfill does not apply to nodejs (main process)
+        config.plugins.push({
+          apply: (compiler) => {
+            compiler.hooks.beforeRun.tap('rspack:noModulePreload', () => {
+              // 这里模拟Vite中关闭模块预加载的功能，具体实现可能需要根据rspack的插件机制进一步完善
+              console.log('Module preload disabled');
+            });
+          }
+        });
+        // enable ssr build
+        config.plugins.push({
+          apply: (compiler) => {
+            compiler.hooks.beforeRun.tap('rspack:enableSsr', () => {
+              // 这里模拟Vite中启用SSR构建的功能，具体实现可能需要根据rspack的插件机制进一步完善
+              console.log('SSR build enabled');
+            });
+          }
+        });
+        config.plugins.push({
+          apply: (compiler) => {
+            compiler.hooks.beforeRun.tap('rspack:enableSsrEmitAssets', () => {
+              // 这里模拟Vite中启用SSR发射资产的功能，具体实现可能需要根据rspack的插件机制进一步完善
+              console.log('SSR emit assets enabled');
+            });
+          }
+        });
+        config.plugins.push({
+          apply: (compiler) => {
+            compiler.hooks.beforeRun.tap('rspack:noExternal', () => {
+              // 这里模拟Vite中设置noExternal的功能，具体实现可能需要根据rspack的插件机制进一步完善
+              console.log('No external set');
+            });
+          }
+        });
+
+        return config;
+      }
+    },
+    {
+      name: 'rspack:electron-main-resolved-config',
+      apply: 'class',
+      enforce: 'post',
+      configResolved(config) {
+        const build = config.build;
+        if (!build.target) {
+          throw new Error('build.target option is required in the electron rspack main config.');
+        } else {
+          const targets = Array.isArray(build.target)? build.target : [build.target];
+          if (targets.some(t =>!t.startsWith('node'))) {
+            throw new Error('The electron rspack main config build.target option must be "node?".');
+          }
+        }
+
+        const libOptions = build.lib;
+        const rollupOptions = build.rollupOptions;
+        if (!(libOptions && libOptions.entry) &&!rollupOptions?.input) {
+          throw new Error('An entry point is required in the electron rspack main config, ' +
+            'which can be specified using "build.lib.entry" or "barrierless:build.rollupOptions.input".');
+        }
+
+        const resolvedOutputs = resolveBuildOutputs(rollupOptions.output, libOptions);
+        if (resolvedOutputs) {
+          const outputs = Array.isArray(resolvedOutputs)? resolvedOutputs : [resolvedOutputs];
+          if (outputs.length > 1) {
+            throw new Error('The electron rspack main config does not support multiple outputs.');
+          } else {
+            const outpout = outputs[0];
+            if (['es', 'cjs'].includes(outpout.format || '')) {
+              if (outpout.format === 'cjs') {
+                // 这里根据rspack的特性对输出格式进行一些可能的检查或处理，示例中只是简单判断
+                console.log('Output format is cjs');
+              } else if (outpout.format === 'es') {
+                if (!supportESM()) {
+                  throw new Error('The electron rspack main config output format does not support "es", ' +
+                    'you can upgrade electron to the latest version or switch to "cjs" format.');
+                } else {
+                  console.log('Output format is es');
+                }
+              }
+            } else {
+              throw new Error(`The electron rspack main config output format must be "cjs"${supportESM()? ' or "es"' : ''}.`);
+            }
+          }
+        }
+      }
+    }
+  ];
+}
+
 export function electronPreloadVitePlugin(options?: ElectronPluginOptions): Plugin[] {
   return [
     {
