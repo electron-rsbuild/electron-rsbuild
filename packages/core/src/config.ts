@@ -16,12 +16,10 @@ import {
   type RsbuildPlugin as Plugin,
 } from '@rsbuild/core';
 
-import { electronMainRsbuildPlugin, electronMainVitePlugin, electronPreloadVitePlugin, electronRendererVitePlugin } from './plugins/electron';
-import assetPlugin from './plugins/asset';
-import workerPlugin from './plugins/worker';
-import importMetaPlugin from './plugins/importMeta';
-import esmShimPlugin from './plugins/esm';
-import modulePathPlugin from './plugins/modulePath';
+import { mainPlugin } from '@electron-rsbuild/plugin-main'
+import { preloadPlugin } from '@electron-rsbuild/plugin-preload'
+import { rendererPlugin } from '@electron-rsbuild/plugin-renderer'
+
 import { normalizePath } from './utils';
 import { LoadEnvOptions, ViteConfigExport } from './types';
 
@@ -169,14 +167,9 @@ export async function resolveConfig(
         }
 
         mergePlugins(mainViteConfig, [
-          ...electronMainRsbuildPlugin({ root }),
+          ...mainPlugin({ root }),
           // ...electronMainVitePlugin({ root }),
           // TODO 2024年11月10日01:31:41
-          assetPlugin(),
-          workerPlugin(),
-          modulePathPlugin(),
-          importMetaPlugin(),
-          esmShimPlugin(),
         ]);
 
         loadResult.config.main = mainViteConfig;
@@ -192,10 +185,7 @@ export async function resolveConfig(
           resetOutDir(preloadViteConfig, outDir, 'preload');
         }
         mergePlugins(preloadViteConfig, [
-          ...electronPreloadVitePlugin({ root }),
-          assetPlugin(),
-          importMetaPlugin(),
-          esmShimPlugin(),
+          ...preloadPlugin({ root }),
         ]);
 
         loadResult.config.preload = preloadViteConfig;
@@ -211,7 +201,9 @@ export async function resolveConfig(
           resetOutDir(rendererViteConfig, outDir, 'renderer');
         }
 
-        mergePlugins(rendererViteConfig, []);
+        mergePlugins(rendererViteConfig, [
+          ...rendererPlugin({ root }),
+        ]);
         // TODO 暂不合并组件
         // mergePlugins(rendererViteConfig, electronRendererVitePlugin({ root }));
 

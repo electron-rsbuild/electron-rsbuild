@@ -59,6 +59,9 @@ interface PackageData {
 
 let packageCached: PackageData | null = null
 
+// TODO
+interface OutputOptions{}
+
 export function loadPackageData(root = process.cwd()): PackageData | null {
   if (packageCached) return packageCached
   const pkg = path.join(root, 'package.json')
@@ -96,3 +99,46 @@ export function slash(p: string): string {
 export function normalizePath(id: string): string {
   return path.posix.normalize(isWindows ? slash(id) : id);
 }
+
+function processEnvDefine(): Record<string, string> {
+  return {
+    'process.env': `process.env`,
+    'global.process.env': `global.process.env`,
+    'globalThis.process.env': `globalThis.process.env`,
+  };
+}
+
+
+export function resolveBuildOutputs(
+  outputs: OutputOptions | OutputOptions[] | undefined,
+  libOptions: LibraryOptions | false
+): OutputOptions | OutputOptions[] | undefined {
+  if (libOptions && !Array.isArray(outputs)) {
+    const libFormats = libOptions.formats || [];
+    return libFormats.map((format) => ({ ...outputs, format }));
+  }
+  return outputs;
+}
+
+
+export function findLibEntry(root: string, scope: string): string | undefined {
+  for (const name of ['index', scope]) {
+    for (const ext of ['js', 'ts', 'mjs', 'cjs']) {
+      const entryFile = path.resolve(root, 'src', scope, `${name}.${ext}`);
+      if (fs.existsSync(entryFile)) {
+        return entryFile;
+      }
+    }
+  }
+  return undefined;
+}
+
+export function findInput(root: string, scope = 'renderer'): string {
+  const rendererDir = path.resolve(root, 'src', scope, 'index.html');
+  if (fs.existsSync(rendererDir)) {
+    return rendererDir;
+  }
+  return '';
+}
+
+

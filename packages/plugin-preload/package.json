@@ -1,5 +1,5 @@
 {
-  "name": "@electron-rsbuild/plugin-main",
+  "name": "@electron-rsbuild/plugin-preload",
   "version": "0.0.0",
   "description": "Electron main config plugin for Electron-Rsbuild",
   "main": "index.js",

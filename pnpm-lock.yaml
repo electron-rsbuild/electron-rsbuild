@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@rsbuild/core':
+        specifier: ^1.1.0
+        version: 1.1.0
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -14,6 +18,9 @@ importers:
       nx:
         specifier: ^20.0.12
         version: 20.0.12
+      prettier:
+        specifier: ^3.3.3
+        version: 3.3.3
 
   examples/electron-react:
     dependencies:
@@ -75,6 +82,15 @@ importers:
 
   packages/core:
     dependencies:
+      '@electron-rsbuild/plugin-main':
+        specifier: workspace:*
+        version: link:../plugin-main
+      '@electron-rsbuild/plugin-preload':
+        specifier: workspace:*
+        version: link:../plugin-preload
+      '@electron-rsbuild/plugin-renderer':
+        specifier: workspace:*
+        version: link:../plugin-renderer
       '@rsbuild/core':
         specifier: ^1.1.0
         version: 1.1.0
@@ -120,7 +136,32 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
 
-  packages/plugin-main: {}
+  packages/plugin-main:
+    dependencies:
+      '@electron-rsbuild/core':
+        specifier: workspace:*
+        version: link:../core
+      '@rsbuild/core':
+        specifier: ^1.1.0
+        version: 1.1.0
+
+  packages/plugin-preload:
+    dependencies:
+      '@electron-rsbuild/core':
+        specifier: workspace:*
+        version: link:../core
+      '@rsbuild/core':
+        specifier: ^1.1.0
+        version: 1.1.0
+
+  packages/plugin-renderer:
+    dependencies:
+      '@electron-rsbuild/core':
+        specifier: workspace:*
+        version: link:../core
+      '@rsbuild/core':
+        specifier: ^1.1.0
+        version: 1.1.0
 
 packages:
 

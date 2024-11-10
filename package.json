@@ -4,6 +4,8 @@
   "author": "veaba<godpu@oulook.com>",
   "scripts": {
     "build": "nx run-many -t build --exclude @examples/* @e2e/* rsbuild-* --parallel=10",
+    "dev:core": "pnpm --filter=core run dev",
+    "build:core": "pnpm --filter=core run build",
     "lint": "biome check . --diagnostic-level=warn",
     "format": "prettier --write ."
   },
@@ -17,8 +19,8 @@
   },
   "homepage": "https://github.com/veaba/electron-rsbuild#readme",
   "devDependencies": {
-    "nx": "^20.0.12",
     "@biomejs/biome": "1.9.4",
+    "nx": "^20.0.12",
     "prettier": "^3.3.3"
   },
   "workspaces": {
@@ -32,5 +34,8 @@
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=9.0.0"
+  },
+  "dependencies": {
+    "@rsbuild/core": "^1.1.0"
   }
 }
