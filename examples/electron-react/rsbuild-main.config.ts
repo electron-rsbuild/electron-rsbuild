@@ -11,11 +11,6 @@ import pkg from './package.json'
 
 export default defineConfig({
   // 利用 rsbuild-main 生成环境配置能力
-  server: {
-    // publicDir: {
-    //   name: './resources'
-    // }
-  },
   environments: {
     web: {
       html: {

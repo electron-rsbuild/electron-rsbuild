@@ -1,0 +1,10 @@
+packages:
+  - 'website'
+  - 'e2e/**'
+  - 'scripts/**'
+  - 'packages/**'
+  - 'examples/**'
+  - '!**/compiled/**'
+  - '!**/dist-types/**'
+  - '!**/create-electron-rsbuild/template-*/**'
+  - '!**/test-temp-*/**'

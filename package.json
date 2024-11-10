@@ -1,59 +1,36 @@
 {
-  "name": "electron-rsbuild",
-  "version": "0.0.1",
-  "description": "Next generation Electron build tooling based on Rsbuild.",
+  "name": "electron-rsbuild-monorepo",
+  "private": true,
   "author": "veaba<godpu@oulook.com>",
-  "type": "module",
-  "main": "./dist/index.js",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "bin": {
-    "electron-rsbuild": "bin/electron-rsbuild.ts"
-  },
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "build": "rslib build",
-    "dev": "rslib build --watch",
-    "test-start": "electron-rsbuild preview",
-    "test-dev": "electron-rsbuild dev",
-    "test-prebuild": "electron-rsbuild build"
+    "build": "nx run-many -t build --exclude @examples/* @e2e/* rsbuild-* --parallel=10",
+    "lint": "biome check . --diagnostic-level=warn",
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/veaba/electron-rsbuild.git"
   },
-  "keywords": [
-    "electron-builder",
-    "electron-rsbuild"
-  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/veaba/electron-rsbuild/issues"
   },
   "homepage": "https://github.com/veaba/electron-rsbuild#readme",
   "devDependencies": {
-    "@rslib/core": "^0.0.16",
-    "@types/node": "^22.9.0",
-    "cac": "^6.7.14",
-    "picocolors": "^1.1.1",
-    "typescript": "^5.6.3"
+    "nx": "^20.0.12",
+    "@biomejs/biome": "1.9.4",
+    "prettier": "^3.3.3"
   },
-  "workspace": [
-    "*"
-  ],
-  "dependencies": {
-    "@rsbuild/core": "^1.1.0",
-    "@rsbuild/plugin-node-polyfill": "^1.2.0",
-    "jiti": "^2.4.0",
-    "magic-string": "^0.30.12",
-    "rslog": "^1.2.3"
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "packages/compat/*",
+      "scripts/*"
+    ]
+  },
+  "packageManager": "pnpm@9.11.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
   }
 }

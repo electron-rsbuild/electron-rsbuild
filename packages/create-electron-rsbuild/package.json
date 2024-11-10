@@ -1,0 +1,45 @@
+{
+  "name": "create-rsbuild",
+  "version": "1.0.7",
+  "description": "Create a new Rsbuild project",
+  "homepage": "https://rsbuild.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/rsbuild",
+    "directory": "packages/create-rsbuild"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "bin": {
+    "create-rsbuild": "./bin.js"
+  },
+  "files": [
+    "template-*",
+    "dist",
+    "bin.js"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build --watch",
+    "start": "node ./dist/index.js"
+  },
+  "dependencies": {
+    "create-rstack": "1.0.9"
+  },
+  "devDependencies": {
+    "@types/node": "18.x",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=16.7.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
+  }
+}
