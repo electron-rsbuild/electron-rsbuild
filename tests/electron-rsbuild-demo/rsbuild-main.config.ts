@@ -18,7 +18,7 @@ export default defineConfig({
   },
   environments: {
     web: {
-      html:{
+      html: {
         title: pkg.name || 'Electron-Rsbuild App'
       },
       source: {
@@ -30,6 +30,7 @@ export default defineConfig({
           '@renderer': resolve('src/renderer/src')
         }
       },
+      plugins: [pluginReact()],
       output: {
         target: 'web',
         assetPrefix: 'auto',
@@ -38,13 +39,12 @@ export default defineConfig({
         },
         // TODO 禁用压缩
         minify: false
-      },
-      plugins: [pluginReact()],
-      tools: {
-        rspack: {
-          target: 'electron-renderer'
-        }
       }
+      // tools: {
+      //   rspack: {
+      //     target: 'electron-renderer',
+      //   }
+      // }
     },
     // preload
     preload: {
@@ -96,7 +96,7 @@ export default defineConfig({
       tools: {
         rspack: {
           target: 'electron-main',
-          module:{
+          module: {
             rules: [
               {
                 test: /\.ts$/,
