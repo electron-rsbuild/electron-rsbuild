@@ -1,14 +1,15 @@
 import { resolve } from 'path'
-import { defineConfig } from '@rsbuild/core'
+import { defineConfig } from 'electron-rsbuild'
 import { pluginReact } from '@rsbuild/plugin-react'
 
 export default defineConfig({
+  // TODO see electron.rsbuild.config.ts
   main: {
-    // plugins: [externalizeDepsPlugin()]
   },
+  // TODO see electron.preload.config.ts
   preload: {
-    // plugins: [externalizeDepsPlugin()]
   },
+  // TODO see rsbuild.config.ts
   renderer: {
     source: {
       alias: {
@@ -21,4 +22,5 @@ export default defineConfig({
     },
     plugins: [pluginReact()]
   }
+  // TODO 可以用 environments 来配置环境变量
 })

@@ -14,3 +14,6 @@ Next generation Electron build tooling based on Rsbuild.
 }
 
 ```
+
+- https://rspack.dev/zh/plugins/webpack/electron-target-plugin
+- https://rspack.dev/zh/config/externals#externalspresets

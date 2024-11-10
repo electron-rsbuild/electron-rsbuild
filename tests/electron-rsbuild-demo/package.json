@@ -1,19 +1,22 @@
 {
-  "name": "electron-rsbuild-preview1",
+  "name": "electron-rsbuild-app",
   "version": "1.0.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
+  "type": "commonjs",
   "author": "example.com",
-  "homepage": "https://electron-rsbild.org",
+  "homepage": "https://electron-rsbuild.org",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "rsbuild:build": "rsbuild build",
     "rsbuild:dev": "rsbuild dev",
     "rebuild:build-main": "rsbuild build -c rsbuild-main.config.ts",
     "rebuild:build-preload": "rsbuild build rsbuild-preload.config.ts",
+    "builder": "electron-builder --dir",
     "test": "vitest dev",
     "start": "electron-rsbuild preview",
     "dev": "electron-rsbuild dev",
@@ -32,6 +35,7 @@
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
     "@rsbuild/core": "^1.1.0",
+    "@rsbuild/plugin-node-polyfill": "^1.2.0",
     "@rsbuild/plugin-react": "^1.0.7"
   },
   "devDependencies": {
