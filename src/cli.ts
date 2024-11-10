@@ -88,7 +88,7 @@ cli
   .option('--noSandbox', `[boolean] forces renderer process to run un-sandboxed`)
   .option('--rendererOnly', `[boolean] only dev server for the renderer`)
   .action(async (root: string, options: DevCLIOptions & GlobalCLIOptions) => {
-    console.log('dev=>>');
+    console.log('command dev ================');
     if (options.remoteDebuggingPort) {
       process.env.REMOTE_DEBUGGING_PORT = options.remoteDebuggingPort;
     }
@@ -116,12 +116,7 @@ cli
     const { createServer } = await import('./server');
     const inlineConfig = createInlineConfig(root, options);
 
-    // console.log('dev inlineConfig=>', inlineConfig);
-    // console.log('dev root=>', root);
-    // console.log('dev options=>', options);
-
     try {
-      // console.log('create server 1=>', inlineConfig)
       await createServer(inlineConfig, { rendererOnly: options.rendererOnly });
       console.log('create server 2')
     } catch (e) {
@@ -129,7 +124,7 @@ cli
       createLogger({
         level: options.logLevel,
       }).error(colors.red(`error during start dev server and electron app:\n${error.stack}`), { error });
-      process.exit(1);
+      // process.exit(1);
     }
   });
 

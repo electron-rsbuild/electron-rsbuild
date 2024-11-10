@@ -15,7 +15,9 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       },
       // TODO 后期改为默认
-      entry: 'renderer/src/main.tsx'
+      entry: {
+        index: './src/renderer/src/main.tsx'
+      }
     },
     plugins: [pluginReact()]
   }

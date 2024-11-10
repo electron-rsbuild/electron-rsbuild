@@ -3,7 +3,7 @@ import type { ChildProcess } from 'node:child_process'
 import { createLogger } from 'rslog'
 import {
   RsbuildConfig,
-  createRsbuild as rsbuildCreateServer,
+  createRsbuild,
   createRsbuild as viteBuild,
   mergeRsbuildConfig
 } from '@rsbuild/core'
@@ -12,6 +12,7 @@ import colors from 'picocolors'
 import { type InlineConfig, resolveConfig } from './config'
 import { resolveHostname } from './utils'
 import { startElectron } from './electron'
+import { CreateDevServer } from '@rsbuild/core/dist-types/types'
 
 /**
  * create renderer server
@@ -28,54 +29,58 @@ export async function createServer(
 
     const logger = createLogger({ level: inlineConfig.logLevel })
 
-    let server = undefined
+    let server: CreateDevServer = undefined
     let ps: ChildProcess | undefined
 
     const errorHook = (e: { message: string | number | null | undefined; }): void => {
       logger.error(`${colors.bgRed(colors.white(' ERROR '))} ${colors.red(e.message)}`)
     }
 
+    // TODO main 构建~
     const mainRsbuildConfig = config.config?.main
-    if (mainRsbuildConfig && !options.rendererOnly) {
-      const watchHook = (): void => {
-        logger.info(colors.green(`\nrebuild the electron main process successfully`))
+    // if (mainRsbuildConfig && !options.rendererOnly) {
+    //   const watchHook = (): void => {
+    //     logger.info(colors.green(`\nrebuild the electron main process successfully`))
+    //
+    //     if (ps) {
+    //       logger.info(colors.cyan(`\n  waiting for electron to exit...`))
+    //
+    //       ps.removeAllListeners()
+    //       ps.kill()
+    //
+    //       ps = startElectron(inlineConfig.root)
+    //
+    //       logger.info(colors.green(`\nrestart electron app...`))
+    //     }
+    //   }
+    //
+    //   // TODO doBuild 1
+    //   await doBuild(mainRsbuildConfig, watchHook, errorHook)
+    //
+    //   logger.info(colors.green(`\nbuild the electron main process successfully`))
+    // }
 
-        if (ps) {
-          logger.info(colors.cyan(`\n  waiting for electron to exit...`))
-
-          ps.removeAllListeners()
-          ps.kill()
-
-          ps = startElectron(inlineConfig.root)
-
-          logger.info(colors.green(`\nrestart electron app...`))
-        }
-      }
-
-      await doBuild(mainRsbuildConfig, watchHook, errorHook)
-
-      logger.info(colors.green(`\nbuild the electron main process successfully`))
-    }
-
+    // TODO preload 构建
     const preloadRsbuildConfig = config.config?.preload
-    if (preloadRsbuildConfig && !options.rendererOnly) {
-      logger.info(colors.gray(`\n-----\n`))
-
-      const watchHook = (): void => {
-        logger.info(colors.green(`\nrebuild the electron preload files successfully`))
-
-        if (server) {
-          logger.info(colors.cyan(`\n  trigger renderer reload`))
-
-          // TODO
-          server.connectWebSocket.send({ type: 'full-reload' })
-        }
-      }
-
-      await doBuild(preloadRsbuildConfig, watchHook, errorHook)
-
-      logger.info(colors.green(`\nbuild the electron preload files successfully`))
-    }
+    // if (preloadRsbuildConfig && !options.rendererOnly) {
+    //   logger.info(colors.gray(`\n-----\n`))
+    //
+    //   const watchHook = (): void => {
+    //     logger.info(colors.green(`\nrebuild the electron preload files successfully`))
+    //
+    //     if (server) {
+    //       logger.info(colors.cyan(`\n  trigger renderer reload`))
+    //
+    //       // TODO
+    //       server.connectWebSocket.send({ type: 'full-reload' })
+    //     }
+    //   }
+    //
+    //   // TODO doBuild 2
+    //   await doBuild(preloadRsbuildConfig, watchHook, errorHook)
+    //
+    //   logger.info(colors.green(`\nbuild the electron preload files successfully`))
+    // }
 
     if (options.rendererOnly) {
       logger.warn(
@@ -87,42 +92,27 @@ export async function createServer(
 
     const rendererRsbuildConfig = config.config?.renderer
     if (rendererRsbuildConfig) {
-      const rsbuild = await rsbuildCreateServer({
+      const rsbuild = await createRsbuild({
         cwd: process.cwd(),
         rsbuildConfig: {
           ...rendererRsbuildConfig
         }
       })
 
-      // TODO
+      logger.info(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`))
       server = await rsbuild.startDevServer()
-      // server = await rsbuild.createDevServer()
-
-      console.log('启动服务=>', server)
-
       const { port, urls, server: confServer } = server
       if (!server.server) {
         throw new Error('HTTP server not available')
+
       }
-
       // await server.listen()
-      const renderDevURL = urls[0]
 
+      const renderDevURL = urls[0]
       const hostURL = resolveHostname(renderDevURL)
       process.env.ELECTRON_RENDERER_URL = `${hostURL}}`
       // TODO 绿色提示 dev server running for the electron renderer process，可由外部
-      logger.info(colors.green(`dev server running for the electron renderer process at:\n`))
 
-
-      // 由于 rsbuild 没有暴露相关方法，而且判断的过于复杂，此处就没必要增加复杂度了
-      let urlStr = ''
-      for (let i = 0; i < server.urls.length; i++) {
-        const url = server.urls[i]
-        urlStr += `\n url-${i + 1} ➜ ${url}`
-      }
-      if(urlStr){
-        logger.info(colors.green(urlStr))
-      }
     }
 
     console.log('ps1')
