@@ -88,22 +88,22 @@ cli
   .option('--noSandbox', `[boolean] forces renderer process to run un-sandboxed`)
   .option('--rendererOnly', `[boolean] only dev server for the renderer`)
   .action(async (root: string, options: DevCLIOptions & GlobalCLIOptions) => {
-    console.log('command dev ================');
-    if (options.remoteDebuggingPort) {
-      process.env.REMOTE_DEBUGGING_PORT = options.remoteDebuggingPort;
-    }
+    console.log('=============== 启动 electron-rsbuild command dev ================');
+    // if (options.remoteDebuggingPort) {
+    //   process.env.REMOTE_DEBUGGING_PORT = options.remoteDebuggingPort;
+    // }
 
-    if (options.inspect) {
-      process.env.V8_INSPECTOR_PORT = typeof options.inspect === 'number' ? `${options.inspect}` : '5858';
-    }
+    // if (options.inspect) {
+    //   process.env.V8_INSPECTOR_PORT = typeof options.inspect === 'number' ? `${options.inspect}` : '5858';
+    // }
 
-    if (options.inspectBrk) {
-      process.env.V8_INSPECTOR_BRK_PORT = typeof options.inspectBrk === 'number' ? `${options.inspectBrk}` : '5858';
-    }
+    // if (options.inspectBrk) {
+    //   process.env.V8_INSPECTOR_BRK_PORT = typeof options.inspectBrk === 'number' ? `${options.inspectBrk}` : '5858';
+    // }
 
-    if (options.noSandbox) {
-      process.env.NO_SANDBOX = '1';
-    }
+    // if (options.noSandbox) {
+    //   process.env.NO_SANDBOX = '1';
+    // }
 
     if (options['--']) {
       process.env.ELECTRON_CLI_ARGS = JSON.stringify(options['--']);

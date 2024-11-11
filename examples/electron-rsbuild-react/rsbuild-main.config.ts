@@ -4,8 +4,8 @@
  * */
 
 import { defineConfig } from '@rsbuild/core'
-import electronRsbuildMainPlugin from './pluginElectronRsbuildElectronMainConfig'
-import { resolve } from 'path'
+import { mainPlugin } from '@electron-rsbuild/plugin-main'
+import path from 'node:path';
 import { pluginReact } from '@rsbuild/plugin-react'
 import pkg from './package.json'
 
@@ -22,7 +22,7 @@ export default defineConfig({
         },
         // TODO 后期改为默认
         alias: {
-          '@renderer': resolve('src/renderer/src')
+          '@renderer': path.resolve('src/renderer/src')
         }
       },
       plugins: [pluginReact()],
@@ -48,7 +48,7 @@ export default defineConfig({
           index: './src/preload/index.ts'
         },
         alias: {
-          '@reload': resolve('src/preload')
+          '@reload': path.resolve('src/preload')
         }
       },
       output: {
@@ -59,7 +59,7 @@ export default defineConfig({
         // TODO 禁用压缩
         minify: false
       },
-      plugins: [electronRsbuildMainPlugin({ message: 'haha' })],
+      plugins: [mainPlugin({ root: 'haha' })],
       tools: {
         rspack: {
           target: 'electron-preload'
@@ -73,7 +73,7 @@ export default defineConfig({
           index: './src/main/index.ts'
         },
         alias: {
-          '@main': resolve('src/main')
+          '@main': path.resolve('src/main')
         }
         // TODO
         //  exclude: [path.resolve(__dirname, 'src/module-a'), /src\/module-b/],
@@ -87,7 +87,7 @@ export default defineConfig({
         // TODO 禁用压缩
         minify: false
       },
-      plugins: [electronRsbuildMainPlugin({ message: 'haha' })],
+      plugins: [mainPlugin({ root: 'haha' })],
       tools: {
         rspack: {
           target: 'electron-main',

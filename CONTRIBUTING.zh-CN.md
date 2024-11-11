@@ -40,7 +40,9 @@ corepack enable
 安装依赖:
 
 ```sh
-pnpm install
+pnpm install # 安装依赖
+pnpm run dev # rslib 生成 core+ plugin* dist 包
+pnpm run react # 启用预览项目测试
 ```
 
 解释下:
@@ -76,3 +78,9 @@ pnpm run build
 ```
 
 ---
+
+## debug
+
+要求：
+
+- 安装 `bun`，利用 bun 让项目直接跑 bun，方便看到 ts 源码，而非 js 文件

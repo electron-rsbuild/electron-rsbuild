@@ -43,6 +43,15 @@ importers:
       '@electron-rsbuild/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@electron-rsbuild/plugin-main':
+        specifier: workspace:*
+        version: link:../../packages/plugin-main
+      '@electron-rsbuild/plugin-preload':
+        specifier: workspace:*
+        version: link:../../packages/plugin-preload
+      '@electron-rsbuild/plugin-renderer':
+        specifier: workspace:*
+        version: link:../../packages/plugin-renderer
       '@electron-toolkit/tsconfig':
         specifier: ^1.0.1
         version: 1.0.1(@types/node@20.17.6)

@@ -4,10 +4,11 @@
   "author": "veaba<godpu@oulook.com>",
   "scripts": {
     "build": "nx run-many -t build --exclude @examples/* @e2e/* rsbuild-* --parallel=10",
-    "dev": "pnpm --filter=core run dev && pnpm run dev:electron-react",
-    "dev:electron-react": "pnpm --filter=electron-rsbuild-react run dev",
+    "dev2": "pnpm --filter=core run dev && pnpm run dev:electron-react",
+    "react": "pnpm --filter=electron-rsbuild-react run dev",
+    "dev": "pnpm run dev:core && pnpm run dev:plugins",
+    "dev:core": "pnpm --filter=@electron-rsbuild/core run dev",
     "dev:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run dev",
-    "dev:core": "pnpm --filter=core run dev",
     "build:core": "pnpm --filter=core run build",
     "lint": "biome check . --diagnostic-level=warn",
     "format": "prettier --write ."
