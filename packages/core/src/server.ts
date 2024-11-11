@@ -12,7 +12,6 @@ import colors from 'picocolors'
 import { type InlineConfig, resolveConfig } from './config'
 import { resolveHostname } from './utils'
 import { startElectron } from './electron'
-import { CreateDevServer } from '@rsbuild/core/dist-types/types'
 
 /**
  * create renderer server
@@ -29,7 +28,7 @@ export async function createServer(
 
     const logger = createLogger({ level: inlineConfig.logLevel })
 
-    let server: CreateDevServer = undefined
+    let server: any = undefined
     let ps: ChildProcess | undefined
 
     const errorHook = (e: { message: string | number | null | undefined; }): void => {
@@ -131,33 +130,35 @@ type UserConfig = RsbuildConfig & { configFile?: string | false };
  * */
 async function doBuild(config: UserConfig, watchHook: () => void, errorHook: (e: Error) => void): Promise<void> {
   return new Promise((resolve) => {
-    if (config.server?.publicDir?.watch) {
-      let firstBundle = true
-      const closeBundle = (): void => {
-        if (firstBundle) {
-          firstBundle = false
-          resolve()
-        } else {
-          watchHook()
-        }
-      }
+    const publicDir = config.server?.publicDir
+    console.log('server 执行构建 publicDir', publicDir)
+    // if (publicDir && publicDir?.watch) {
+    //   let firstBundle = true
+    //   const closeBundle = (): void => {
+    //     if (firstBundle) {
+    //       firstBundle = false
+    //       resolve()
+    //     } else {
+    //       watchHook()
+    //     }
+    //   }
 
-      config = mergeRsbuildConfig(config, {
-        plugins: [
-          {
-            name: 'rsbuild:electron-watcher',
-            closeBundle
-          }
-        ]
-      })
-    }
+    //   config = mergeRsbuildConfig(config, {
+    //     plugins: [
+    //       {
+    //         name: 'rsbuild:electron-watcher',
+    //         closeBundle
+    //       }
+    //     ]
+    //   })
+    // }
 
-    viteBuild(config)
-      .then(() => {
-        if (!config.server?.publicDir?.watch) {
-          resolve()
-        }
-      })
-      .catch((e) => errorHook(e))
+    // viteBuild(config)
+    //   .then(() => {
+    //     if (!config.server?.publicDir?.watch) {
+    //       resolve()
+    //     }
+    //   })
+    //   .catch((e) => errorHook(e))
   })
 }

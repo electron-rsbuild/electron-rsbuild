@@ -16,9 +16,9 @@ import {
   type RsbuildPlugin as Plugin,
 } from '@rsbuild/core';
 
-import { mainPlugin } from '@electron-rsbuild/plugin-main'
-import { preloadPlugin } from '@electron-rsbuild/plugin-preload'
-import { rendererPlugin } from '@electron-rsbuild/plugin-renderer'
+import { mainPlugin } from '@electron-rsbuild/plugin-main';
+import { preloadPlugin } from '@electron-rsbuild/plugin-preload';
+import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
 
 import { normalizePath } from './utils';
 import { LoadEnvOptions, ViteConfigExport } from './types';
@@ -28,7 +28,6 @@ export { type LogLevel } from 'rslog';
 export { mergeRsbuildConfig } from '@rsbuild/core';
 
 export { defineConfig as defineViteConfig } from '@rsbuild/core';
-
 
 const _require2 = createRequire(`file://${process.cwd()}/`);
 
@@ -88,9 +87,15 @@ export type InlineConfig = Omit<RsbuildConfig, 'base'> & {
   clearScreen?: boolean;
 };
 
-export type ElectronViteConfigFnObject = (env: LoadEnvOptions) => ElectronViteConfig;
-export type ElectronViteConfigFnPromise = (env: LoadEnvOptions) => Promise<ElectronViteConfig>;
-export type ElectronViteConfigFn = (env: LoadEnvOptions) => ElectronViteConfig | Promise<ElectronViteConfig>;
+export type ElectronViteConfigFnObject = (
+  env: LoadEnvOptions,
+) => ElectronViteConfig;
+export type ElectronViteConfigFnPromise = (
+  env: LoadEnvOptions,
+) => Promise<ElectronViteConfig>;
+export type ElectronViteConfigFn = (
+  env: LoadEnvOptions,
+) => ElectronViteConfig | Promise<ElectronViteConfig>;
 
 export type ElectronViteConfigExport =
   | ElectronViteConfig
@@ -106,10 +111,18 @@ export type ElectronViteConfigExport =
  * `command` (either `'build'` or `'serve'`), and `mode`.
  */
 export function defineConfig(config: ElectronViteConfig): ElectronViteConfig;
-export function defineConfig(config: Promise<ElectronViteConfig>): Promise<ElectronViteConfig>;
-export function defineConfig(config: ElectronViteConfigFnObject): ElectronViteConfigFnObject;
-export function defineConfig(config: ElectronViteConfigExport): ElectronViteConfigExport;
-export function defineConfig(config: ElectronViteConfigExport): ElectronViteConfigExport {
+export function defineConfig(
+  config: Promise<ElectronViteConfig>,
+): Promise<ElectronViteConfig>;
+export function defineConfig(
+  config: ElectronViteConfigFnObject,
+): ElectronViteConfigFnObject;
+export function defineConfig(
+  config: ElectronViteConfigExport,
+): ElectronViteConfigExport;
+export function defineConfig(
+  config: ElectronViteConfigExport,
+): ElectronViteConfigExport {
   return config;
 }
 
@@ -125,7 +138,7 @@ export interface ResolvedConfig {
 export async function resolveConfig(
   inlineConfig: InlineConfig,
   command: 'build' | 'serve',
-  defaultMode = 'development'
+  defaultMode = 'development',
 ): Promise<ResolvedConfig> {
   const config = inlineConfig;
   const mode = inlineConfig.mode || defaultMode;
@@ -148,7 +161,7 @@ export async function resolveConfig(
       configFile,
       config.root,
       config.logLevel,
-      config.ignoreConfigWarning
+      config.ignoreConfigWarning,
     );
     if (loadResult) {
       const root = config.root;
@@ -158,52 +171,60 @@ export async function resolveConfig(
       const outDir = config.output?.distPath as string;
 
       if (loadResult.config.main) {
-        const mainViteConfig: RsbuildConfig = mergeConfig(loadResult.config.main, deepClone(config));
+        const mainViteConfig: RsbuildConfig = mergeConfig(
+          loadResult.config.main,
+          deepClone(config),
+        );
 
-        mainViteConfig.mode = (inlineConfig.mode || mainViteConfig.mode || defaultMode) as RsbuildMode;
+        mainViteConfig.mode = (inlineConfig.mode ||
+          mainViteConfig.mode ||
+          defaultMode) as RsbuildMode;
 
         if (outDir) {
           resetOutDir(mainViteConfig, outDir, 'main');
         }
 
-        mergePlugins(mainViteConfig, [
-          ...mainPlugin({ root }),
-          // ...electronMainVitePlugin({ root }),
-          // TODO 2024年11月10日01:31:41
-        ]);
+        // TODO
+        mergePlugins(mainViteConfig, [...mainPlugin({ root })]);
 
         loadResult.config.main = mainViteConfig;
         loadResult.config.main.configFile = false;
       }
 
       if (loadResult.config.preload) {
-        const preloadViteConfig: RsbuildConfig = mergeConfig(loadResult.config.preload, deepClone(config));
+        const preloadViteConfig: RsbuildConfig = mergeConfig(
+          loadResult.config.preload,
+          deepClone(config),
+        );
 
-        preloadViteConfig.mode = (inlineConfig.mode || preloadViteConfig.mode || defaultMode) as RsbuildMode;
+        preloadViteConfig.mode = (inlineConfig.mode ||
+          preloadViteConfig.mode ||
+          defaultMode) as RsbuildMode;
 
         if (outDir) {
           resetOutDir(preloadViteConfig, outDir, 'preload');
         }
-        mergePlugins(preloadViteConfig, [
-          ...preloadPlugin({ root }),
-        ]);
+        mergePlugins(preloadViteConfig, [...preloadPlugin({ root })]);
 
         loadResult.config.preload = preloadViteConfig;
         loadResult.config.preload.configFile = false;
       }
 
       if (loadResult.config.renderer) {
-        const rendererViteConfig: RsbuildConfig = mergeConfig(loadResult.config.renderer, deepClone(config));
+        const rendererViteConfig: RsbuildConfig = mergeConfig(
+          loadResult.config.renderer,
+          deepClone(config),
+        );
 
-        rendererViteConfig.mode = (inlineConfig.mode || rendererViteConfig.mode || defaultMode) as RsbuildMode;
+        rendererViteConfig.mode = (inlineConfig.mode ||
+          rendererViteConfig.mode ||
+          defaultMode) as RsbuildMode;
 
         if (outDir) {
           resetOutDir(rendererViteConfig, outDir, 'renderer');
         }
 
-        mergePlugins(rendererViteConfig, [
-          ...rendererPlugin({ root }),
-        ]);
+        mergePlugins(rendererViteConfig, [...rendererPlugin({ root })]);
         // TODO 暂不合并组件
         // mergePlugins(rendererViteConfig, electronRendererVitePlugin({ root }));
 
@@ -230,10 +251,18 @@ function deepClone<T>(data: T): T {
   return JSON.parse(JSON.stringify(data));
 }
 
-function resetOutDir(config: RsbuildConfig, outDir: string, subOutDir: string): void {
+function resetOutDir(
+  config: RsbuildConfig,
+  outDir: string,
+  subOutDir: string,
+): void {
   let userOutDir = config.output?.distPath;
   if (outDir === userOutDir) {
-    userOutDir = path.resolve(config.root || process.cwd(), outDir, subOutDir) as DistPathConfig;
+    userOutDir = path.resolve(
+      config.root || process.cwd(),
+      outDir,
+      subOutDir,
+    ) as DistPathConfig;
     if (config.output) {
       config.output.distPath = userOutDir;
     } else {
@@ -265,12 +294,15 @@ export async function loadConfigFromFile(
   configFile?: string,
   configRoot: string = process.cwd(),
   logLevel?: LogLevel,
-  ignoreConfigWarning = false
+  ignoreConfigWarning = false,
 ): Promise<{
   path: string;
   config: UserConfig;
 }> {
-  if (configFile && /^rsbuild.config.(js|ts|mjs|cjs|mts|cts)$/.test(configFile)) {
+  if (
+    configFile &&
+    /^rsbuild.config.(js|ts|mjs|cjs|mts|cts)$/.test(configFile)
+  ) {
     throw new Error(`config file cannot be named ${configFile}.`);
   }
 
@@ -287,9 +319,12 @@ export async function loadConfigFromFile(
 
   try {
     // load user config file: electron.rsbuild.config.ts
-    const { content, filePath } = await loadConfig({ cwd: configRoot, path: resolvedPath });
+    const { content, filePath } = await loadConfig({
+      cwd: configRoot,
+      path: resolvedPath,
+    });
     // TODO 此处省略一堆判断
-    const { preload, renderer, main } = content || {};
+    const { preload, renderer, main } = content as any;
     // TODO 附加一堆 plugins 等等
     return {
       config: {
@@ -300,9 +335,12 @@ export async function loadConfigFromFile(
       path: filePath as string,
     };
   } catch (e) {
-    createLogger({ level: logLevel }).error(colors.red(`failed to load config from ${resolvedPath}`), {
-      error: e as Error,
-    });
+    createLogger({ level: logLevel }).error(
+      colors.red(`failed to load config from ${resolvedPath}`),
+      {
+        error: e as Error,
+      },
+    );
     throw e;
   }
 }
@@ -408,10 +446,13 @@ async function loadConfigFormBundledFile(
   configRoot: string,
   configFile: string,
   bundledCode: string,
-  isESM: boolean
+  isESM: boolean,
 ): Promise<ElectronViteConfigExport> {
   if (isESM) {
-    const fileNameTmp = path.resolve(configRoot, `${CONFIG_FILE_NAME}.${Date.now()}.mjs`);
+    const fileNameTmp = path.resolve(
+      configRoot,
+      `${CONFIG_FILE_NAME}.${Date.now()}.mjs`,
+    );
     fs.writeFileSync(fileNameTmp, bundledCode);
 
     const fileUrl = pathToFileURL(fileNameTmp);
@@ -431,7 +472,10 @@ async function loadConfigFormBundledFile(
     const realFileName = fs.realpathSync(configFile);
     const loaderExt = extension in _require.extensions ? extension : '.js';
     const defaultLoader = _require.extensions[loaderExt]!;
-    _require.extensions[loaderExt] = (module: NodeModule, filename: string): void => {
+    _require.extensions[loaderExt] = (
+      module: NodeModule,
+      filename: string,
+    ): void => {
       if (filename === realFileName) {
         (module as NodeModuleWithCompile)._compile(bundledCode, filename);
       } else {

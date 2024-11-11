@@ -4,7 +4,7 @@ import fs from 'node:fs'
 import os from 'node:os';
 import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
-import { loadEnv as viteLoadEnv } from '@rsbuild/core'
+import { loadEnv } from '@rsbuild/core'
 
 export function isObject(value: unknown): value is Record<string, unknown> {
   return Object.prototype.toString.call(value) === '[object Object]'
@@ -42,14 +42,14 @@ export function toRelativePath(filename: string, importer: string): string {
  * Load `.env` files within the `envDir` (default: `process.cwd()`) .
  * By default, only env variables prefixed with `RSBUILD_`, `MAIN_VITE_`, `PRELOAD_VITE_` and
  * `RENDERER_VITE_` are loaded, unless `prefixes` is changed.
- */
-export function loadEnv(
-  mode: string,
-  envDir: string = process.cwd(),
-  prefixes: string | string[] = ['RSBUILD_', 'MAIN_VITE_', 'PRELOAD_VITE_', 'RENDERER_VITE_']
-): Record<string, string> {
-  return viteLoadEnv(mode, envDir, prefixes)
-}
+//  */
+// export function loadEnv(
+//   mode: string,
+//   envDir: string = process.cwd(),
+//   prefixes: string | string[] = ['RSBUILD_', 'MAIN_VITE_', 'PRELOAD_VITE_', 'RENDERER_VITE_']
+// ): Record<string, string> {
+//   return viteLoadEnv(mode, envDir, prefixes)
+// }
 
 interface PackageData {
   main?: string
@@ -111,11 +111,11 @@ function processEnvDefine(): Record<string, string> {
 
 export function resolveBuildOutputs(
   outputs: OutputOptions | OutputOptions[] | undefined,
-  libOptions: LibraryOptions | false
+  libOptions: any
 ): OutputOptions | OutputOptions[] | undefined {
   if (libOptions && !Array.isArray(outputs)) {
     const libFormats = libOptions.formats || [];
-    return libFormats.map((format) => ({ ...outputs, format }));
+    return libFormats.map((format: any) => ({ ...outputs, format }));
   }
   return outputs;
 }

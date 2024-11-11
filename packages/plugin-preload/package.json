@@ -1,14 +1,26 @@
 {
   "name": "@electron-rsbuild/plugin-preload",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Electron main config plugin for Electron-Rsbuild",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "veaba<godpu@oulook.com>",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "rslib build --watch",
+    "build": "rslib build"
+  },
   "dependencies": {
+    "@electron-rsbuild/core": "workspace:*",
     "@rsbuild/core": "^1.1.0",
-    "@electron-rsbuild/core": "workspace:*"
+    "@rslib/core": "^0.0.16"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^5.6.3"
   }
 }
