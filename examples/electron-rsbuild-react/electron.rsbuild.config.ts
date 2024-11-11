@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import { defineConfig } from 'electron-rsbuild'
+import { defineConfig } from '@electron-rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
 
 export default defineConfig({

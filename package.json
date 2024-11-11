@@ -4,6 +4,8 @@
   "author": "veaba<godpu@oulook.com>",
   "scripts": {
     "build": "nx run-many -t build --exclude @examples/* @e2e/* rsbuild-* --parallel=10",
+    "dev":"pnpm --filter=core run dev && pnpm run dev:electron-react",
+    "dev:electron-react": "pnpm --filter electron-rsbuild-react run dev",
     "dev:core": "pnpm --filter=core run dev",
     "build:core": "pnpm --filter=core run build",
     "lint": "biome check . --diagnostic-level=warn",
