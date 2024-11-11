@@ -14,7 +14,8 @@
 node -v
 ```
 
-如果当前环境中没有安装 Node.js，可以使用 [nvm](https://github.com/nvm-sh/nvm) 或 [fnm](https://github.com/Schniz/fnm) 进行安装。
+如果当前环境中没有安装 Node.js，可以使用 [nvm](https://github.com/nvm-sh/nvm) 或 [fnm](https://github.com/Schniz/fnm)
+进行安装。
 
 下面是如何通过 nvm 安装 Node.js 20 LTS 版本的示例：
 
@@ -81,6 +82,15 @@ pnpm run build
 
 ## debug
 
-要求：
+### Bun debug for webstorm
 
-- 安装 `bun`，利用 bun 让项目直接跑 bun，方便看到 ts 源码，而非 js 文件
+> Only Linux、MacOS
+
+- `Working Directory`: `xx/electron-rsbuild`
+- `File`: `packages/core/bin/electron-resbuld.ts`
+- `Application parameters`: `dev`
+- add a debug break point at `/core/config.ts`
+
+### Bun debug for vscode
+
+- todo
