@@ -12,7 +12,7 @@
     }
   },
   "bin": {
-    "electron-rsbuild": "bin/electron-rsbuild.ts"
+    "electron-rsbuild": "bin/electron-rsbuild.mjs"
   },
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -1,5 +1,5 @@
 {
-  "name": "create-rsbuild",
+  "name": "create-electron-rsbuild",
   "version": "1.0.7",
   "description": "Create a new Rsbuild project",
   "homepage": "https://rsbuild.dev",

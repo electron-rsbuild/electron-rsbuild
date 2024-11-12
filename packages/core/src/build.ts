@@ -7,7 +7,7 @@ export async function build(inlineConfig: InlineConfig = {}): Promise<void> {
   process.env.NODE_ENV_ELECTRON_RSBUILD = 'production';
   const { userConfig, configFile } = await resolveUserConfig(inlineConfig, 'build', 'production');
   if (userConfig) {
-    const mainViteConfig = userConfig?.main;
+    const mainViteConfig = userConfig.environments.main;
     //   if (mainViteConfig) {
     //     if (mainViteConfig.server?.publicDir?.watch) {
     //       mainViteConfig.server.publicDir.watch = false;

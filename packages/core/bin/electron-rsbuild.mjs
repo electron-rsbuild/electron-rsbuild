@@ -25,7 +25,8 @@ if (debugIndex > 0) {
 }
 
 function run() {
-  import('../src/cli.ts');
+  import('../dist/cli.js');
+  // import('../src/cli.cjs');
 }
 
 run();

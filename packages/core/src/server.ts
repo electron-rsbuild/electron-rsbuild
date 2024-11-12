@@ -38,18 +38,27 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
 
     // TODO ...
     const rendererRsbuildConfig = environments?.renderer;
+
+    console.log('启动 server renderer dev 配置===>', rendererRsbuildConfig);
     if (rendererRsbuildConfig) {
       const rsbuild = await createRsbuild({
-        cwd: process.cwd(),
+        cwd: userConfig.root,
+        // cwd: process.cwd(),
         rsbuildConfig: {
+          // TODO 2024年11月13日01:23:28
           ...userConfig,
+          // environments: {
+          //   renderer: { ...rendererRsbuildConfig },
+          // },
         },
       });
 
       logger.info(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`));
+      
+      rsbuild.build()
+      return
       server = await rsbuild.startDevServer();
       const { port, urls, server: confServer } = server;
-      console.log("server=>",server)
       if (!server.server) {
         throw new Error('HTTP server not available');
       }
@@ -63,7 +72,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
 
     console.log('ps1');
     // TODO 记录下进度 2024年11月10日01:13:09
-    ps = startElectron(inlineConfig.root);
+    // ps = startElectron(inlineConfig.root);
     console.log('ps2');
 
     logger.info(colors.green(`\nstart electron app...\n`));

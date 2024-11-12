@@ -6,6 +6,7 @@
     "build": "nx run-many -t build --exclude @examples/* @e2e/* rsbuild-* --parallel=10",
     "dev2": "pnpm --filter=core run dev && pnpm run dev:electron-react",
     "react": "pnpm --filter=electron-rsbuild-react run dev",
+    "dev1": "nx run-many -t dev --exclude electron-rsbuild-* create-electron-*  --parallel=10",
     "dev": "pnpm run dev:plugins && pnpm run dev:core",
     "dev:core": "pnpm --filter=@electron-rsbuild/core run dev",
     "dev:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run dev",
