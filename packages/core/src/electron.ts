@@ -8,6 +8,8 @@ import { loadPackageData } from './utils';
 // TODO
 // const projectPath = `file://${process.cwd()}/tests/electron-rsbuild-demo/` 外部执行~
 const projectPath = `file://${process.cwd()}/`;
+
+console.log('路径==>projectPath=>', projectPath);
 const _require2 = createRequire(projectPath);
 
 const chromeVer: Record<string, string> = {

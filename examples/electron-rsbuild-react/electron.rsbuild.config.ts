@@ -1,8 +1,10 @@
 import { resolve } from 'path'
 import { defineConfig } from '@rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
+import pkg from './package.json'
 
 export default defineConfig({
+  root: resolve(__dirname, '.'),
   environments: {
     // TODO see electron.rsbuild.config.ts
     main: {},
@@ -10,16 +12,28 @@ export default defineConfig({
     preload: {},
     // TODO see rsbuild.config.ts
     renderer: {
+      html: {
+        title: pkg.name || 'Electron-Rsbuild App'
+      },
       source: {
-        alias: {
-          '@renderer': resolve('src/renderer/src')
-        },
-        // TODO 后期改为默认
         entry: {
           index: './src/renderer/src/main.tsx'
+        },
+        // TODO 后期改为默认
+        alias: {
+          '@renderer': resolve('src/renderer/src')
         }
       },
-      plugins: [pluginReact()]
+      plugins: [pluginReact()],
+      output: {
+        target: 'web',
+        assetPrefix: 'auto',
+        distPath: {
+          root: 'out/renderer'
+        },
+        // TODO 禁用压缩
+        minify: false
+      }
     }
   }
 

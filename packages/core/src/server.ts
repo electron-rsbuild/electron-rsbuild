@@ -16,7 +16,8 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
 
   const { userConfig, configFile } = await resolveUserConfig(inlineConfig, 'serve', 'development');
 
-  if (userConfig) {
+  if (userConfig?.environments) {
+    const { environments } = userConfig;
     const logger = createLogger({ level: inlineConfig.logLevel });
 
     let server: any = undefined;
@@ -27,27 +28,28 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
     };
 
     // TODO main 构建~
-    const mainRsbuildConfig = userConfig?.main;
-    
+    const mainRsbuildConfig = environments?.main;
 
     // TODO preload 构建
-    const preloadRsbuildConfig = userConfig?.preload;
-    if (options.rendererOnly) {
-      logger.warn(`\n${colors.yellow(colors.bold('warn'))}:${colors.yellow(' you have skipped the main process and preload scripts building')}`);
-    }
+    const preloadRsbuildConfig = environments?.preload;
+    // if (options.rendererOnly) {
+    //   logger.warn(`\n${colors.yellow(colors.bold('warn'))}:${colors.yellow(' you have skipped the main process and preload scripts building')}`);
+    // }
 
-    const rendererRsbuildConfig = userConfig?.renderer;
+    // TODO ...
+    const rendererRsbuildConfig = environments?.renderer;
     if (rendererRsbuildConfig) {
       const rsbuild = await createRsbuild({
         cwd: process.cwd(),
         rsbuildConfig: {
-          ...rendererRsbuildConfig,
+          ...userConfig,
         },
       });
 
       logger.info(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`));
       server = await rsbuild.startDevServer();
       const { port, urls, server: confServer } = server;
+      console.log("server=>",server)
       if (!server.server) {
         throw new Error('HTTP server not available');
       }

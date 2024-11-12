@@ -14,8 +14,8 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "rsbuild:build": "rsbuild build",
     "rsbuild:dev": "rsbuild dev",
-    "rebuild:build-main": "rsbuild build -c rsbuild-main.config.ts",
-    "rebuild:build-preload": "rsbuild build rsbuild-preload.config.ts",
+    "rsbuild:build-main": "rsbuild build -c rsbuild-main.config.ts",
+    "rsbuild:build-preload": "rsbuild build rsbuild-preload.config.ts",
     "builder": "electron-builder --dir",
     "test": "vitest dev",
     "start": "electron-rsbuild preview",
@@ -37,11 +37,11 @@
     "@rsbuild/plugin-react": "^1.0.7"
   },
   "devDependencies": {
-    "@electron-toolkit/tsconfig": "^1.0.1",
     "@electron-rsbuild/core": "workspace:*",
     "@electron-rsbuild/plugin-main": "workspace:*",
     "@electron-rsbuild/plugin-preload": "workspace:*",
     "@electron-rsbuild/plugin-renderer": "workspace:*",
+    "@electron-toolkit/tsconfig": "^1.0.1",
     "@types/node": "^20.14.8",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

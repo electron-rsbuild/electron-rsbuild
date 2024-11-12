@@ -35,11 +35,6 @@ export default defineConfig({
         // TODO 禁用压缩
         minify: false
       }
-      // tools: {
-      //   rspack: {
-      //     target: 'electron-renderer',
-      //   }
-      // }
     },
     // preload
     preload: {

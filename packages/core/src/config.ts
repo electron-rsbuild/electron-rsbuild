@@ -24,6 +24,7 @@ import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
 
 import { normalizePath } from './utils';
 import { LoadEnvOptions, ViteConfigExport } from './types';
+import { CONFIG_FILE_NAME } from './constants';
 
 export { type LogLevel } from 'rslog';
 
@@ -39,46 +40,52 @@ export function slash(p: string): string {
 
 export const isWindows = os.platform() === 'win32';
 
-export interface UserConfig {
-  /**
-   * Vite config options for electron main process
-   *
-   * https://vitejs.dev/config/
-   */
-  main?: RsbuildConfig & { configFile?: string | false };
-  /**
-   * Vite config options for electron renderer process
-   *
-   * https://vitejs.dev/config/
-   */
-  renderer?: RsbuildConfig & { configFile?: string | false };
-  /**
-   * Vite config options for electron preload files
-   *
-   * https://vitejs.dev/config/
-   */
-  preload?: RsbuildConfig & { configFile?: string | false };
+export interface UserConfig extends RsbuildConfig {
+  // TODO
+  root?: string;
+  environments: {
+    /**
+     * Vite config options for electron main process
+     *
+     * https://vitejs.dev/config/
+     */
+    main?: RsbuildConfig & { configFile?: string | false };
+    /**
+     * Vite config options for electron renderer process
+     *
+     * https://vitejs.dev/config/
+     */
+    renderer?: RsbuildConfig & { configFile?: string | false };
+    /**
+     * Vite config options for electron preload files
+     *
+     * https://vitejs.dev/config/
+     */
+    preload?: RsbuildConfig & { configFile?: string | false };
+  };
 }
 
-export interface ElectronViteConfig {
-  /**
-   * Vite config options for electron main process
-   *
-   * https://vitejs.dev/config/
-   */
-  main?: ViteConfigExport;
-  /**
-   * Vite config options for electron renderer process
-   *
-   * https://vitejs.dev/config/
-   */
-  renderer?: ViteConfigExport;
-  /**
-   * Vite config options for electron preload files
-   *
-   * https://vitejs.dev/config/
-   */
-  preload?: ViteConfigExport;
+export interface ElectronRsbuildConfig {
+  environments: {
+    /**
+     * Vite config options for electron main process
+     *
+     * https://vitejs.dev/config/
+     */
+    main?: ViteConfigExport;
+    /**
+     * Vite config options for electron renderer process
+     *
+     * https://vitejs.dev/config/
+     */
+    renderer?: ViteConfigExport;
+    /**
+     * Vite config options for electron preload files
+     *
+     * https://vitejs.dev/config/
+     */
+    preload?: ViteConfigExport;
+  };
 }
 
 export type InlineConfig = Omit<RsbuildConfig, 'base'> & {
@@ -89,20 +96,20 @@ export type InlineConfig = Omit<RsbuildConfig, 'base'> & {
   clearScreen?: boolean;
 };
 
-export type ElectronViteConfigFnObject = (env: LoadEnvOptions) => ElectronViteConfig;
-export type ElectronViteConfigFnPromise = (env: LoadEnvOptions) => Promise<ElectronViteConfig>;
-export type ElectronViteConfigFn = (env: LoadEnvOptions) => ElectronViteConfig | Promise<ElectronViteConfig>;
+export type ElectronViteConfigFnObject = (env: LoadEnvOptions) => ElectronRsbuildConfig;
+export type ElectronViteConfigFnPromise = (env: LoadEnvOptions) => Promise<ElectronRsbuildConfig>;
+export type ElectronViteConfigFn = (env: LoadEnvOptions) => ElectronRsbuildConfig | Promise<ElectronRsbuildConfig>;
 
-export type ElectronViteConfigExport = ElectronViteConfig | Promise<ElectronViteConfig> | ElectronViteConfigFnObject | ElectronViteConfigFnPromise | ElectronViteConfigFn;
+export type ElectronViteConfigExport = ElectronRsbuildConfig | Promise<ElectronRsbuildConfig> | ElectronViteConfigFnObject | ElectronViteConfigFnPromise | ElectronViteConfigFn;
 
 /**
  * Type helper to make it easier to use `electron.rsbuild.config.*`
- * accepts a direct {@link ElectronViteConfig} object, or a function that returns it.
+ * accepts a direct {@link ElectronRsbuildConfig} object, or a function that returns it.
  * The function receives a object that exposes two properties:
  * `command` (either `'build'` or `'serve'`), and `mode`.
  */
-export function defineConfig(config: ElectronViteConfig): ElectronViteConfig;
-export function defineConfig(config: Promise<ElectronViteConfig>): Promise<ElectronViteConfig>;
+export function defineConfig(config: ElectronRsbuildConfig): ElectronRsbuildConfig;
+export function defineConfig(config: Promise<ElectronRsbuildConfig>): Promise<ElectronRsbuildConfig>;
 export function defineConfig(config: ElectronViteConfigFnObject): ElectronViteConfigFnObject;
 export function defineConfig(config: ElectronViteConfigExport): ElectronViteConfigExport;
 export function defineConfig(config: ElectronViteConfigExport): ElectronViteConfigExport {
@@ -126,7 +133,7 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
 
   process.env.NODE_ENV = defaultMode;
 
-  let userConfig: UserConfig = {};
+  let userConfig: UserConfig = { root: process.cwd(), environments: {} };
 
   let { configFile } = config;
 
@@ -136,52 +143,49 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
       command,
     };
 
-    const loadResult = await loadConfigFromFile(configEnv, configFile, config.root, config.logLevel);
-
-    console.log('loadResult=>', loadResult);
-    if (loadResult) {
-      delete config.root;
-      delete config.configFile;
-
+    const { config, path: loadResultPath } = await loadConfigFromFile(configEnv, configFile, undefined, undefined);
+    const { environments: loadEnvConfig, root } = config;
+    if (loadEnvConfig) {
       // mixin main config
-      if (loadResult.config.main) {
-        const mainMode = (inlineConfig.mode || loadResult.config.main.mode || defaultMode) as RsbuildMode;
+      if (loadEnvConfig.main) {
+        const mainMode = (inlineConfig.mode || loadEnvConfig.main.mode || defaultMode) as RsbuildMode;
         const mainConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: mainMode,
             plugins: [mainPlugin({ root: 'main-root' })],
           },
-          loadResult.config.main,
+          loadEnvConfig.main,
         );
-        userConfig.main = mainConfig;
+        userConfig.environments.main = mainConfig;
       }
 
       // mixin preload config
-      if (loadResult.config.preload) {
-        const preloadMode = (inlineConfig.mode || loadResult.config.preload.mode || defaultMode) as RsbuildMode;
+      if (loadEnvConfig.preload) {
+        const preloadMode = (inlineConfig.mode || loadEnvConfig.preload.mode || defaultMode) as RsbuildMode;
         const preloadConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: preloadMode,
             plugins: [mainPlugin({ root: 'preload-root' })],
           },
-          loadResult.config.preload,
+          loadEnvConfig.preload,
         );
-        userConfig.preload = preloadConfig;
+        userConfig.environments.preload = preloadConfig;
       }
 
       // mixin renderer config
-      if (loadResult.config.renderer) {
-        const rendererMode = (inlineConfig.mode || loadResult.config.renderer.mode || defaultMode) as RsbuildMode;
+      if (loadEnvConfig.renderer) {
+        const rendererMode = (inlineConfig.mode || loadEnvConfig.renderer.mode || defaultMode) as RsbuildMode;
         const rendererConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: rendererMode,
             plugins: [mainPlugin({ root: 'renderer-root' })],
           },
-          loadResult.config.renderer,
+          loadEnvConfig.renderer,
         );
-        userConfig.renderer = rendererConfig;
+        userConfig.environments.renderer = rendererConfig;
       }
-      configFile = loadResult.path;
+      configFile = loadResultPath;
+      userConfig.root = root || userConfig.root;
     }
   }
   return {
@@ -189,9 +193,6 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
     configFile: configFile as string,
   };
 }
-
-
-const CONFIG_FILE_NAME = 'electron.rsbuild.config';
 
 /**
  * 处理和判断用药 config 配置
@@ -217,40 +218,40 @@ export async function loadConfigFromFile(
     throw new Error(`config file cannot be named ${configFile}.`);
   }
 
-  // "F:\\Github\\veaba\\electron-rsbuild"
-
   const resolvedPath = configFile ? path.resolve(configFile) : findConfigFile(configRoot, ['js', 'ts', 'mjs', 'cjs', 'mts', 'cts']);
 
-  console.log("configFile=>", configFile)
-  console.log("electron.rsbuild.config.js=>", resolvedPath)
+  console.log('configFile=>', configFile);
+  console.log('electron.rsbuild.config.js=>', resolvedPath);
   if (!resolvedPath) {
     return {
       path: '',
-      config: { main: {}, preload: {}, renderer: {} },
+      config: {
+        environments: { main: {}, preload: {}, renderer: {} },
+      },
     };
   }
 
   try {
     // load user config file: electron.rsbuild.config.ts
-
-    console.log("读取路径 1=>", configRoot)
-    console.log("读取路径 2=>", resolvedPath)
-    // TODO ========== 需要转为合法数据~~
+    console.log('读取路径 1=>', configRoot);
+    console.log('读取路径 2=>', resolvedPath);
     const { content, filePath } = await loadConfig({
       cwd: configRoot,
       path: resolvedPath,
     });
 
-    console.log("c=>", content)
-    console.log("c 2=>", filePath)
-    // TODO 此处省略一堆判断
-    const { preload, renderer, main } = content as any;
+    const { preload, renderer, main } = content.environments || {};
+
+    console.log('rsbuild 读取的配置=>', content);
     // TODO 附加一堆 plugins 等等
     return {
       config: {
-        main: main || {},
-        preload: preload || {},
-        renderer: renderer || {},
+        root: content.root,
+        environments: {
+          main: main || {},
+          preload: preload || {},
+          renderer: renderer || {},
+        },
       },
       path: filePath as string,
     };

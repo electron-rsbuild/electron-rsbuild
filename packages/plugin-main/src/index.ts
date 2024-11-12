@@ -17,7 +17,7 @@ export function mainPlugin(options?: ElectronPluginOptions): RsbuildPlugin[] {
       // pre 声明前置插件的名称，在插件执行之前执行 string[]
       // post 后置插件，当前插件之后执行
       setup(api: any): void {
-        console.log('main post=>', api);
+        console.log('main post=>', api.context.version);
         // like as: global ctx api.context.distPath
 
         // 修改 config
