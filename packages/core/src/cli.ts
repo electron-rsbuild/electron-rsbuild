@@ -2,8 +2,6 @@ import colors from 'picocolors';
 import { cac } from 'cac';
 import { createLogger, LogLevel } from 'rslog';
 import type { OutputConfig, RsbuildMode } from '@rsbuild/core';
-
-// import { InlineConfig } from './config';
 import { version } from '../package.json';
 
 const cli = cac('electron-rsbuild');
@@ -75,7 +73,7 @@ cli
 
 /**
  *
- * dev
+ * dev: build main + preload, renderer launch http server
  * */
 cli
   .command('[root]', 'start dev server and electron app')
@@ -118,7 +116,6 @@ cli
 
     try {
       await createServer(inlineConfig, { entry: options.entry, rendererOnly: options.rendererOnly });
-
     } catch (e) {
       const error = e as Error;
       createLogger({
@@ -129,61 +126,60 @@ cli
   });
 
 /**
- * @TODO
- * build
+ * build: build dist
  */
-// cli.command('build [root]', 'build for production').action(async (root: string, options: GlobalCLIOptions) => {
-//   const { build } = await import('./build');
-//   const inlineConfig = createInlineConfig(root, options);
+cli.command('build [root]', 'build for production').action(async (root: string, options: GlobalCLIOptions) => {
+  console.log('=============== 启动 electron-rsbuild command build ================');
+  const { createBuild } = await import('./build');
+  const inlineConfig = createInlineConfig(root, options);
 
-//   if (options.entry) {
-//     process.env.ELECTRON_ENTRY = options.entry;
-//   }
+  if (options.entry) {
+    process.env.ELECTRON_ENTRY = options.entry;
+  }
 
-//   try {
-//     await build(inlineConfig);
-//   } catch (e) {
-//     const error = e as Error;
-//     createLogger({ level: options.logLevel }).error(colors.red(`error during build:\n${error.stack}`), { error });
-//     process.exit(1);
-//   }
-// });
+  try {
+    await createBuild(inlineConfig);
+  } catch (e) {
+    const error = e as Error;
+    createLogger({ level: options.logLevel }).error(colors.red(`error during build:\n${error.stack}`), { error });
+    process.exit(1);
+  }
+});
 
 /**
- * @TODO
- * preview
+ * preview: build + start electron
  *  */
-// cli
-//   .command('preview [root]', 'start electron app to preview production build')
-//   .option('--noSandbox', `[boolean] forces renderer process to run un-sandboxed`)
-//   .option('--skipBuild', `[boolean] skip build`)
-//   .action(async (root: string, options: PreviewCLIOptions & GlobalCLIOptions) => {
-//     const { preview } = await import('./preview');
-//     const inlineConfig = createInlineConfig(root, options);
+cli
+  .command('preview [root]', 'start electron app to preview production build')
+  .option('--noSandbox', `[boolean] forces renderer process to run un-sandboxed`)
+  .option('--skipBuild', `[boolean] skip build`)
+  .action(async (root: string, options: PreviewCLIOptions & GlobalCLIOptions) => {
+    console.log('=============== 启动 electron-rsbuild command preview ================');
+    const { preview } = await import('./preview');
+    const inlineConfig = createInlineConfig(root, options);
 
-//     if (options.noSandbox) {
-//       process.env.NO_SANDBOX = '1';
-//     }
+    // if (options.noSandbox) {
+    //   process.env.NO_SANDBOX = '1';
+    // }
 
-//     if (options.entry) {
-//       process.env.ELECTRON_ENTRY = options.entry;
-//     }
+    // if (options.entry) {
+    //   process.env.ELECTRON_ENTRY = options.entry;
+    // }
 
-//     if (options['--']) {
-//       process.env.ELECTRON_CLI_ARGS = JSON.stringify(options['--']);
-//     }
+    // if (options['--']) {
+    //   process.env.ELECTRON_CLI_ARGS = JSON.stringify(options['--']);
+    // }
+    const { createBuild } = await import('./build');
 
-//     try {
-//       await preview(inlineConfig, { skipBuild: options.skipBuild });
-//     } catch (e) {
-//       const error = e as Error;
-//       createLogger({ level: options.logLevel }).error(
-//         colors.red(`error during preview electron app:\n${error.stack}`),
-//         { error }
-//       );
-//       process.exit(1);
-//     }
-//   });
+    try {
+      await createBuild(inlineConfig);
+      await preview(inlineConfig, { skipBuild: options.skipBuild });
+    } catch (e) {
+      const error = e as Error;
+      createLogger({ level: options.logLevel }).error(colors.red(`error during preview electron app:\n${error.stack}`), { error });
+      process.exit(1);
+    }
+  });
 
 cli.help();
 cli.version(version);

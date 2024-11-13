@@ -1,8 +1,5 @@
 import type { ChildProcess } from 'node:child_process';
-
-import { createLogger } from 'rslog';
-import { RsbuildConfig, createRsbuild, createRsbuild as viteBuild, mergeRsbuildConfig, RsbuildInstance } from '@rsbuild/core';
-
+import { logger, createRsbuild } from '@rsbuild/core';
 import colors from 'picocolors';
 import { type InlineConfig, resolveUserConfig } from './config';
 import { resolveHostname } from './utils';
@@ -18,13 +15,9 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
 
   if (userConfig?.environments) {
     const { environments } = userConfig;
-    const logger = createLogger({ level: inlineConfig.logLevel });
 
     let server: any = undefined;
     let ps: ChildProcess | undefined;
-    const errorHook = (e: { message: string | number | null | undefined }): void => {
-      logger.error(`${colors.bgRed(colors.white(' ERROR '))} ${colors.red(e.message)}`);
-    };
 
     if (!options.entry) {
       // process.env.ELECTRON_ENTRY = "http://localhost:3000/"
@@ -94,17 +87,4 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
     ps = startElectron(userConfig.root);
     logger.info(colors.green(`start electron app...\n`));
   }
-}
-
-type UserConfig = RsbuildConfig & { configFile?: string | false };
-
-/**
- * 执行构建
- * */
-async function doBuild(config: UserConfig, watchHook: () => void, errorHook: (e: Error) => void): Promise<void> {
-  return new Promise((resolve) => {
-    const publicDir = config.server?.publicDir;
-    console.log('server 执行构建 publicDir', publicDir);
-    // TODO watch~~
-  });
 }

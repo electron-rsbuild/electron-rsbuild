@@ -1,40 +1,38 @@
+import colors from 'picocolors';
+import { logger, createRsbuild } from '@rsbuild/core';
 import { InlineConfig, resolveUserConfig } from './config';
 
 /**
  * Bundles the electron app for production.
  */
-export async function build(inlineConfig: InlineConfig = {}): Promise<void> {
+export async function createBuild(inlineConfig: InlineConfig = {}): Promise<void> {
   process.env.NODE_ENV_ELECTRON_RSBUILD = 'production';
   const { userConfig, configFile } = await resolveUserConfig(inlineConfig, 'build', 'production');
-  if (userConfig) {
-    const mainViteConfig = userConfig.environments.main;
-    //   if (mainViteConfig) {
-    //     if (mainViteConfig.server?.publicDir?.watch) {
-    //       mainViteConfig.server.publicDir.watch = false;
-    //     }
-    //     await createRsbuild(mainViteConfig);
-    //   }
-    //   const preloadViteConfig = config.config?.preload;
-    //   if (preloadViteConfig) {
-    //     if (preloadViteConfig.server?.publicDir?.watch) {
-    //       preloadViteConfig.server.publicDir = false;
-    //     }
-    //     await createRsbuild(preloadViteConfig);
-    //   }
-    //   const rendererViteConfig = config.config?.renderer;
-    //   if (rendererViteConfig) {
-    //     if (rendererViteConfig.server?.publicDir?.watch) {
-    //       rendererViteConfig.server.publicDir.watch = false;
-    //     }
-    //     await createRsbuild(rendererViteConfig);
-    //   }
+
+  if (userConfig?.environments) {
+    const { main, preload, renderer } = userConfig.environments || {};
+    if (!main || !preload || !renderer) {
+      logger.error(`main,preload,renderer is required in environments`);
+      return;
+    }
+
+    const { environments } = userConfig;
+    if (userConfig?.environments.main) {
+      const mainRsbuildConfig = environments?.main;
+      const preloadRsbuildConfig = environments?.preload;
+      const rendererRsbuildConfig = environments?.renderer;
+
+      const rsbuild = await createRsbuild({
+        cwd: userConfig.root,
+        rsbuildConfig: {
+          environments: {
+            main: { ...mainRsbuildConfig },
+            preload: { ...preloadRsbuildConfig },
+            renderer: { ...rendererRsbuildConfig },
+          },
+        },
+      });
+      await rsbuild.build();
+    }
   }
 }
-
-/**
- *
- * @TODO ？？？
- * - build.watch
- * rsbuild
- * - server.publicDir.watch
- * */

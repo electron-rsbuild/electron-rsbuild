@@ -4,6 +4,8 @@
   "author": "veaba<godpu@oulook.com>",
   "scripts": {
     "react": "pnpm --filter=electron-rsbuild-react run dev",
+    "preview": "pnpm --filter=electron-rsbuild-react run preview",
+    "electron": "pnpm --filter=electron-rsbuild-react run build",
     "dev": "nx dev @electron-rsbuild/core",
     "build": "nx build @electron-rsbuild/core",
     "clear": "nx run-many -t clear",

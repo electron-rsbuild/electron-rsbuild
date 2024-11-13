@@ -25,10 +25,7 @@
     "dev": "rslib build --watch",
     "start": "rslib build --watch",
     "build": "rslib build",
-    "clear": "rimraf dist",
-    "test-start": "electron-rsbuild preview",
-    "test-dev": "electron-rsbuild dev",
-    "test-prebuild": "electron-rsbuild build"
+    "clear": "rimraf dist"
   },
   "repository": {
     "type": "git",
