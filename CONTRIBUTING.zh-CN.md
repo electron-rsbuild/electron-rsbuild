@@ -52,6 +52,24 @@ pnpm run react # 启用预览项目测试
 - 在 monorepo 项目中，的子包之间，创建软链
 - 运行 `prepare` 脚本来安装所有软件包，由 [nx](https://nx.dev/) 提供支持。
 
+### 启动方式
+
+- 方式1：由于暂时找不到 nx 执行 watch core + plugins 的方法，此处需要手动（待优化）
+
+```sh
+# watch core, 但 plugin 没有被 watch
+pnpm run dev
+
+```
+
+- 方式2：分为两步仅限，可以同时 watch core 和 plugins
+
+```sh
+
+pnpm run dev:core
+pnpm run dev:plugins
+```
+
 ## 修改与构建
 
 在你的 For 的 repo 中设置好本地开发环境后，就可以开始开发了。
@@ -82,7 +100,7 @@ pnpm run build
 
 ## debug
 
-### Bun debug for webstorm
+### Bun debug for webStorm
 
 > Only Linux、MacOS
 

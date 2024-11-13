@@ -6,12 +6,14 @@
     "react": "pnpm --filter=electron-rsbuild-react run dev",
     "dev": "nx dev @electron-rsbuild/core",
     "build": "nx build @electron-rsbuild/core",
+    "clear": "nx run-many -t clear",
     "dev:packages": "pnpm run dev:plugins && pnpm run dev:core",
     "dev:core": "pnpm --filter=@electron-rsbuild/core run dev",
     "dev:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run dev",
     "build:core": "pnpm --filter=core run build",
     "lint": "biome check . --diagnostic-level=warn",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "echo":"nx run-many -t echo"
   },
   "repository": {
     "type": "git",
@@ -25,7 +27,8 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "nx": "^20.0.12",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1"
   },
   "workspaces": {
     "packages": [

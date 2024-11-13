@@ -149,11 +149,7 @@ export function startElectron(root: string | undefined, flag?:number): ChildProc
   ensureElectronEntryFile(root);
 
   const electronPath = getElectronPath();
-
-  console.log('electron 路径=>', electronPath);
-
   const isDev = process.env.NODE_ENV_ELECTRON_RSBUILD === 'development';
-
   const args: string[] = process.env.ELECTRON_CLI_ARGS ? JSON.parse(process.env.ELECTRON_CLI_ARGS) : [];
 
   if (!!process.env.REMOTE_DEBUGGING_PORT && isDev) {

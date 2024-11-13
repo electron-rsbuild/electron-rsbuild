@@ -2,7 +2,6 @@ import { resolve } from 'path'
 import { defineConfig } from '@rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
 import pkg from './package.json'
-import { mainPlugin } from '@electron-rsbuild/plugin-main'
 
 export default defineConfig({
   root: resolve(__dirname, '.'),
@@ -25,7 +24,6 @@ export default defineConfig({
         // TODO 禁用压缩
         minify: false
       },
-      plugins: [mainPlugin({ root: 'haha' })],
       tools: {
         rspack: {
           target: 'electron-preload'
@@ -53,7 +51,6 @@ export default defineConfig({
         // TODO 禁用压缩
         minify: false
       },
-      plugins: [mainPlugin({ root: 'haha' })],
       tools: {
         rspack: {
           target: 'electron-main',

@@ -1,8 +1,10 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": ["{projectRoot}/src/**/*"],
-    "build": [
+    "default": [
+      "{projectRoot}/src/**/*"
+    ],
+    "dev": [
       "default",
       "!{projectRoot}/**/*.{md,mdx}",
       "{projectRoot}/tsconfig.json",
@@ -12,9 +14,13 @@
   },
   "targetDefaults": {
     "dev": {
-      "cache": true,
-      "dependsOn": ["^start"],
-      "outputs": ["{projectRoot}/dist"]
+      "cache": false,
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     }
   },
   "defaultBase": "main"

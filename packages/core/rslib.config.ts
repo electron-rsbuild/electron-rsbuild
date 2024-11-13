@@ -25,16 +25,17 @@ export default defineConfig({
     },
   ],
   output: { target: 'node' },
-  plugins:[
+  plugins: [
     {
       name: 'test',
       setup(api) {
-        console.log("apo=>", api.getRsbuildConfig())
+        // TODO
+        // console.log('apo=>', api.getRsbuildConfig());
         const isPluginMainExist = api.isPluginExists('plugin-registry');
         api.onBeforeBuild(() => {
           console.log('build core before=>', isPluginMainExist);
         });
       },
     },
-  ]
+  ],
 });

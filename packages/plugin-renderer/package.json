@@ -12,7 +12,8 @@
   "scripts": {
     "dev": "rslib build --watch",
     "start": "rslib build --watch",
-    "build": "rslib build"
+    "build": "rslib build",
+    "clear": "rimraf dist"
   },
   "author": "veaba<godpu@oulook.com>",
   "dependencies": {

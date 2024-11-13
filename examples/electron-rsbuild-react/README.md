@@ -23,8 +23,10 @@ pnpm dev
 ### Build
 
 测试 build 构建
+
 ```bash
 pnpm run builder
+
 # 将 main、preload、renderer 产物输出为 unpacked 的应用
 > electron-rsbuild-app@1.0.0 builder F:\Github\veaba\electron-rsbuild\tests\electron-rsbuild-demo
 > electron-builder --dir
@@ -36,6 +38,5 @@ pnpm run builder
 
 
 ```
-
 
 <!-- electron-rsbuild -->

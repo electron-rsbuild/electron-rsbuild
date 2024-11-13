@@ -119,7 +119,6 @@ cli
     try {
       await createServer(inlineConfig, { entry: options.entry, rendererOnly: options.rendererOnly });
 
-      console.log('create server 2');
     } catch (e) {
       const error = e as Error;
       createLogger({

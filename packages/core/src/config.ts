@@ -165,7 +165,7 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
         const preloadConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: preloadMode,
-            plugins: [mainPlugin({ root: 'preload-root' })],
+            plugins: [preloadPlugin({ root: 'preload-root' })],
           },
           loadEnvConfig.preload,
         );
@@ -178,7 +178,7 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
         const rendererConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: rendererMode,
-            plugins: [mainPlugin({ root: 'renderer-root' })],
+            plugins: [rendererPlugin({ root: 'renderer-root' })],
           },
           loadEnvConfig.renderer,
         );
@@ -220,8 +220,6 @@ export async function loadConfigFromFile(
 
   const resolvedPath = configFile ? path.resolve(configFile) : findConfigFile(configRoot, ['js', 'ts', 'mjs', 'cjs', 'mts', 'cts']);
 
-  console.log('configFile=>', configFile);
-  console.log('electron.rsbuild.config.js=>', resolvedPath);
   if (!resolvedPath) {
     return {
       path: '',

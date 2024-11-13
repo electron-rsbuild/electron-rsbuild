@@ -7,13 +7,8 @@ import { ElectronPluginOptions } from '../../core/src/types';
 export function rendererPlugin(options?: ElectronPluginOptions):RsbuildPlugin[] {
   return [
     {
-      name: 'rsbuild:electron-renderer-preset-config',
-      setup(): void {
-        console.log("renderer pre=>",options?.root)
-      },
-    },
-    {
-      name: 'rsbuild:electron-renderer-resolved-config',
+      name: 'electron-rsbuild:renderer',
+
       // TODO 在解析 Vite 配置后调用
       setup(): void {
         console.log("renderer post=>",)

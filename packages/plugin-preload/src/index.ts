@@ -9,18 +9,11 @@ export function preloadPlugin(
 ): RsbuildPlugin[] {
   return [
     {
-      name: 'rsbuild:electron-preload-preset-config',
-      // post: ['rsbuild:electron-preload-resolved-config'],
-      setup(): void {
-        console.log('preload pre=>', options?.root);
-      },
-    },
-    {
-      name: 'rsbuild:electron-preload-resolved-config',
+      name: 'electron-rsbuild:preload',
       // pre: ['rsbuild:electron-preload-preset-config'],
       // TODO 在解析 Vite 配置后调用
       setup(): void {
-        console.log('preload postxxx=>');
+        console.log('preload post xxx=>');
       },
     },
   ];

@@ -20,7 +20,8 @@
   "scripts": {
     "dev": "rslib build --watch",
     "start": "rslib build --watch",
-    "build": "rslib build"
+    "build": "rslib build",
+    "clear":"rimraf dist"
   },
   "dependencies": {
     "@electron-rsbuild/core": "workspace:*",

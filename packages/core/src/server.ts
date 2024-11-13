@@ -45,15 +45,12 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
         },
       });
       await mainRsbuild.build();
-      // TODO 需要处理 electron 进程，如关闭~
       if (ps) {
         logger.info(colors.green(`\nrebuild the electron main process successfully`));
         ps.removeAllListeners();
         ps.kill();
         ps = startElectron(userConfig.root, 1);
         logger.info(colors.green(`\nrestart electron app...`));
-      } else {
-        console.log('否则 启动 electron 进程');
       }
     }
 
@@ -71,17 +68,12 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
       await preloadRsbuild.build();
     }
 
-    // TODO ...
     const rendererRsbuildConfig = environments?.renderer;
     console.log('启动 server renderer dev 配置===>', rendererRsbuildConfig);
     if (rendererRsbuildConfig) {
       const renderRsbuild = await createRsbuild({
         cwd: userConfig.root,
         rsbuildConfig: {
-          // TODO dev 不用写入到 磁盘中~~
-          // dev: {
-          //   writeToDisk: true,
-          // },
           environments: {
             renderer: {
               ...rendererRsbuildConfig,
@@ -93,7 +85,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
       logger.info(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`));
 
       server = await renderRsbuild.startDevServer();
-      const { port, urls, server: confServer } = server;
+      const { urls } = server;
       if (!server.server) {
         throw new Error('HTTP server not available');
       }
@@ -101,6 +93,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
       const hostURL = resolveHostname(renderDevURL);
       process.env.ELECTRON_RENDERER_URL = `${hostURL}`;
     }
+    // TODO
     ps = startElectron(userConfig.root, 2);
     logger.info(colors.green(`\nstart electron app...\n`));
   }
