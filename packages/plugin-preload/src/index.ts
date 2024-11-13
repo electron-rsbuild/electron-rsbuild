@@ -1,19 +1,47 @@
-import { RsbuildPlugin } from '@rsbuild/core';
-import { ElectronPluginOptions } from '../../core/src/types';
+import { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
+import { version } from 'punycode';
+
 /**
- * @TODO
- * vite preload 插件改写 为rsbuild
+ * plugin-preload for rsbuild
  * */
-export function preloadPlugin(
-  options?: ElectronPluginOptions,
-): RsbuildPlugin[] {
+export function preloadPlugin(): RsbuildPlugin[] {
   return [
     {
       name: 'electron-rsbuild:preload',
-      // pre: ['rsbuild:electron-preload-preset-config'],
-      // TODO 在解析 Vite 配置后调用
-      setup(): void {
-        console.log('preload post xxx=>');
+      setup(api) {
+        api.modifyRsbuildConfig((config: RsbuildConfig) => {
+          if (config.environments?.preload) {
+            const { preload } = config.environments;
+            const { output } = preload || {};
+
+            let outPreloadConfig = { ...preload };
+            outPreloadConfig = {
+              ...preload,
+              source: {
+                ...preload.source,
+                entry: {
+                  ...preload.source?.entry,
+                  index: preload.source?.entry?.index || './src/preload/index.ts',
+                },
+              },
+              output: {
+                ...output,
+                target: 'node',
+                distPath: {
+                  ...output?.distPath,
+                  root: output?.distPath?.root || 'out/preload',
+                },
+              },
+              tools: {
+                ...preload.tools,
+                rspack: {
+                  target: 'electron-preload',
+                },
+              },
+            };
+            config.environments.preload = { ...outPreloadConfig };
+          }
+        });
       },
     },
   ];

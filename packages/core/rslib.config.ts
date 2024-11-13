@@ -1,4 +1,7 @@
 import { defineConfig } from '@rslib/core';
+import { mainPlugin } from '@electron-rsbuild/plugin-main';
+import { preloadPlugin } from '@electron-rsbuild/plugin-preload';
+import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
 
 const shared = {
   dts: {
@@ -25,17 +28,5 @@ export default defineConfig({
     },
   ],
   output: { target: 'node' },
-  plugins: [
-    {
-      name: 'test',
-      setup(api) {
-        // TODO
-        // console.log('apo=>', api.getRsbuildConfig());
-        const isPluginMainExist = api.isPluginExists('plugin-registry');
-        api.onBeforeBuild(() => {
-          console.log('build core before=>', isPluginMainExist);
-        });
-      },
-    },
-  ],
+  plugins: [mainPlugin(), preloadPlugin(), rendererPlugin()],
 });

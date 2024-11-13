@@ -1,28 +1,63 @@
 import { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
-import { ElectronPluginOptions } from '../../core/src/types';
+
 /**
- * @TODO
- * vite main 插件改写 为rsbuild
+ * plugin-main for rsbuild
  * */
-export function mainPlugin(options?: ElectronPluginOptions): RsbuildPlugin[] {
+export function mainPlugin(): RsbuildPlugin[] {
   return [
     {
       name: 'electron-rsbuild:main',
-      // pre 声明前置插件的名称，在插件执行之前执行 string[]
-      // post 后置插件，当前插件之后执行
       setup(api) {
-        // like as: global ctx api.context.distPath
-        // 修改 config
         api.modifyRsbuildConfig((config: RsbuildConfig) => {
-          console.log("准备修改 main config=>", config.environments)
-          // environments
-          console.log('xx 1', config.environments?.main)
-        });
-        // 读取最终 config
-        api.onBeforeBuild(() => {});
+          if (config.environments?.main) {
+            const { main } = config.environments;
+            const { output } = main || {};
 
-        // 处理产物
-        api.onBeforeBuild(() => {});
+            let outMainConfig = { ...main };
+            outMainConfig = {
+              ...main,
+              source: {
+                ...main.source,
+                entry: {
+                  ...main.source?.entry,
+                  index: main.source?.entry?.index || './src/main/index.ts',
+                },
+              },
+              output: {
+                ...output,
+                target: 'node',
+                distPath: {
+                  ...output?.distPath,
+                  root: output?.distPath?.root || 'out/main',
+                },
+              },
+              tools: {
+                ...main.tools,
+                rspack: {
+                  target: 'electron-main',
+                  module: {
+                    rules: [
+                      {
+                        test: /\.ts$/,
+                        exclude: [/node_modules/],
+                        loader: 'builtin:swc-loader',
+                        options: {
+                          jsc: {
+                            parser: {
+                              syntax: 'typescript',
+                            },
+                          },
+                        },
+                        type: 'javascript/auto',
+                      },
+                    ],
+                  },
+                },
+              },
+            };
+            config.environments.main = { ...outMainConfig };
+          }
+        });
       },
     },
   ];

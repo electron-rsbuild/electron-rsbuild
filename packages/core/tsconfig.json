@@ -12,5 +12,5 @@
     "allowImportingTsExtensions": true,
     "target": "ES2018"
   },
-  "include": ["src", "rslib.config.ts"]
+  "include": ["src"]
 }

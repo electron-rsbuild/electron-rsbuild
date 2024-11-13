@@ -12,8 +12,7 @@
     "dev:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run dev",
     "build:core": "pnpm --filter=core run build",
     "lint": "biome check . --diagnostic-level=warn",
-    "format": "prettier --write .",
-    "echo":"nx run-many -t echo"
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",

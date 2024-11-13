@@ -46,7 +46,3 @@ export type RsbuildConfigExport =
   | RsbuildConfig
   | RsbuildConfigSyncFn
   | RsbuildConfigAsyncFn;
-
-	export interface ElectronPluginOptions {
-		root?: string;
-	}

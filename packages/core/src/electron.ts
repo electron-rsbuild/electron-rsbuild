@@ -9,7 +9,7 @@ import { loadPackageData } from './utils';
 // const projectPath = `file://${process.cwd()}/tests/electron-rsbuild-demo/` 外部执行~
 const projectPath = `file://${process.cwd()}/`;
 
-console.log('路径==>projectPath=>', projectPath);
+// console.log('路径==>projectPath=>', projectPath);
 const _require2 = createRequire(projectPath);
 
 const chromeVer: Record<string, string> = {
@@ -143,9 +143,8 @@ export function getElectronChromeTarget(): string {
   return '';
 }
 
-export function startElectron(root: string | undefined, flag?:number): ChildProcess {
+export function startElectron(root: string | undefined): ChildProcess {
 
-  console.log("flag=>", flag)
   ensureElectronEntryFile(root);
 
   const electronPath = getElectronPath();

@@ -6,24 +6,18 @@ import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { createLogger, LogLevel } from 'rslog';
 import {
+  type RsbuildConfig,
   createRsbuild,
-  DistPathConfig,
   FilenameConfig,
   loadConfig,
-  mergeRsbuildConfig as mergeConfig,
-  type RsbuildConfig,
   RsbuildMode,
-  type RsbuildPlugin as Plugin,
-  logger,
   mergeRsbuildConfig,
 } from '@rsbuild/core';
 
-import { mainPlugin } from '@electron-rsbuild/plugin-main';
-import { preloadPlugin } from '@electron-rsbuild/plugin-preload';
-import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
-
-import { normalizePath } from './utils';
-import { LoadEnvOptions, ViteConfigExport } from './types';
+// import { mainPlugin } from '@electron-rsbuild/plugin-main';
+// import { preloadPlugin } from '@electron-rsbuild/plugin-preload';
+// import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
+import { type LoadEnvOptions, ViteConfigExport } from './types';
 import { CONFIG_FILE_NAME } from './constants';
 
 export { type LogLevel } from 'rslog';
@@ -152,7 +146,7 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
         const mainConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: mainMode,
-            plugins: [mainPlugin({ root: 'main-root' })],
+ 
           },
           loadEnvConfig.main,
         );
@@ -165,7 +159,7 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
         const preloadConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: preloadMode,
-            plugins: [preloadPlugin({ root: 'preload-root' })],
+            // plugins: [preloadPlugin({ root: 'preload-root' })],
           },
           loadEnvConfig.preload,
         );
@@ -178,7 +172,7 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
         const rendererConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: rendererMode,
-            plugins: [rendererPlugin({ root: 'renderer-root' })],
+            // plugins: [rendererPlugin({ root: 'renderer-root' })],
           },
           loadEnvConfig.renderer,
         );
@@ -238,8 +232,6 @@ export async function loadConfigFromFile(
 
     const { preload, renderer, main } = content.environments || {};
 
-    console.log('rsbuild 读取的配置=>', content);
-    // TODO 附加一堆 plugins 等等
     return {
       config: {
         root: content.root,

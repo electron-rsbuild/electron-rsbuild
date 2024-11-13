@@ -3,33 +3,10 @@ import { defineConfig } from '@rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
 import pkg from './package.json'
 
+// 可以用 environments 来配置环境变量
 export default defineConfig({
   root: resolve(__dirname, '.'),
   environments: {
-    // preload
-    preload: {
-      source: {
-        entry: {
-          index: './src/preload/index.ts'
-        },
-        alias: {
-          '@reload': resolve('src/preload')
-        }
-      },
-      output: {
-        target: 'node',
-        distPath: {
-          root: 'out/preload'
-        },
-        // TODO 禁用压缩
-        minify: false
-      },
-      tools: {
-        rspack: {
-          target: 'electron-preload'
-        }
-      }
-    },
     // main
     main: {
       source: {
@@ -74,7 +51,32 @@ export default defineConfig({
         }
       }
     },
-    // TODO see rsbuild.config.ts
+    // preload
+    preload: {
+      source: {
+        entry: {
+          index: './src/preload/index.ts'
+        },
+        alias: {
+          '@preload': resolve('src/preload')
+        }
+      },
+      output: {
+        target: 'node',
+        distPath: {
+          root: 'out/preload'
+        },
+        // TODO 禁用压缩
+        minify: false
+      },
+      tools: {
+        rspack: {
+          target: 'electron-preload'
+        }
+      }
+    },
+
+    // see rsbuild.config.ts
     renderer: {
       html: {
         title: pkg.name || 'Electron-Rsbuild App'
@@ -95,11 +97,8 @@ export default defineConfig({
         distPath: {
           root: 'out/renderer'
         },
-        // TODO 禁用压缩
         minify: false
       }
     }
   }
-
-  // TODO 可以用 environments 来配置环境变量
 })

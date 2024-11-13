@@ -26,9 +26,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
       logger.error(`${colors.bgRed(colors.white(' ERROR '))} ${colors.red(e.message)}`);
     };
 
-    // TODO
     if (!options.entry) {
-      // http://localhost:3000/
       // process.env.ELECTRON_ENTRY = "http://localhost:3000/"
       // process.env.ELECTRON_ENTRY = userConfig.root + '/out/renderer/index.html';
     }
@@ -44,13 +42,14 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
           },
         },
       });
+
       await mainRsbuild.build();
       if (ps) {
-        logger.info(colors.green(`\nrebuild the electron main process successfully`));
+        logger.info(colors.green(`rebuild the electron main process successfully`));
         ps.removeAllListeners();
         ps.kill();
-        ps = startElectron(userConfig.root, 1);
-        logger.info(colors.green(`\nrestart electron app...`));
+        ps = startElectron(userConfig.root);
+        logger.info(colors.green(`restart electron app...`));
       }
     }
 
@@ -69,7 +68,6 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
     }
 
     const rendererRsbuildConfig = environments?.renderer;
-    console.log('启动 server renderer dev 配置===>', rendererRsbuildConfig);
     if (rendererRsbuildConfig) {
       const renderRsbuild = await createRsbuild({
         cwd: userConfig.root,
@@ -82,7 +80,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
         },
       });
 
-      logger.info(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`));
+      logger.success(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`));
 
       server = await renderRsbuild.startDevServer();
       const { urls } = server;
@@ -93,9 +91,8 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
       const hostURL = resolveHostname(renderDevURL);
       process.env.ELECTRON_RENDERER_URL = `${hostURL}`;
     }
-    // TODO
-    ps = startElectron(userConfig.root, 2);
-    logger.info(colors.green(`\nstart electron app...\n`));
+    ps = startElectron(userConfig.root);
+    logger.info(colors.green(`start electron app...\n`));
   }
 }
 
@@ -108,33 +105,6 @@ async function doBuild(config: UserConfig, watchHook: () => void, errorHook: (e:
   return new Promise((resolve) => {
     const publicDir = config.server?.publicDir;
     console.log('server 执行构建 publicDir', publicDir);
-    // if (publicDir && publicDir?.watch) {
-    //   let firstBundle = true
-    //   const closeBundle = (): void => {
-    //     if (firstBundle) {
-    //       firstBundle = false
-    //       resolve()
-    //     } else {
-    //       watchHook()
-    //     }
-    //   }
-
-    //   config = mergeRsbuildConfig(config, {
-    //     plugins: [
-    //       {
-    //         name: 'rsbuild:electron-watcher',
-    //         closeBundle
-    //       }
-    //     ]
-    //   })
-    // }
-
-    // viteBuild(config)
-    //   .then(() => {
-    //     if (!config.server?.publicDir?.watch) {
-    //       resolve()
-    //     }
-    //   })
-    //   .catch((e) => errorHook(e))
+    // TODO watch~~
   });
 }
