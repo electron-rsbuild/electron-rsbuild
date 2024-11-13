@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": ["{projectRoot}/src/**/*"],
+    "build": [
+      "default",
+      "!{projectRoot}/**/*.{md,mdx}",
+      "{projectRoot}/tsconfig.json",
+      "{projectRoot}/package.json",
+      "{projectRoot}/rslib.config.*"
+    ]
+  },
+  "targetDefaults": {
+    "dev": {
+      "cache": true,
+      "dependsOn": ["^start"],
+      "outputs": ["{projectRoot}/dist"]
+    }
+  },
+  "defaultBase": "main"
+}

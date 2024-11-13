@@ -233,8 +233,6 @@ export async function loadConfigFromFile(
 
   try {
     // load user config file: electron.rsbuild.config.ts
-    console.log('读取路径 1=>', configRoot);
-    console.log('读取路径 2=>', resolvedPath);
     const { content, filePath } = await loadConfig({
       cwd: configRoot,
       path: resolvedPath,

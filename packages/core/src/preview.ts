@@ -11,7 +11,7 @@ export async function preview(inlineConfig: InlineConfig = {}, options: { skipBu
 
   const logger = createLogger({ level: inlineConfig.logLevel });
 
-  startElectron(inlineConfig.root);
+  startElectron(inlineConfig.root, 3);
 
   logger.info(colors.green(`\nstart electron app...\n`));
 }

@@ -20,7 +20,7 @@ export function preloadPlugin(
       // pre: ['rsbuild:electron-preload-preset-config'],
       // TODO 在解析 Vite 配置后调用
       setup(): void {
-        console.log('preload post=>');
+        console.log('preload postxxx=>');
       },
     },
   ];

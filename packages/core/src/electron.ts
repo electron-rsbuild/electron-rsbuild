@@ -62,9 +62,7 @@ const ensureElectronEntryFile = (root = process.cwd()): void => {
   const pkg = loadPackageData();
   if (pkg) {
     if (!pkg.main) {
-      throw new Error(
-        'No entry point found for electron app, please add a "main" field to package.json',
-      );
+      throw new Error('No entry point found for electron app, please add a "main" field to package.json');
     } else {
       const entryPath = path.resolve(root, pkg.main);
       if (!fs.existsSync(entryPath)) {
@@ -145,7 +143,9 @@ export function getElectronChromeTarget(): string {
   return '';
 }
 
-export function startElectron(root: string | undefined): ChildProcess {
+export function startElectron(root: string | undefined, flag?:number): ChildProcess {
+
+  console.log("flag=>", flag)
   ensureElectronEntryFile(root);
 
   const electronPath = getElectronPath();
@@ -154,9 +154,7 @@ export function startElectron(root: string | undefined): ChildProcess {
 
   const isDev = process.env.NODE_ENV_ELECTRON_RSBUILD === 'development';
 
-  const args: string[] = process.env.ELECTRON_CLI_ARGS
-    ? JSON.parse(process.env.ELECTRON_CLI_ARGS)
-    : [];
+  const args: string[] = process.env.ELECTRON_CLI_ARGS ? JSON.parse(process.env.ELECTRON_CLI_ARGS) : [];
 
   if (!!process.env.REMOTE_DEBUGGING_PORT && isDev) {
     args.push(`--remote-debugging-port=${process.env.REMOTE_DEBUGGING_PORT}`);
@@ -175,9 +173,7 @@ export function startElectron(root: string | undefined): ChildProcess {
   }
 
   const entry = process.env.ELECTRON_ENTRY || '.';
-
   const ps = spawn(electronPath, [entry].concat(args), { stdio: 'inherit' });
   ps.on('close', process.exit);
-
   return ps;
 }

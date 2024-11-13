@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "dev": "rslib build --watch",
+    "start": "rslib build --watch",
     "build": "rslib build"
   },
   "author": "veaba<godpu@oulook.com>",

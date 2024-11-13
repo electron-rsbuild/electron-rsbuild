@@ -105,20 +105,21 @@ cli
     //   process.env.NO_SANDBOX = '1';
     // }
 
-    if (options['--']) {
-      process.env.ELECTRON_CLI_ARGS = JSON.stringify(options['--']);
-    }
+    // if (options['--']) {
+    //   process.env.ELECTRON_CLI_ARGS = JSON.stringify(options['--']);
+    // }
 
-    if (options.entry) {
-      process.env.ELECTRON_ENTRY = options.entry;
-    }
+    // if (options.entry) {
+    //   process.env.ELECTRON_ENTRY = options.entry;
+    // }
 
     const { createServer } = await import('./server');
     const inlineConfig = createInlineConfig(root, options);
 
     try {
-      await createServer(inlineConfig, { rendererOnly: options.rendererOnly });
-      console.log('create server 2')
+      await createServer(inlineConfig, { entry: options.entry, rendererOnly: options.rendererOnly });
+
+      console.log('create server 2');
     } catch (e) {
       const error = e as Error;
       createLogger({

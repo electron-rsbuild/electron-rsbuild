@@ -4,6 +4,13 @@
   "description": "Electron main config plugin for Electron-Rsbuild",
   "author": "veaba<godpu@oulook.com>",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,6 +19,7 @@
   ],
   "scripts": {
     "dev": "rslib build --watch",
+    "start": "rslib build --watch",
     "build": "rslib build"
   },
   "dependencies": {
