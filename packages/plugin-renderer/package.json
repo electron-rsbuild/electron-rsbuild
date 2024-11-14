@@ -1,6 +1,6 @@
 {
   "name": "@electron-rsbuild/plugin-renderer",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "Electron main config plugin for Electron-Rsbuild",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@electron-rsbuild/plugin-preload",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Electron main config plugin for Electron-Rsbuild",
   "author": "veaba<godpu@oulook.com>",
   "type": "module",

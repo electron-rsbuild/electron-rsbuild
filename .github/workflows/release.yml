@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        description: 'Release Version (next, beta, alpha, latest)'
+        required: true
+        default: 'next'
+        options:
+          - next
+          - beta
+          - alpha
+          - latest
+      branch:
+        description: 'Release Branch (confirm release branch)'
+        required: true
+        default: 'main'
+      run_eco_ci:
+        description: 'Run Rsbuild ecosystem CI before release'
+        type: boolean
+        required: false
+        default: true
+  issue_comment:
+    types: [created]
+
+permissions:
+  id-token: write
+
+jobs:
+  release:
+    name: Release
+    if: github.repository == 'veaba/electron-rsbuild' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 25
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Install Pnpm
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Release
+        uses: web-infra-dev/actions@v2
+        with:
+          version: ${{ github.event.inputs.version }}
+          branch: ${{ github.event.inputs.branch }}
+          type: 'release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
