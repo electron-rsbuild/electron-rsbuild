@@ -2,6 +2,8 @@
 
 Next generation Electron build tooling based on Rsbuild.
 
+[![Release](https://github.com/veaba/electron-rsbuild/actions/workflows/release.yml/badge.svg)](https://github.com/veaba/electron-rsbuild/actions/workflows/release.yml)
+
 ## cmd-lines
 
 ```js
