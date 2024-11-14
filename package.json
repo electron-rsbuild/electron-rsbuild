@@ -13,6 +13,7 @@
     "dev:core": "pnpm --filter=@electron-rsbuild/core run dev",
     "dev:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run dev",
     "build:core": "pnpm --filter=core run build",
+    "changeset": "changeset",
     "lint": "biome check . --diagnostic-level=warn",
     "format": "prettier --write ."
   },
@@ -27,6 +28,7 @@
   "homepage": "https://github.com/veaba/electron-rsbuild#readme",
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@changesets/cli": "^2.27.9",
     "nx": "^20.0.12",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1"
