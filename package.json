@@ -8,7 +8,7 @@
     "electron": "pnpm --filter=electron-rsbuild-react run build",
     "prepare": "pnpm run build",
     "dev": "nx dev @electron-rsbuild/core",
-    "build": "nx run-many -t build ",
+    "build": "nx run-many -t build --exclude create-electron-rsbuild  electron-rsbuild-react",
     "clear": "nx run-many -t clear",
     "dev:packages": "pnpm run dev:plugins && pnpm run dev:core",
     "dev:core": "pnpm --filter=@electron-rsbuild/core run dev",
