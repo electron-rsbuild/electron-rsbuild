@@ -54,5 +54,10 @@
     "@electron-rsbuild/plugin-main": "workspace:*",
     "@electron-rsbuild/plugin-preload": "workspace:*",
     "@electron-rsbuild/plugin-renderer": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
   }
 }

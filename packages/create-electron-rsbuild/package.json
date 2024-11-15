@@ -2,10 +2,10 @@
   "name": "create-electron-rsbuild",
   "version": "0.0.1",
   "description": "Create a new Rsbuild project",
-  "homepage": "https://rsbuild.dev",
+  "homepage": "https://electron-rsbuild.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/web-infra-dev/rsbuild",
+    "url": "https://github.com/veaba/electron-rsbuild",
     "directory": "packages/create-rsbuild"
   },
   "license": "MIT",
@@ -15,7 +15,7 @@
   },
   "main": "./dist/index.js",
   "bin": {
-    "create-rsbuild": "./bin.js"
+    "create-electron-rsbuild": "./bin.js"
   },
   "files": [
     "template-*",
