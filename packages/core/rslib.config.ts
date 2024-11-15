@@ -28,5 +28,4 @@ export default defineConfig({
     },
   ],
   output: { target: 'node' },
-  plugins: [mainPlugin(), preloadPlugin(), rendererPlugin()],
 });

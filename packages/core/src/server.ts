@@ -1,6 +1,9 @@
 import type { ChildProcess } from 'node:child_process';
 import { logger, createRsbuild } from '@rsbuild/core';
 import colors from 'picocolors';
+import { mainPlugin } from '@electron-rsbuild/plugin-main';
+import { preloadPlugin } from '@electron-rsbuild/plugin-preload';
+import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
 import { type InlineConfig, resolveUserConfig } from './config';
 import { resolveHostname } from './utils';
 import { startElectron } from './electron';
@@ -30,6 +33,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
           },
         },
       });
+      mainRsbuild.addPlugins([mainPlugin]);
 
       await mainRsbuild.build();
       if (ps) {
@@ -52,6 +56,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
           },
         },
       });
+      preloadRsbuild.addPlugins([preloadPlugin])
       await preloadRsbuild.build();
     }
 
@@ -67,6 +72,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
           },
         },
       });
+      renderRsbuild.addPlugins([rendererPlugin])
 
       logger.success(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`));
 

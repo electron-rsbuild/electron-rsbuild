@@ -1,5 +1,7 @@
-import colors from 'picocolors';
 import { logger, createRsbuild } from '@rsbuild/core';
+import { mainPlugin } from '@electron-rsbuild/plugin-main';
+import { preloadPlugin } from '@electron-rsbuild/plugin-preload';
+import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
 import { InlineConfig, resolveUserConfig } from './config';
 
 /**
@@ -7,7 +9,7 @@ import { InlineConfig, resolveUserConfig } from './config';
  */
 export async function createBuild(inlineConfig: InlineConfig = {}): Promise<void> {
   process.env.NODE_ENV_ELECTRON_RSBUILD = 'production';
-  const { userConfig, configFile } = await resolveUserConfig(inlineConfig, 'build', 'production');
+  const { userConfig } = await resolveUserConfig(inlineConfig, 'build', 'production');
 
   if (userConfig?.environments) {
     const { main, preload, renderer } = userConfig.environments || {};
@@ -32,6 +34,8 @@ export async function createBuild(inlineConfig: InlineConfig = {}): Promise<void
           },
         },
       });
+
+      rsbuild.addPlugins([mainPlugin, preloadPlugin, rendererPlugin]);
       await rsbuild.build();
     }
   }

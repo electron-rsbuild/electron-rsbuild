@@ -11,7 +11,9 @@ export const rendererPlugin = (): RsbuildPlugin => ({
       const isReactPlugin = api.isPluginExists('react');
       // 如果是react 项目，必须外部自己配react
       if (!isReactPlugin) {
-        logger.error('OH~, you should install react plugin: https://rsbuild.dev/zh/plugins/list/plugin-react');
+        api.onExit(() => {
+          logger.error('OH~, you should install react plugin: https://rsbuild.dev/zh/plugins/list/plugin-react');
+        });
         return;
       }
       return mergeRsbuildConfig(

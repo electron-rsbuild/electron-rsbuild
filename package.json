@@ -7,7 +7,7 @@
     "preview": "pnpm --filter=electron-rsbuild-react run preview",
     "electron": "pnpm --filter=electron-rsbuild-react run build",
     "dev": "nx dev @electron-rsbuild/core",
-    "build:core": "pnpm --filter=core run build",
+    "build:core": "pnpm --filter=@electron-rsbuild/core run build",
     "build:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run build",
     "clear": "nx run-many -t clear",
     "dev:packages": "pnpm run dev:plugins && pnpm run dev:core",
