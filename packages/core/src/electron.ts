@@ -4,12 +4,8 @@ import { createRequire } from 'node:module';
 import { type ChildProcess, spawn } from 'node:child_process';
 import { loadPackageData } from './utils';
 
-// const _require = createRequire(import.meta.url)
-// TODO
-// const projectPath = `file://${process.cwd()}/tests/electron-rsbuild-demo/` 外部执行~
 const projectPath = `file://${process.cwd()}/`;
 
-// console.log('路径==>projectPath=>', projectPath);
 const _require2 = createRequire(projectPath);
 
 const chromeVer: Record<string, string> = {
@@ -73,8 +69,6 @@ const ensureElectronEntryFile = (root = process.cwd()): void => {
     throw new Error('Not found: package.json');
   }
 };
-// TODO dev 下也会生成 out/main/index.js
-// TODO dev 下也会生成 out/preload/index.js
 
 const getElectronMajorVer = (): string => {
   let majorVer = process.env.ELECTRON_MAJOR_VER || '';
@@ -92,7 +86,6 @@ const getElectronMajorVer = (): string => {
 };
 
 export function supportESM(): boolean {
-  console.log('执行 supportESM');
   const majorVer = getElectronMajorVer();
   return parseInt(majorVer) >= 28;
 }

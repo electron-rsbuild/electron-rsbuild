@@ -21,7 +21,6 @@
     "dist"
   ],
   "scripts": {
-    "install-dep": "pnpm install",
     "dev": "rslib build --watch",
     "start": "rslib build --watch",
     "build": "rslib build",
@@ -50,7 +49,6 @@
   },
   "dependencies": {
     "@rsbuild/core": "^1.1.0",
-    "jiti": "^2.4.0",
     "magic-string": "^0.30.12",
     "rslog": "^1.2.3",
     "@electron-rsbuild/plugin-main": "workspace:*",

@@ -2,21 +2,9 @@ import path from 'node:path';
 import fs from 'node:fs';
 import os from 'node:os';
 import colors from 'picocolors';
-import { pathToFileURL } from 'node:url';
-import { createRequire } from 'node:module';
 import { createLogger, LogLevel } from 'rslog';
-import {
-  type RsbuildConfig,
-  createRsbuild,
-  FilenameConfig,
-  loadConfig,
-  RsbuildMode,
-  mergeRsbuildConfig,
-} from '@rsbuild/core';
+import { type RsbuildConfig, loadConfig, RsbuildMode, mergeRsbuildConfig } from '@rsbuild/core';
 
-// import { mainPlugin } from '@electron-rsbuild/plugin-main';
-// import { preloadPlugin } from '@electron-rsbuild/plugin-preload';
-// import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
 import { type LoadEnvOptions, ViteConfigExport } from './types';
 import { CONFIG_FILE_NAME } from './constants';
 
@@ -26,8 +14,6 @@ export { mergeRsbuildConfig } from '@rsbuild/core';
 
 export { defineConfig as defineViteConfig } from '@rsbuild/core';
 
-const _require2 = createRequire(`file://${process.cwd()}/`);
-
 export function slash(p: string): string {
   return p.replace(/\\/g, '/');
 }
@@ -35,7 +21,6 @@ export function slash(p: string): string {
 export const isWindows = os.platform() === 'win32';
 
 export interface UserConfig extends RsbuildConfig {
-  // TODO
   root?: string;
   environments: {
     /**
@@ -146,7 +131,6 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
         const mainConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: mainMode,
- 
           },
           loadEnvConfig.main,
         );
@@ -172,7 +156,6 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
         const rendererConfig: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: rendererMode,
-            // plugins: [rendererPlugin({ root: 'renderer-root' })],
           },
           loadEnvConfig.renderer,
         );
@@ -259,79 +242,4 @@ function findConfigFile(configRoot: string, extensions: string[]): string {
     }
   }
   return '';
-}
-
-/**
- * 上个版本有 esm 传入
- */
-async function bundleConfigFile(fileName: FilenameConfig) {
-  const dirnameVarName = '__electron_rsbuild_injected_dirname';
-  const filenameVarName = '__electron_rsbuild_injected_filename';
-  const importMetaUrlVarName = '__electron_rsbuild_injected_import_meta_url';
-  // create a rsbuild instance
-  const rsbuild = await createRsbuild({
-    cwd: process.cwd(),
-
-    // TODO 将下面配置改为 rsbuild
-    rsbuildConfig: {
-      output: {
-        filename: fileName,
-        target: 'node',
-        sourceMap: {
-          js: false,
-          css: false,
-        },
-      },
-      source: {
-        define: {
-          __dirname: dirnameVarName,
-          __filename: filenameVarName,
-          'import.meta.url': importMetaUrlVarName,
-        },
-      },
-      plugins: [
-        {
-          name: 'externalize-deps',
-          setup(build): void {
-            build.onResolve({ filter: /.*/ }, (args: any) => {
-              const id = args.path;
-              if (id[0] !== '.' && !path.isAbsolute(id)) {
-                return {
-                  external: true,
-                };
-              }
-              return null;
-            });
-          },
-        },
-        {
-          name: 'replace-import-meta',
-          setup(build): void {
-            build.onLoad({ filter: /\.[cm]?[jt]s$/ }, async (args: any) => {
-              const contents = await fs.promises.readFile(args.path, 'utf8');
-              const injectValues =
-                `const ${dirnameVarName} = ${JSON.stringify(path.dirname(args.path))};` +
-                `const ${filenameVarName} = ${JSON.stringify(args.path)};` +
-                `const ${importMetaUrlVarName} = ${JSON.stringify(pathToFileURL(args.path).href)};`;
-
-              return {
-                loader: args.path.endsWith('ts') ? 'ts' : 'js',
-                contents: injectValues + contents,
-              };
-            });
-          },
-        },
-      ],
-    },
-    // TODO bundle: true,
-    // TODO format: isESM ? 'esm' : 'cjs',
-  });
-  // const { text } = result.outputFiles[0];
-
-  // TODO
-
-  console.log('rsbuild 实例=>', rsbuild);
-
-  // console.log('用户的config=>', result)
-  return rsbuild;
 }

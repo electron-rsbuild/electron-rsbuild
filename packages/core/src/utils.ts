@@ -4,7 +4,6 @@ import fs from 'node:fs'
 import os from 'node:os';
 import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
-import { loadEnv } from '@rsbuild/core'
 
 export function isObject(value: unknown): value is Record<string, unknown> {
   return Object.prototype.toString.call(value) === '[object Object]'
@@ -38,19 +37,6 @@ export function toRelativePath(filename: string, importer: string): string {
   return relPath.startsWith('.') ? relPath : `./${relPath}`
 }
 
-/**
- * Load `.env` files within the `envDir` (default: `process.cwd()`) .
- * By default, only env variables prefixed with `RSBUILD_`, `MAIN_VITE_`, `PRELOAD_VITE_` and
- * `RENDERER_VITE_` are loaded, unless `prefixes` is changed.
-//  */
-// export function loadEnv(
-//   mode: string,
-//   envDir: string = process.cwd(),
-//   prefixes: string | string[] = ['RSBUILD_', 'MAIN_VITE_', 'PRELOAD_VITE_', 'RENDERER_VITE_']
-// ): Record<string, string> {
-//   return viteLoadEnv(mode, envDir, prefixes)
-// }
-
 interface PackageData {
   main?: string
   type?: 'module' | 'commonjs'
@@ -59,7 +45,6 @@ interface PackageData {
 
 let packageCached: PackageData | null = null
 
-// TODO
 interface OutputOptions{}
 
 export function loadPackageData(root = process.cwd()): PackageData | null {

@@ -11,18 +11,13 @@ import { startElectron } from './electron';
 export async function createServer(inlineConfig: InlineConfig = {}, options: { rendererOnly?: boolean; entry?: string }): Promise<void> {
   process.env.NODE_ENV_ELECTRON_RSBUILD = 'development';
 
-  const { userConfig, configFile } = await resolveUserConfig(inlineConfig, 'serve', 'development');
+  const { userConfig } = await resolveUserConfig(inlineConfig, 'serve', 'development');
 
   if (userConfig?.environments) {
     const { environments } = userConfig;
 
     let server: any = undefined;
     let ps: ChildProcess | undefined;
-
-    if (!options.entry) {
-      // process.env.ELECTRON_ENTRY = "http://localhost:3000/"
-      // process.env.ELECTRON_ENTRY = userConfig.root + '/out/renderer/index.html';
-    }
 
     // main 构建
     const mainRsbuildConfig = environments?.main;

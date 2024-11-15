@@ -86,31 +86,6 @@ cli
   .option('--noSandbox', `[boolean] forces renderer process to run un-sandboxed`)
   .option('--rendererOnly', `[boolean] only dev server for the renderer`)
   .action(async (root: string, options: DevCLIOptions & GlobalCLIOptions) => {
-    console.log('=============== 启动 electron-rsbuild command dev ================');
-    // if (options.remoteDebuggingPort) {
-    //   process.env.REMOTE_DEBUGGING_PORT = options.remoteDebuggingPort;
-    // }
-
-    // if (options.inspect) {
-    //   process.env.V8_INSPECTOR_PORT = typeof options.inspect === 'number' ? `${options.inspect}` : '5858';
-    // }
-
-    // if (options.inspectBrk) {
-    //   process.env.V8_INSPECTOR_BRK_PORT = typeof options.inspectBrk === 'number' ? `${options.inspectBrk}` : '5858';
-    // }
-
-    // if (options.noSandbox) {
-    //   process.env.NO_SANDBOX = '1';
-    // }
-
-    // if (options['--']) {
-    //   process.env.ELECTRON_CLI_ARGS = JSON.stringify(options['--']);
-    // }
-
-    // if (options.entry) {
-    //   process.env.ELECTRON_ENTRY = options.entry;
-    // }
-
     const { createServer } = await import('./server');
     const inlineConfig = createInlineConfig(root, options);
 
@@ -129,7 +104,6 @@ cli
  * build: build dist
  */
 cli.command('build [root]', 'build for production').action(async (root: string, options: GlobalCLIOptions) => {
-  console.log('=============== 启动 electron-rsbuild command build ================');
   const { createBuild } = await import('./build');
   const inlineConfig = createInlineConfig(root, options);
 
@@ -154,21 +128,8 @@ cli
   .option('--noSandbox', `[boolean] forces renderer process to run un-sandboxed`)
   .option('--skipBuild', `[boolean] skip build`)
   .action(async (root: string, options: PreviewCLIOptions & GlobalCLIOptions) => {
-    console.log('=============== 启动 electron-rsbuild command preview ================');
     const { preview } = await import('./preview');
     const inlineConfig = createInlineConfig(root, options);
-
-    // if (options.noSandbox) {
-    //   process.env.NO_SANDBOX = '1';
-    // }
-
-    // if (options.entry) {
-    //   process.env.ELECTRON_ENTRY = options.entry;
-    // }
-
-    // if (options['--']) {
-    //   process.env.ELECTRON_CLI_ARGS = JSON.stringify(options['--']);
-    // }
     const { createBuild } = await import('./build');
 
     try {
