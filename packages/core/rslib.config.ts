@@ -1,8 +1,4 @@
 import { defineConfig } from '@rslib/core';
-import { mainPlugin } from '@electron-rsbuild/plugin-main';
-import { preloadPlugin } from '@electron-rsbuild/plugin-preload';
-import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
-
 const shared = {
   dts: {
     bundle: false,

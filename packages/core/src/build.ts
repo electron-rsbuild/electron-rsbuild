@@ -35,7 +35,7 @@ export async function createBuild(inlineConfig: InlineConfig = {}): Promise<void
         },
       });
 
-      rsbuild.addPlugins([mainPlugin, preloadPlugin, rendererPlugin]);
+      rsbuild.addPlugins([mainPlugin(), preloadPlugin(), rendererPlugin()]);
       await rsbuild.build();
     }
   }

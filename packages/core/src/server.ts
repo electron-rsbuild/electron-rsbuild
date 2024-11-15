@@ -33,7 +33,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
           },
         },
       });
-      mainRsbuild.addPlugins([mainPlugin]);
+      mainRsbuild.addPlugins([mainPlugin()]);
 
       await mainRsbuild.build();
       if (ps) {
@@ -56,7 +56,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
           },
         },
       });
-      preloadRsbuild.addPlugins([preloadPlugin])
+      preloadRsbuild.addPlugins([preloadPlugin()])
       await preloadRsbuild.build();
     }
 
@@ -72,7 +72,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
           },
         },
       });
-      renderRsbuild.addPlugins([rendererPlugin])
+      renderRsbuild.addPlugins([rendererPlugin()])
 
       logger.success(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`));
 
