@@ -3,11 +3,10 @@
   "changelog": false,
   "commit": false,
   "linked": [],
-  "access": "restricted",
+  "access": "public",
   "baseBranch": "main",
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "onlyUpdatePeerDependentsWhenOutOfRange": true
   },
-  "updateInternalDependencies": "patch",
-  "ignore": ["@scripts/*"]
+  "updateInternalDependencies": "patch"
 }
