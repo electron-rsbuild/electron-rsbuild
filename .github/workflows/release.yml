@@ -52,6 +52,12 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      - name: Build @electron-rsbuild/plugin-*
+        run: pnpm build:plugins
+
+      - name: Build @electron-rsbuild/core
+        run: pnpm build:core
+
       - name: Release
         uses: web-infra-dev/actions@v2
         with:

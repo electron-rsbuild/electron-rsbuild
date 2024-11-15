@@ -6,14 +6,13 @@
     "react": "pnpm --filter=electron-rsbuild-react run dev",
     "preview": "pnpm --filter=electron-rsbuild-react run preview",
     "electron": "pnpm --filter=electron-rsbuild-react run build",
-    "prepare": "pnpm run build",
     "dev": "nx dev @electron-rsbuild/core",
-    "build": "nx run-many -t build --exclude create-electron-rsbuild  electron-rsbuild-react",
+    "build:core": "pnpm --filter=core run build",
+    "build:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run build",
     "clear": "nx run-many -t clear",
     "dev:packages": "pnpm run dev:plugins && pnpm run dev:core",
     "dev:core": "pnpm --filter=@electron-rsbuild/core run dev",
     "dev:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run dev",
-    "build:core": "pnpm --filter=core run build",
     "changeset": "changeset",
     "lint": "biome check . --diagnostic-level=warn",
     "format": "prettier --write ."
@@ -27,13 +26,6 @@
     "url": "https://github.com/veaba/electron-rsbuild/issues"
   },
   "homepage": "https://github.com/veaba/electron-rsbuild#readme",
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@changesets/cli": "^2.27.9",
-    "nx": "^20.0.12",
-    "prettier": "^3.3.3",
-    "rimraf": "^6.0.1"
-  },
   "workspaces": {
     "packages": [
       "packages/*",
@@ -41,12 +33,19 @@
       "scripts/*"
     ]
   },
+  "dependencies": {
+    "@rsbuild/core": "^1.1.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@changesets/cli": "^2.27.9",
+    "nx": "^20.0.12",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1"
+  },
   "packageManager": "pnpm@9.11.0",
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=9.0.0"
-  },
-  "dependencies": {
-    "@rsbuild/core": "^1.1.0"
   }
 }
