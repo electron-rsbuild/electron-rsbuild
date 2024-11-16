@@ -4,9 +4,11 @@ import os from 'node:os';
 import colors from 'picocolors';
 import { createLogger, LogLevel } from 'rslog';
 import { type RsbuildConfig, loadConfig, RsbuildMode, mergeRsbuildConfig } from '@rsbuild/core';
-
 import { type LoadEnvOptions, ViteConfigExport } from './types';
 import { CONFIG_FILE_NAME } from './constants';
+// import { rendererConfig } from '@electron-rsbuild/plugin-renderer';
+// import { mainConfig } from '@electron-rsbuild/plugin-main';
+// import { preloadConfig } from '@electron-rsbuild/plugin-preload';
 
 export { type LogLevel } from 'rslog';
 
@@ -123,48 +125,59 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
     };
 
     const { config, path: loadResultPath } = await loadConfigFromFile(configEnv, configFile, undefined, undefined);
+
     const { environments: loadEnvConfig, root } = config;
+
     if (loadEnvConfig) {
       // mixin main config
       if (loadEnvConfig.main) {
         const mainMode = (inlineConfig.mode || loadEnvConfig.main.mode || defaultMode) as RsbuildMode;
-        const mainConfig: RsbuildConfig = mergeRsbuildConfig(
+        const mainConfigMerge: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: mainMode,
           },
-          loadEnvConfig.main,
+          {
+            ...loadEnvConfig.main,
+            // ...mainConfig
+          },
         );
-        userConfig.environments.main = mainConfig;
+        userConfig.environments.main = mainConfigMerge;
       }
 
       // mixin preload config
       if (loadEnvConfig.preload) {
         const preloadMode = (inlineConfig.mode || loadEnvConfig.preload.mode || defaultMode) as RsbuildMode;
-        const preloadConfig: RsbuildConfig = mergeRsbuildConfig(
+        const preloadConfigMerge: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: preloadMode,
-            // plugins: [preloadPlugin({ root: 'preload-root' })],
           },
-          loadEnvConfig.preload,
+          {
+            ...loadEnvConfig.preload,
+            // ...preloadConfig
+          },
         );
-        userConfig.environments.preload = preloadConfig;
+        userConfig.environments.preload = preloadConfigMerge;
       }
 
       // mixin renderer config
       if (loadEnvConfig.renderer) {
         const rendererMode = (inlineConfig.mode || loadEnvConfig.renderer.mode || defaultMode) as RsbuildMode;
-        const rendererConfig: RsbuildConfig = mergeRsbuildConfig(
+        const rendererConfigMerge: RsbuildConfig = mergeRsbuildConfig(
           {
             mode: rendererMode,
           },
-          loadEnvConfig.renderer,
+          {
+            ...loadEnvConfig.renderer,
+            // ...rendererConfig
+          },
         );
-        userConfig.environments.renderer = rendererConfig;
+        userConfig.environments.renderer = rendererConfigMerge;
       }
       configFile = loadResultPath;
       userConfig.root = root || userConfig.root;
     }
   }
+
   return {
     userConfig,
     configFile: configFile as string,
@@ -175,12 +188,6 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
  * 处理和判断用药 config 配置
  * 暴露出来一个 config 实例对象
  * 默认 isESM
- * TODO 实现 configEnv
- * TODO 实现 ignoreConfigWarning
- * TODO if (!isObject(config)
- * TODO if (config.main)
- * TODO if (config.renderer)
- * TODO if (config.preload)
  * */
 export async function loadConfigFromFile(
   configEnv: LoadEnvOptions,

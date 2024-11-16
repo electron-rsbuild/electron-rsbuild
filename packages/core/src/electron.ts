@@ -77,8 +77,6 @@ const getElectronMajorVer = (): string => {
     if (fs.existsSync(pkgPath)) {
       const { version } = _require2(pkgPath);
       majorVer = version.split('.')[0];
-
-      console.log('majorVer=>', majorVer);
       process.env.ELECTRON_MAJOR_VER = majorVer;
     }
   }

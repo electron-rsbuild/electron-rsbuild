@@ -1,4 +1,48 @@
-import { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
+import { type EnvironmentConfig, RsbuildPlugin } from '@rsbuild/core';
+
+export const mainConfig: EnvironmentConfig = {
+  source: {
+    entry: {
+      index: './src/main/index.ts',
+    },
+    alias: {
+      '@main': 'src/main',
+    },
+    // TODO
+    //  exclude: [path.resolve(__dirname, 'src/module-a'), /src\/module-b/],
+    // 不编译不打包： exclude: [path.resolve(__dirname, 'src/module-a'), /src\/module-b/],
+  },
+  output: {
+    target: 'node',
+    distPath: {
+      root: 'out/main',
+      js: '.',
+    },
+    minify: false,
+  },
+  tools: {
+    rspack: {
+      target: 'electron-main',
+      module: {
+        rules: [
+          {
+            test: /\.ts$/,
+            exclude: [/node_modules/],
+            loader: 'builtin:swc-loader',
+            options: {
+              jsc: {
+                parser: {
+                  syntax: 'typescript',
+                },
+              },
+            },
+            type: 'javascript/auto',
+          },
+        ],
+      },
+    },
+  },
+};
 
 /**
  * plugin-main for rsbuild
@@ -6,55 +50,9 @@ import { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
 export const mainPlugin = (): RsbuildPlugin => ({
   name: 'electron-rsbuild:main',
   setup(api) {
-    api.modifyRsbuildConfig((config: RsbuildConfig) => {
-      if (config.environments?.main) {
-        const { main } = config.environments;
-        const { output } = main || {};
-
-        let outMainConfig = { ...main };
-        outMainConfig = {
-          ...main,
-          source: {
-            ...main.source,
-            entry: {
-              ...main.source?.entry,
-              index: main.source?.entry?.index || './src/main/index.ts',
-            },
-          },
-          output: {
-            ...output,
-            target: 'node',
-            distPath: {
-              ...output?.distPath,
-              root: output?.distPath?.root || 'out/main',
-            },
-          },
-          tools: {
-            ...main.tools,
-            rspack: {
-              target: 'electron-main',
-              module: {
-                rules: [
-                  {
-                    test: /\.ts$/,
-                    exclude: [/node_modules/],
-                    loader: 'builtin:swc-loader',
-                    options: {
-                      jsc: {
-                        parser: {
-                          syntax: 'typescript',
-                        },
-                      },
-                    },
-                    type: 'javascript/auto',
-                  },
-                ],
-              },
-            },
-          },
-        };
-        config.environments.main = { ...outMainConfig };
-      }
+    api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
+      // TODO 更改 dev
+      return mergeEnvironmentConfig(config, mainConfig);
     });
   },
 });

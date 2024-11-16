@@ -1,7 +1,7 @@
-import { logger, createRsbuild } from '@rsbuild/core';
 import { mainPlugin } from '@electron-rsbuild/plugin-main';
 import { preloadPlugin } from '@electron-rsbuild/plugin-preload';
 import { rendererPlugin } from '@electron-rsbuild/plugin-renderer';
+import { createRsbuild, logger } from '@rsbuild/core';
 import { InlineConfig, resolveUserConfig } from './config';
 
 /**
@@ -34,8 +34,12 @@ export async function createBuild(inlineConfig: InlineConfig = {}): Promise<void
           },
         },
       });
+      const isMainPlugin = rsbuild.isPluginExists('electron-rsbuild:main', { environment: 'main' });
+      const isPreloadPlugin = rsbuild.isPluginExists('electron-rsbuild:preload', { environment: 'preload' });
+      const isRendererPlugin = rsbuild.isPluginExists('electron-rsbuild:renderer', { environment: 'renderer' });
 
-      rsbuild.addPlugins([mainPlugin(), preloadPlugin(), rendererPlugin()]);
+      const waitAddPlugins = [isMainPlugin && mainPlugin(), isPreloadPlugin && preloadPlugin(), isRendererPlugin && rendererPlugin()].filter((it) => it);
+      rsbuild.addPlugins(waitAddPlugins);
       await rsbuild.build();
     }
   }

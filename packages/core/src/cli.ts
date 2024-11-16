@@ -96,7 +96,7 @@ cli
       createLogger({
         level: options.logLevel,
       }).error(colors.red(`error during start dev server and electron app:\n${error.stack}`), { error });
-      // process.exit(1);
+      process.exit(1);
     }
   });
 
