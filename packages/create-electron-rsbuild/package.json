@@ -1,6 +1,6 @@
 {
   "name": "create-electron-rsbuild",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Create a new Rsbuild project",
   "homepage": "https://electron-rsbuild.org",
   "repository": {
