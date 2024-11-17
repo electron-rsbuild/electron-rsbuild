@@ -8,6 +8,5 @@
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "onlyUpdatePeerDependentsWhenOutOfRange": true
   },
-  "updateInternalDependencies": "patch",
-  "ignore": ["create-electron-rsbuild"]
+  "updateInternalDependencies": "patch"
 }

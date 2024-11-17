@@ -1,0 +1,13 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
+  "include": [
+    "electron.rsbuild.config.*",
+    "src/main/**/*",
+    "src/preload/**/*",
+    "electron.rsbuild.config.ts",
+    "rsbuild-main.config.ts"
+  ],
+  "compilerOptions": {
+    "composite": true
+  }
+}

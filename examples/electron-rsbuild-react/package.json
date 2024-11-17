@@ -20,7 +20,6 @@
     "preview": "electron-rsbuild preview",
     "build": "electron-rsbuild build",
     "inspect": "bun --inspect ./node_modules/electron-rsbuild/bin/electron-rsbuild.mjs dev",
-    "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-rsbuild build && electron-builder --mac",

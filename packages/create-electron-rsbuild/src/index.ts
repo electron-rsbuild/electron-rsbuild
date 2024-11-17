@@ -16,6 +16,7 @@ const frameworkAlias: Record<string, string> = {
 };
 
 async function getTemplateName({ template }: Argv) {
+  console.log(' 创建xx')
   if (typeof template === 'string') {
     const pair = template.split('-');
     const language = pair[1] ?? 'js';
@@ -46,7 +47,7 @@ async function getTemplateName({ template }: Argv) {
       message: 'Select language',
       options: [
         { value: 'ts', label: 'TypeScript' },
-        { value: 'js', label: 'JavaScript' },
+        // { value: 'js', label: 'JavaScript' },
       ],
     }),
   );
@@ -70,7 +71,7 @@ function mapESLintTemplate(templateName: string): ESLintTemplateName {
 
 create({
   root: path.resolve(__dirname, '..'),
-  name: 'rsbuild',
+  name: 'electron-rsbuild',
   templates: [
     'react-js',
     'react-ts',

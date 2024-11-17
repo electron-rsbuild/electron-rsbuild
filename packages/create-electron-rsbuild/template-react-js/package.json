@@ -1,18 +1,45 @@
 {
-  "name": "rsbuild-react-js",
+  "name": "electron-rsbuild-react",
+  "version": "0.0.6",
+  "description": "An Electron application with React and JavaScript",
+  "main": "./out/main/index.js",
   "private": true,
-  "version": "1.0.0",
+  "type": "commonjs",
+  "author": "veaba<godpu@oulook.com>",
+  "homepage": "https://electron-rsbuild.org",
   "scripts": {
-    "dev": "rsbuild dev --open",
-    "build": "rsbuild build",
-    "preview": "rsbuild preview"
+    "format": "prettier --write .",
+    "rsbuild:build": "rsbuild build",
+    "rsbuild:dev": "rsbuild dev",
+    "builder": "electron-builder --dir",
+    "test": "vitest dev",
+    "start": "electron-rsbuild preview",
+    "dev": "electron-rsbuild dev",
+    "preview": "electron-rsbuild preview",
+    "build": "electron-rsbuild build",
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "electron-rsbuild build && electron-builder --mac",
+    "build:linux": "electron-rsbuild build && electron-builder --linux"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^3.0.0",
+    "@rsbuild/core": "^1.1.0",
+    "@rsbuild/plugin-node-polyfill": "^1.2.0",
+    "@rsbuild/plugin-react": "^1.0.7"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.1.0",
-    "@rsbuild/plugin-react": "^1.0.6"
+    "@electron-rsbuild/core": "workspace:*",
+    "@electron-rsbuild/plugin-main": "workspace:*",
+    "@electron-rsbuild/plugin-preload": "workspace:*",
+    "@electron-rsbuild/plugin-renderer": "workspace:*",
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "electron": "^31.0.2",
+    "electron-builder": "^24.13.3",
+    "prettier": "^3.3.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vitest": "^2.1.4"
   }
 }

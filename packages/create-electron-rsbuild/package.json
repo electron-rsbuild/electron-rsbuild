@@ -1,6 +1,6 @@
 {
   "name": "create-electron-rsbuild",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "Create a new Rsbuild project",
   "homepage": "https://electron-rsbuild.org",
   "repository": {
@@ -26,12 +26,12 @@
     "build": "rslib build",
     "dev": "rslib build --watch",
     "start": "node ./dist/index.js"
-
   },
   "dependencies": {
     "create-rstack": "1.0.9"
   },
   "devDependencies": {
+    "@rslib/core": "0.0.18",
     "@types/node": "18.x",
     "typescript": "^5.6.3"
   },

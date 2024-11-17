@@ -141,12 +141,134 @@ importers:
         specifier: 1.0.9
         version: 1.0.9
     devDependencies:
+      '@rslib/core':
+        specifier: 0.0.18
+        version: 0.0.18(typescript@5.6.3)
       '@types/node':
         specifier: 18.x
         version: 18.19.64
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
+
+  packages/create-electron-rsbuild/electron-rsbuild-project-1:
+    dependencies:
+      '@electron-toolkit/preload':
+        specifier: ^3.0.1
+        version: 3.0.1(electron@31.7.4)
+      '@electron-toolkit/utils':
+        specifier: ^3.0.0
+        version: 3.0.0(electron@31.7.4)
+      '@rsbuild/core':
+        specifier: ^1.1.0
+        version: 1.1.2
+      '@rsbuild/plugin-node-polyfill':
+        specifier: ^1.2.0
+        version: 1.2.0(@rsbuild/core@1.1.2)
+      '@rsbuild/plugin-react':
+        specifier: ^1.0.7
+        version: 1.0.7(@rsbuild/core@1.1.2)
+    devDependencies:
+      '@electron-rsbuild/core':
+        specifier: ^0.0.6
+        version: 0.0.6(typescript@5.6.3)
+      '@electron-rsbuild/plugin-main':
+        specifier: ^0.0.6
+        version: 0.0.6(typescript@5.6.3)
+      '@electron-rsbuild/plugin-preload':
+        specifier: ^0.0.6
+        version: 0.0.6(typescript@5.6.3)
+      '@electron-rsbuild/plugin-renderer':
+        specifier: ^0.0.6
+        version: 0.0.6(typescript@5.6.3)
+      '@electron-toolkit/tsconfig':
+        specifier: ^1.0.1
+        version: 1.0.1(@types/node@20.17.6)
+      '@types/node':
+        specifier: ^20.14.8
+        version: 20.17.6
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.12
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@vitejs/plugin-react':
+        specifier: ^4.3.1
+        version: 4.3.3(vite@5.4.11(@types/node@20.17.6)(terser@5.36.0))
+      electron:
+        specifier: ^31.0.2
+        version: 31.7.4
+      electron-builder:
+        specifier: ^24.13.3
+        version: 24.13.3(electron-builder-squirrel-windows@24.13.3(dmg-builder@24.13.3))
+      prettier:
+        specifier: ^3.3.2
+        version: 3.3.3
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      typescript:
+        specifier: ^5.5.2
+        version: 5.6.3
+      vitest:
+        specifier: ^2.1.4
+        version: 2.1.5(@types/node@20.17.6)(terser@5.36.0)
+
+  packages/create-electron-rsbuild/electron-rsbuild-project-2:
+    dependencies:
+      '@electron-toolkit/preload':
+        specifier: ^3.0.1
+        version: 3.0.1(electron@31.7.4)
+      '@electron-toolkit/utils':
+        specifier: ^3.0.0
+        version: 3.0.0(electron@31.7.4)
+      '@rsbuild/core':
+        specifier: ^1.1.0
+        version: 1.1.2
+      '@rsbuild/plugin-node-polyfill':
+        specifier: ^1.2.0
+        version: 1.2.0(@rsbuild/core@1.1.2)
+      '@rsbuild/plugin-react':
+        specifier: ^1.0.7
+        version: 1.0.7(@rsbuild/core@1.1.2)
+    devDependencies:
+      '@electron-rsbuild/core':
+        specifier: ^0.0.6
+        version: 0.0.6(typescript@5.6.3)
+      '@electron-rsbuild/plugin-main':
+        specifier: ^0.0.6
+        version: 0.0.6(typescript@5.6.3)
+      '@electron-rsbuild/plugin-preload':
+        specifier: ^0.0.6
+        version: 0.0.6(typescript@5.6.3)
+      '@electron-rsbuild/plugin-renderer':
+        specifier: ^0.0.6
+        version: 0.0.6(typescript@5.6.3)
+      '@electron-toolkit/tsconfig':
+        specifier: ^1.0.1
+        version: 1.0.1(@types/node@22.9.0)
+      electron:
+        specifier: ^31.0.2
+        version: 31.7.4
+      electron-builder:
+        specifier: ^24.13.3
+        version: 24.13.3(electron-builder-squirrel-windows@24.13.3(dmg-builder@24.13.3))
+      prettier:
+        specifier: ^3.3.2
+        version: 3.3.3
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+      vitest:
+        specifier: ^2.1.4
+        version: 2.1.5(@types/node@22.9.0)(terser@5.36.0)
 
   packages/plugin-main:
     dependencies:
@@ -412,6 +534,19 @@ packages:
   '@develar/schema-utils@2.6.5':
     resolution: {integrity: sha512-0cp4PsWQ/9avqTVMCtZ+GirikIA36ikvjtHweU4/j8yLtgObI0+JUPhYFScgwlteveGB1rt3Cm8UhN04XayDig==}
     engines: {node: '>= 8.9.0'}
+
+  '@electron-rsbuild/core@0.0.6':
+    resolution: {integrity: sha512-0gurgRNjGgUP9oDtVgaiYWzsO53sEloRmNiqOdGMfi/h9Yxnp7sqzjBCjDoxMRqQjKc7iuo+DOOPMZMlD63E3g==}
+    hasBin: true
+
+  '@electron-rsbuild/plugin-main@0.0.6':
+    resolution: {integrity: sha512-Olg5icrQxWLAs4VD2STeI3jSzZGFdfh+0HKzzSJL7gB2tJvnfto/Scdl3jqZ6zmZm7/pzPHpvqSOaviwt0ZjWQ==}
+
+  '@electron-rsbuild/plugin-preload@0.0.6':
+    resolution: {integrity: sha512-GjKxybiV2yuZ82vPWXeMXRxqVgiBoY7OagkaKEAWNKtTaJijF9Ktp3NeHBlA78c+rnppMYSDC+LwcUNKIF4Iww==}
+
+  '@electron-rsbuild/plugin-renderer@0.0.6':
+    resolution: {integrity: sha512-ebBkDwXpK/LTlvubob8CRAECshoy0otCnfm/YVqMYCqmYMsgNYELGVJieLewP6xuiBT5UXOCVcnf2FeQcj8gDQ==}
 
   '@electron-toolkit/preload@3.0.1':
     resolution: {integrity: sha512-EzoQmpK8jqqU8YnM5jRe0GJjGVJPke2KtANqz8QtN2JPT96ViOvProBdK5C6riCm0j1T8jjAGVQCZLQy9OVoIA==}
@@ -859,6 +994,19 @@ packages:
 
   '@rslib/core@0.0.16':
     resolution: {integrity: sha512-g6IFUZW0K7DDKK/27kF7DOKhP5JIqZoIVAU0c9DZffRE3Pw9sWTyEyVN/kaEnp5k3gaeQTBpcV9nSW+41B2slQ==}
+    engines: {node: '>=16.0.0'}
+    hasBin: true
+    peerDependencies:
+      '@microsoft/api-extractor': ^7
+      typescript: ^5
+    peerDependenciesMeta:
+      '@microsoft/api-extractor':
+        optional: true
+      typescript:
+        optional: true
+
+  '@rslib/core@0.0.18':
+    resolution: {integrity: sha512-TN3WOgpX5FvHDA5oWm/5vG+sQQhzkUiHx0YjgEQHA0IiRUJNwaqDvSyRyQkBqWrQw5o6WpVet9kM/P6+rm4RSw==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
@@ -2658,6 +2806,19 @@ packages:
       typescript:
         optional: true
 
+  rsbuild-plugin-dts@0.0.18:
+    resolution: {integrity: sha512-svOrOUi3INkEEhUShMtUBqpBKNdco6qY8BmvO7wAHzU736p3bemlf79ubxDpWFR1WbML9ahv6MqrIQunu3aDNg==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@microsoft/api-extractor': ^7
+      '@rsbuild/core': 1.x
+      typescript: ^5
+    peerDependenciesMeta:
+      '@microsoft/api-extractor':
+        optional: true
+      typescript:
+        optional: true
+
   rslog@1.2.3:
     resolution: {integrity: sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==}
     engines: {node: '>=14.17.6'}
@@ -3389,6 +3550,45 @@ snapshots:
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
 
+  '@electron-rsbuild/core@0.0.6(typescript@5.6.3)':
+    dependencies:
+      '@electron-rsbuild/plugin-main': 0.0.6(typescript@5.6.3)
+      '@electron-rsbuild/plugin-preload': 0.0.6(typescript@5.6.3)
+      '@electron-rsbuild/plugin-renderer': 0.0.6(typescript@5.6.3)
+      '@rsbuild/core': 1.1.2
+      magic-string: 0.30.12
+      rslog: 1.2.3
+    transitivePeerDependencies:
+      - '@microsoft/api-extractor'
+      - typescript
+
+  '@electron-rsbuild/plugin-main@0.0.6(typescript@5.6.3)':
+    dependencies:
+      '@electron-rsbuild/core': 0.0.6(typescript@5.6.3)
+      '@rsbuild/core': 1.1.2
+      '@rslib/core': 0.0.16(typescript@5.6.3)
+    transitivePeerDependencies:
+      - '@microsoft/api-extractor'
+      - typescript
+
+  '@electron-rsbuild/plugin-preload@0.0.6(typescript@5.6.3)':
+    dependencies:
+      '@electron-rsbuild/core': 0.0.6(typescript@5.6.3)
+      '@rsbuild/core': 1.1.2
+      '@rslib/core': 0.0.16(typescript@5.6.3)
+    transitivePeerDependencies:
+      - '@microsoft/api-extractor'
+      - typescript
+
+  '@electron-rsbuild/plugin-renderer@0.0.6(typescript@5.6.3)':
+    dependencies:
+      '@electron-rsbuild/core': 0.0.6(typescript@5.6.3)
+      '@rsbuild/core': 1.1.2
+      '@rslib/core': 0.0.16(typescript@5.6.3)
+    transitivePeerDependencies:
+      - '@microsoft/api-extractor'
+      - typescript
+
   '@electron-toolkit/preload@3.0.1(electron@31.7.4)':
     dependencies:
       electron: 31.7.4
@@ -3396,6 +3596,10 @@ snapshots:
   '@electron-toolkit/tsconfig@1.0.1(@types/node@20.17.6)':
     dependencies:
       '@types/node': 20.17.6
+
+  '@electron-toolkit/tsconfig@1.0.1(@types/node@22.9.0)':
+    dependencies:
+      '@types/node': 22.9.0
 
   '@electron-toolkit/utils@3.0.0(electron@31.7.4)':
     dependencies:
@@ -3777,6 +3981,14 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
+  '@rslib/core@0.0.18(typescript@5.6.3)':
+    dependencies:
+      '@rsbuild/core': 1.1.2
+      rsbuild-plugin-dts: 0.0.18(@rsbuild/core@1.1.2)(typescript@5.6.3)
+      tinyglobby: 0.2.10
+    optionalDependencies:
+      typescript: 5.6.3
+
   '@rspack/binding-darwin-arm64@1.0.14':
     optional: true
 
@@ -3925,7 +4137,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 20.17.6
+      '@types/node': 22.9.0
       '@types/responselike': 1.0.3
 
   '@types/debug@4.1.12':
@@ -3936,13 +4148,13 @@ snapshots:
 
   '@types/fs-extra@9.0.13':
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 22.9.0
 
   '@types/http-cache-semantics@4.0.4': {}
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 22.9.0
 
   '@types/ms@0.7.34': {}
 
@@ -3962,7 +4174,7 @@ snapshots:
 
   '@types/plist@3.0.5':
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 22.9.0
       xmlbuilder: 15.1.1
     optional: true
 
@@ -3979,14 +4191,14 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 22.9.0
 
   '@types/verror@1.10.10':
     optional: true
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 22.9.0
     optional: true
 
   '@vercel/ncc@0.38.1': {}
@@ -4016,6 +4228,14 @@ snapshots:
       magic-string: 0.30.12
     optionalDependencies:
       vite: 5.4.11(@types/node@20.17.6)(terser@5.36.0)
+
+  '@vitest/mocker@2.1.5(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))':
+    dependencies:
+      '@vitest/spy': 2.1.5
+      estree-walker: 3.0.3
+      magic-string: 0.30.12
+    optionalDependencies:
+      vite: 5.4.11(@types/node@22.9.0)(terser@5.36.0)
 
   '@vitest/pretty-format@2.1.5':
     dependencies:
@@ -5775,6 +5995,15 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
+  rsbuild-plugin-dts@0.0.18(@rsbuild/core@1.1.2)(typescript@5.6.3):
+    dependencies:
+      '@rsbuild/core': 1.1.2
+      magic-string: 0.30.12
+      picocolors: 1.1.1
+      tinyglobby: 0.2.10
+    optionalDependencies:
+      typescript: 5.6.3
+
   rslog@1.2.3: {}
 
   run-parallel@1.2.0:
@@ -6088,6 +6317,24 @@ snapshots:
       - supports-color
       - terser
 
+  vite-node@2.1.5(@types/node@22.9.0)(terser@5.36.0):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.3.7
+      es-module-lexer: 1.5.4
+      pathe: 1.1.2
+      vite: 5.4.11(@types/node@22.9.0)(terser@5.36.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vite@5.4.11(@types/node@20.17.6)(terser@5.36.0):
     dependencies:
       esbuild: 0.21.5
@@ -6095,6 +6342,16 @@ snapshots:
       rollup: 4.27.0
     optionalDependencies:
       '@types/node': 20.17.6
+      fsevents: 2.3.3
+      terser: 5.36.0
+
+  vite@5.4.11(@types/node@22.9.0)(terser@5.36.0):
+    dependencies:
+      esbuild: 0.21.5
+      postcss: 8.4.49
+      rollup: 4.27.0
+    optionalDependencies:
+      '@types/node': 22.9.0
       fsevents: 2.3.3
       terser: 5.36.0
 
@@ -6122,6 +6379,41 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.17.6
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
+  vitest@2.1.5(@types/node@22.9.0)(terser@5.36.0):
+    dependencies:
+      '@vitest/expect': 2.1.5
+      '@vitest/mocker': 2.1.5(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))
+      '@vitest/pretty-format': 2.1.5
+      '@vitest/runner': 2.1.5
+      '@vitest/snapshot': 2.1.5
+      '@vitest/spy': 2.1.5
+      '@vitest/utils': 2.1.5
+      chai: 5.1.2
+      debug: 4.3.7
+      expect-type: 1.1.0
+      magic-string: 0.30.12
+      pathe: 1.1.2
+      std-env: 3.8.0
+      tinybench: 2.9.0
+      tinyexec: 0.3.1
+      tinypool: 1.0.2
+      tinyrainbow: 1.2.0
+      vite: 5.4.11(@types/node@22.9.0)(terser@5.36.0)
+      vite-node: 2.1.5(@types/node@22.9.0)(terser@5.36.0)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 22.9.0
     transitivePeerDependencies:
       - less
       - lightningcss

@@ -9,7 +9,7 @@ Create a new Rsbuild project.
 Using `npm create`:
 
 ```bash
-npm create rsbuild@latest
+npm create electron-rsbuild@latest
 ```
 
 Using CLI flags:
