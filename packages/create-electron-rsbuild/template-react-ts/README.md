@@ -38,3 +38,13 @@ pnpm run builder
 
 
 ```
+
+### 国内用户加速
+
+在根目录创建 `.npmrc` 文件：
+
+```yml
+electron_mirror=https://npmmirror.com/mirrors/electron/
+electron_builder_binaries_mirror=https://npmmirror.com/mirrors/electron-builder-binaries/
+shamefully-hoist=true
+```

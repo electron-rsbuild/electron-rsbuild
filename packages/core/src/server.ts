@@ -15,7 +15,6 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
 
   const { userConfig } = await resolveUserConfig(inlineConfig, 'serve', 'development');
 
-  console.log('userConfig=>', userConfig);
   if (userConfig?.environments) {
     const { environments } = userConfig;
 
