@@ -16,7 +16,6 @@ const frameworkAlias: Record<string, string> = {
 };
 
 async function getTemplateName({ template }: Argv) {
-  console.log(' 创建xx')
   if (typeof template === 'string') {
     const pair = template.split('-');
     const language = pair[1] ?? 'js';
