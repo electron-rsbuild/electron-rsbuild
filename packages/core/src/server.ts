@@ -14,6 +14,8 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
   process.env.NODE_ENV_ELECTRON_RSBUILD = 'development';
 
   const { userConfig } = await resolveUserConfig(inlineConfig, 'serve', 'development');
+
+  console.log('userConfig=>', userConfig);
   if (userConfig?.environments) {
     const { environments } = userConfig;
 
@@ -31,13 +33,8 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
           },
         },
       });
-
-      mainRsbuild.onBeforeBuild(() => {
-        const isMainPlugin = mainRsbuild.isPluginExists('electron-rsbuild:main', { environment: 'main' });
-        if (!isMainPlugin) {
-          mainRsbuild.addPlugins([mainPlugin()], { environment: 'main' });
-        }
-      });
+      const isMainPlugin = mainRsbuild.isPluginExists('electron-rsbuild:main', { environment: 'main' });
+      !isMainPlugin && mainRsbuild.addPlugins([mainPlugin()], { environment: 'main' });
 
       await mainRsbuild.build();
       if (ps) {
@@ -61,13 +58,8 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
         },
       });
 
-      preloadRsbuild.onBeforeBuild(() => {
-        const isPreloadPlugin = preloadRsbuild.isPluginExists('electron-rsbuild:main', { environment: 'preload' });
-        if (!isPreloadPlugin) {
-          preloadRsbuild.addPlugins([preloadPlugin()], { environment: 'preload' });
-        }
-      });
-
+      const isPreloadPlugin = preloadRsbuild.isPluginExists('electron-rsbuild:main', { environment: 'preload' });
+      !isPreloadPlugin && preloadRsbuild.addPlugins([preloadPlugin()], { environment: 'preload' });
       await preloadRsbuild.build();
     }
 
@@ -85,15 +77,15 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: { r
 
       logger.success(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`));
 
+      const isRendererPlugin = renderRsbuild.isPluginExists('electron-rsbuild:renderer', { environment: 'renderer' });
+      if (!isRendererPlugin) {
+        renderRsbuild.addPlugins([rendererPlugin()], { environment: 'renderer' });
+      }
+
       renderRsbuild.onBeforeStartDevServer(() => {
         const isReactPlugin = renderRsbuild.isPluginExists('rsbuild:react', { environment: 'renderer' });
         if (!isReactPlugin) {
           throw new Error('You will need to manually install the @rsbuild/react plugin see: https://rsbuild.dev/zh/plugins/list/plugin-react');
-        }
-
-        const isRendererPlugin = renderRsbuild.isPluginExists('electron-rsbuild:renderer', { environment: 'renderer' });
-        if (!isRendererPlugin) {
-          renderRsbuild.addPlugins([rendererPlugin()], { environment: 'renderer' });
         }
       });
 

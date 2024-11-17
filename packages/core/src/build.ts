@@ -34,12 +34,15 @@ export async function createBuild(inlineConfig: InlineConfig = {}): Promise<void
           },
         },
       });
+
       const isMainPlugin = rsbuild.isPluginExists('electron-rsbuild:main', { environment: 'main' });
       const isPreloadPlugin = rsbuild.isPluginExists('electron-rsbuild:preload', { environment: 'preload' });
       const isRendererPlugin = rsbuild.isPluginExists('electron-rsbuild:renderer', { environment: 'renderer' });
 
-      const waitAddPlugins = [isMainPlugin && mainPlugin(), isPreloadPlugin && preloadPlugin(), isRendererPlugin && rendererPlugin()].filter((it) => it);
-      rsbuild.addPlugins(waitAddPlugins);
+      !isMainPlugin && rsbuild.addPlugins([mainPlugin()], { environment: 'main' });
+      !isPreloadPlugin && rsbuild.addPlugins([preloadPlugin()], { environment: 'preload' });
+      !isRendererPlugin && rsbuild.addPlugins([rendererPlugin()], { environment: 'renderer' });
+
       await rsbuild.build();
     }
   }

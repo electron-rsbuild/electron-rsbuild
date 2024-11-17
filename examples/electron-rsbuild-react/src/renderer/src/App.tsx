@@ -1,12 +1,31 @@
+import { useEffect, useState } from 'react'
 import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import electronRsbuildLogo from './assets/electron-rsbuild-logo.svg'
+import background from './assets/background-lines.png'
 
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const [mainMessage, setMainMessage] = useState({
+    message: '',
+    time: 0
+  })
+
+  const onReceiver = (_, data: any) => {
+    setMainMessage(data)
+  }
+
+  useEffect(() => {
+    window.electron.ipcRenderer.on('pong', onReceiver)
+    return () => {
+      window.electron.ipcRenderer.removeListener('pong', onReceiver)
+    }
+  }, [])
 
   return (
     <>
-      <img alt="logo" className="logo" src={electronLogo} />
+      <img alt="logo" className="logo" src={electronRsbuildLogo} />
+      <img alt="logo" className="background" src={background} />
+
       <div className="creator">Powered by electron-rsbuild</div>
       <div className="text">
         Build an Electron + Rsbuild app with <span className="react">React</span>
@@ -27,6 +46,13 @@ function App(): JSX.Element {
           </a>
         </div>
       </div>
+      {mainMessage?.message && (
+        <div className="action">
+          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
+            {mainMessage?.time as number}: {mainMessage?.message}
+          </a>
+        </div>
+      )}
       <Versions></Versions>
     </>
   )

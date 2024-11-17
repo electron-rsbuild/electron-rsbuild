@@ -51,7 +51,10 @@ app.whenReady().then(() => {
   })
 
   // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.on('ping', (event) => {
+    event.reply('pong', { message: 'copy that.', time: new Date().getTime() })
+    console.log('pong')
+  })
 
   createWindow()
 

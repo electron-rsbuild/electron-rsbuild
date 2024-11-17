@@ -5,9 +5,20 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-image: url('./wavy-lines.svg');
   background-size: cover;
   user-select: none;
+}
+
+.background {
+  top: calc(-1 * var(72px));
+  z-index: -1;
+  filter: blur(2px);
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  width: 100%;
+  position: absolute;
+  left: 0;
 }
 
 code {

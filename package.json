@@ -28,9 +28,7 @@
   "homepage": "https://github.com/veaba/electron-rsbuild#readme",
   "workspaces": {
     "packages": [
-      "packages/*",
-      "packages/compat/*",
-      "scripts/*"
+      "packages/*"
     ]
   },
   "dependencies": {
