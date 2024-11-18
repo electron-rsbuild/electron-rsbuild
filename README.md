@@ -4,10 +4,10 @@
 
 Export Next generation Electron build tooling based on Rsbuild.
 
-[![Release](https://github.com/veaba/electron-rsbuild/actions/workflows/release.yml/badge.svg)](https://github.com/veaba/electron-rsbuild/actions/workflows/release.yml)
+[![Release](https://github.com/electron-rsbuild/electron-rsbuild/actions/workflows/release.yml/badge.svg)](https://github.com/electron-rsbuild/electron-rsbuild/actions/workflows/release.yml)
 
 - [document](https://electron-rsbuild.org/)
-- [electron-rsbuild](https://github.com/veaba/electron-rsbuild/)
+- [electron-rsbuild](https://github.com/electron-rsbuild/electron-rsbuild/)
 - [electron-rsbuild org](https://github.com/electron-rsbuild/)
 
 ## Usage
@@ -116,7 +116,7 @@ export default defineConfig({
 
 > New contributors welcome!
 
-Please read the [Contributing Guide](https://github.com/veaba/electron-rsbuild/blob/main/CONTRIBUTING.md).
+Please read the [Contributing Guide](https://github.com/electron-rsbuild/electron-rsbuild/blob/main/CONTRIBUTING.md).
 
 ## 📖 License
 

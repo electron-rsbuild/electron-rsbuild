@@ -5,7 +5,7 @@
   "main": "./out/main/index.js",
   "private": true,
   "type": "commonjs",
-  "author": "veaba<godpu@oulook.com>",
+  "author": "veaba",
   "homepage": "https://electron-rsbuild.org",
   "scripts": {
     "format": "prettier --write .",

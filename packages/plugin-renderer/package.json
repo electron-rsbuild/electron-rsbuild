@@ -1,6 +1,6 @@
 {
   "name": "@electron-rsbuild/plugin-renderer",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Electron main config plugin for Electron-Rsbuild",
   "type": "module",
   "main": "./dist/index.js",
@@ -15,7 +15,7 @@
     "build": "rslib build",
     "clear": "rimraf dist"
   },
-  "author": "veaba<godpu@oulook.com>",
+  "author": "veaba",
   "dependencies": {
     "@electron-rsbuild/core": "workspace:*",
     "@rsbuild/core": "^1.1.0",

@@ -1,7 +1,7 @@
 {
   "name": "electron-rsbuild-monorepo",
   "private": true,
-  "author": "veaba<godpu@oulook.com>",
+  "author": "veaba",
   "scripts": {
     "react": "pnpm --filter=electron-rsbuild-react run dev",
     "preview": "pnpm --filter=electron-rsbuild-react run preview",
@@ -20,13 +20,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/veaba/electron-rsbuild.git"
+    "url": "git+https://github.com/electron-rsbuild/electron-rsbuild.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/veaba/electron-rsbuild/issues"
+    "url": "https://github.com/electron-rsbuild/electron-rsbuild/issues"
   },
-  "homepage": "https://github.com/veaba/electron-rsbuild#readme",
+  "homepage": "https://github.com/electron-rsbuild/electron-rsbuild#readme",
   "workspaces": {
     "packages": [
       "packages/*"

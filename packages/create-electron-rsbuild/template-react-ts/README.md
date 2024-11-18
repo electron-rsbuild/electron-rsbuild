@@ -28,7 +28,6 @@ pnpm dev
 pnpm run builder
 
 # 将 main、preload、renderer 产物输出为 unpacked 的应用
-> electron-rsbuild-app@1.0.0 builder F:\Github\veaba\electron-rsbuild\tests\electron-rsbuild-demo
 > electron-builder --dir
 
   • electron-builder  version=24.13.3 os=10.0.22631

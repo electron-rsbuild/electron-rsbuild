@@ -23,8 +23,8 @@ https://electron-rsbuild.org/
 
 ## Contributing
 
-Please read the [Contributing Guide](https://github.com/veaba/electron-rsbuild/blob/main/CONTRIBUTING.md).
+Please read the [Contributing Guide](https://github.com/electron-rsbuild/electron-rsbuild/blob/main/CONTRIBUTING.md).
 
 ## License
 
-Rsbuild is [MIT licensed](https://github.com/veaba/electron-rsbuild/blob/main/LICENSE).
+Rsbuild is [MIT licensed](https://github.com/electron-rsbuild/electron-rsbuild/blob/main/LICENSE).

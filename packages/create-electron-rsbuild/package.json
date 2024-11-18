@@ -1,11 +1,11 @@
 {
   "name": "create-electron-rsbuild",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Create a new Rsbuild project",
   "homepage": "https://electron-rsbuild.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/veaba/electron-rsbuild",
+    "url": "https://github.com/electron-rsbuild/electron-rsbuild",
     "directory": "packages/create-electron-rsbuild"
   },
   "license": "MIT",

@@ -1,8 +1,8 @@
 {
   "name": "@electron-rsbuild/plugin-preload",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Electron main config plugin for Electron-Rsbuild",
-  "author": "veaba<godpu@oulook.com>",
+  "author": "veaba",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

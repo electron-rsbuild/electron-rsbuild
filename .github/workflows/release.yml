@@ -31,7 +31,7 @@ permissions:
 jobs:
   release:
     name: Release
-    if: github.repository == 'veaba/electron-rsbuild' && github.event_name == 'workflow_dispatch'
+    if: github.repository == 'electron-rsbuild/electron-rsbuild' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
