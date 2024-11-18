@@ -25,9 +25,9 @@ pnpm add @electron-rsbuild/core
 ```json
 {
   "scripts": {
-    "start": "electron-rsbuild preview", // preview
+    "start": "electron-rsbuild preview",
     "dev": "electron-rsbuild dev", // dev
-    "build": "electron-rsbuild build" // build
+    "build": "electron-rsbuild build"
   }
 }
 ```
@@ -96,8 +96,8 @@ export default defineConfig({
 
 ```json
   "scripts": {
-    "dev": "rsbuild dev", // dev
-    "build": "rsbuild build" // build
+    "dev": "rsbuild dev",
+    "build": "rsbuild build"
   }
 
 ```
