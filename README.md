@@ -26,7 +26,7 @@ pnpm add @electron-rsbuild/core
 {
   "scripts": {
     "start": "electron-rsbuild preview",
-    "dev": "electron-rsbuild dev", 
+    "dev": "electron-rsbuild dev",
     "build": "electron-rsbuild build"
   }
 }
@@ -101,6 +101,16 @@ export default defineConfig({
   }
 
 ```
+
+## Playground Snapshot
+
+Use `npm create electron-rsbuild@0.0.10` create a electron-rsbuild project:
+
+![playground-install-npm](https://electron-rsbuild.org/playground/playground-install-npm.png)
+
+Use `pnpm run dev` launch electron:
+
+![playground-demo](https://electron-rsbuild.org/playground/playground-demo.png)
 
 ## Benchmark TODO
 
