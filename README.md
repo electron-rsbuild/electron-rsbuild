@@ -26,7 +26,7 @@ pnpm add @electron-rsbuild/core
 {
   "scripts": {
     "start": "electron-rsbuild preview",
-    "dev": "electron-rsbuild dev", // dev
+    "dev": "electron-rsbuild dev", 
     "build": "electron-rsbuild build"
   }
 }
