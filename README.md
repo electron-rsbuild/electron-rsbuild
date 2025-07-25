@@ -59,7 +59,7 @@ export default defineConfig({
 > Note that if you use electron-rsbuild as a plugin, you will be missing a lot of built-in features.
 
 ```sh
-pnpm add -D @rsbuild/plugin-main @rsbuild/plugin-preload @rsbuild/plugin-renderer
+pnpm add -D @electron-rsbuild/plugin-main @electron-rsbuild/plugin-preload @electron-rsbuild/plugin-renderer
 ```
 
 update `rsbuild.config.ts`:
