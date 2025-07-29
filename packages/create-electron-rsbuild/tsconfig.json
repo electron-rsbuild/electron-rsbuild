@@ -5,6 +5,7 @@
     "target": "ES2021",
     "skipLibCheck": true,
     "useDefineForClassFields": true,
+    "types": ["node"],
 
     /* modules */
     "module": "ES2020",
