@@ -10,6 +10,7 @@
     "build:core": "pnpm --filter=@electron-rsbuild/core run build",
     "build:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run build",
     "build:create": "pnpm --filter=create-electron-rsbuild run build",
+    "build": "pnpm run build:plugins && pnpm run build:core && pnpm run build:create",
     "clear": "nx run-many -t clear",
     "dev:packages": "pnpm run dev:plugins && pnpm run dev:core",
     "dev:core": "pnpm --filter=@electron-rsbuild/core run dev",
