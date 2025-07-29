@@ -17,6 +17,7 @@
     "dev:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run dev",
     "changeset": "changeset",
     "lint": "biome check . --diagnostic-level=warn",
+    "lint:fix": "biome check --write . --diagnostic-level=warn",
     "format": "prettier --write ."
   },
   "repository": {
