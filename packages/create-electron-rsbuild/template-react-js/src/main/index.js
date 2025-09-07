@@ -1,4 +1,4 @@
-import {join} from 'path'
+import {join} from 'node:path'
 import {electronApp, is, optimizer} from '@electron-toolkit/utils'
 import {BrowserWindow, app, ipcMain, shell} from 'electron'
 import icon from '../../resources/icon.png?asset'
@@ -29,8 +29,8 @@ function createWindow() {
 
   // HMR for renderer base on electron-rsbuild cli.
   // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL)
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }

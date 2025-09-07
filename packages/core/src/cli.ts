@@ -89,7 +89,9 @@ cli
     const inlineConfig = createInlineConfig(root, options)
 
     try {
-      await createServer(inlineConfig, {entry: options.entry, rendererOnly: options.rendererOnly})
+      // TODO: this used to pass options, but they weren't used in createServer; what should be done?
+      // await createServer(inlineConfig, {entry: options.entry, rendererOnly: options.rendererOnly})
+      await createServer(inlineConfig)
     } catch (e) {
       const error = e as Error
       createLogger({

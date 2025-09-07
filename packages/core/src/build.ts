@@ -14,7 +14,7 @@ export async function createBuild(inlineConfig: InlineConfig = {}): Promise<void
   if (userConfig?.environments) {
     const {main, preload, renderer} = userConfig.environments || {}
     if (!main || !preload || !renderer) {
-      logger.error(`main,preload,renderer is required in environments`)
+      logger.error('main,preload,renderer is required in environments')
       return
     }
 

@@ -9,8 +9,9 @@ import {startElectron} from './electron'
 
 /**
  * create renderer server
+ * TODO: createServer used to accept options but they weren't used. Need to clarify.
  * */
-export async function createServer(inlineConfig: InlineConfig = {}, options: {rendererOnly?: boolean; entry?: string}): Promise<void> {
+export async function createServer(inlineConfig: InlineConfig): Promise<void> {
   process.env.NODE_ENV_ELECTRON_RSBUILD = 'development'
 
   const {userConfig} = await resolveUserConfig(inlineConfig, 'serve', 'development')
@@ -37,11 +38,11 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: {re
 
       await mainRsbuild.build()
       if (ps) {
-        logger.info(colors.green(`rebuild the electron main process successfully`))
+        logger.info(colors.green('rebuild the electron main process successfully'))
         ps.removeAllListeners()
         ps.kill()
         ps = startElectron(userConfig.root)
-        logger.info(colors.green(`restart electron app...`))
+        logger.info(colors.green('restart electron app...'))
       }
     }
 
@@ -74,7 +75,7 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: {re
         },
       })
 
-      logger.success(colors.green(`electron-rsbuild dev server running for the electron renderer process at:\n`))
+      logger.success(colors.green('electron-rsbuild dev server running for the electron renderer process at:\n'))
 
       const isRendererPlugin = renderRsbuild.isPluginExists('electron-rsbuild:renderer', {environment: 'renderer'})
       if (!isRendererPlugin) {
@@ -96,6 +97,6 @@ export async function createServer(inlineConfig: InlineConfig = {}, options: {re
       process.env.ELECTRON_RENDERER_URL = `${urls[0]}`
     }
     ps = startElectron(userConfig.root)
-    logger.info(colors.green(`start electron app...\n`))
+    logger.info(colors.green('start electron app...\n'))
   }
 }

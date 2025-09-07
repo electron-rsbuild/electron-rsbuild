@@ -1,4 +1,4 @@
-import {resolve} from 'path'
+import {resolve} from 'node:path'
 import {defineConfig} from '@rsbuild/core'
 import {pluginReact} from '@rsbuild/plugin-react'
 

@@ -8,5 +8,5 @@ export async function preview(inlineConfig: InlineConfig = {}): Promise<void> {
 
   startElectron(inlineConfig.root)
 
-  logger.info(colors.green(`start electron app on preview...\n`))
+  logger.info(colors.green('start electron app on preview...\n'))
 }

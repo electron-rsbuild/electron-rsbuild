@@ -190,7 +190,7 @@ export async function resolveUserConfig(inlineConfig: InlineConfig, command: 'bu
  * 默认 isESM
  * */
 export async function loadConfigFromFile(
-  configEnv: LoadEnvOptions,
+  _configEnv: LoadEnvOptions, // TODO: configEnv is unused, what do we do about it?
   configFile?: string,
   configRoot: string = process.cwd(),
   logLevel?: LogLevel

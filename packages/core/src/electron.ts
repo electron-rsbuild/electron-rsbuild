@@ -59,11 +59,10 @@ const ensureElectronEntryFile = (root = process.cwd()): void => {
   if (pkg) {
     if (!pkg.main) {
       throw new Error('No entry point found for electron app, please add a "main" field to package.json')
-    } else {
-      const entryPath = path.resolve(root, pkg.main)
-      if (!fs.existsSync(entryPath)) {
-        throw new Error(`No electron app entry file found: ${entryPath}`)
-      }
+    }
+    const entryPath = path.resolve(root, pkg.main)
+    if (!fs.existsSync(entryPath)) {
+      throw new Error(`No electron app entry file found: ${entryPath}`)
     }
   } else {
     throw new Error('Not found: package.json')
@@ -98,7 +97,7 @@ export function getElectronPath(): string {
   if (!electronExecPath) {
     const electronModulePath = path.dirname(_require2.resolve('electron'))
     const pathFile = path.join(electronModulePath, 'path.txt')
-    let executablePath
+    let executablePath: string | undefined
     if (fs.existsSync(pathFile)) {
       executablePath = fs.readFileSync(pathFile, 'utf-8')
     }
@@ -118,7 +117,7 @@ export function getElectronNodeTarget(): string {
   if (electronVer && Number.parseInt(electronVer) > 10) {
     let target = nodeVer[electronVer]
     if (!target) target = Object.values(nodeVer).reverse()[0]
-    return 'node' + target
+    return `node${target}`
   }
   return ''
 }
@@ -129,7 +128,7 @@ export function getElectronChromeTarget(): string {
   if (electronVer && Number.parseInt(electronVer) > 10) {
     let target: string = chromeVer[electronVer] as string
     if (!target) target = Object.values(chromeVer).reverse()[0]
-    return 'chrome' + target
+    return `chrome${target}`
   }
   return ''
 }
