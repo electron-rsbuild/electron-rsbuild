@@ -23,9 +23,5 @@
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "cSpell.words": [
-    "picocolors",
-    "rslib",
-    "rslog"
-  ]
+  "cSpell.words": ["picocolors", "rslib", "rslog"]
 }

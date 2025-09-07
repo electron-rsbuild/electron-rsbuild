@@ -17,11 +17,7 @@
   "bin": {
     "create-electron-rsbuild": "./bin.js"
   },
-  "files": [
-    "template-*",
-    "dist",
-    "bin.js"
-  ],
+  "files": ["template-*", "dist", "bin.js"],
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",

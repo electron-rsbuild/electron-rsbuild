@@ -18,7 +18,7 @@
     "changeset": "changeset",
     "lint": "biome check . --diagnostic-level=warn",
     "lint:fix": "biome check --write . --diagnostic-level=warn",
-    "format": "prettier --write ."
+    "format": "biome format --write ."
   },
   "repository": {
     "type": "git",
@@ -30,9 +30,7 @@
   },
   "homepage": "https://github.com/electron-rsbuild/electron-rsbuild#readme",
   "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
+    "packages": ["packages/*"]
   },
   "dependencies": {
     "@rsbuild/core": "^1.1.0"

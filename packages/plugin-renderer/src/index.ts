@@ -1,5 +1,5 @@
-import { type RsbuildConfig, EnvironmentConfig, RsbuildPlugin } from '@rsbuild/core';
-import { resolve } from 'node:path';
+import {resolve} from 'node:path'
+import type {EnvironmentConfig, RsbuildPlugin} from '@rsbuild/core'
 
 export const rendererConfig: EnvironmentConfig = {
   html: {
@@ -21,7 +21,7 @@ export const rendererConfig: EnvironmentConfig = {
     },
     minify: false,
   },
-};
+}
 /**
  * plugin-renderer for rsbuild
  * */
@@ -29,8 +29,8 @@ export const rendererPlugin = (): RsbuildPlugin => ({
   name: 'electron-rsbuild:renderer',
   pre: ['rsbuild:react'],
   setup(api) {
-    api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
-      return mergeEnvironmentConfig(config, rendererConfig);
-    });
+    api.modifyEnvironmentConfig((config, {mergeEnvironmentConfig}) => {
+      return mergeEnvironmentConfig(config, rendererConfig)
+    })
   },
-});
+})

@@ -1,4 +1,4 @@
-import { type EnvironmentConfig, RsbuildPlugin } from '@rsbuild/core';
+import type {EnvironmentConfig, RsbuildPlugin} from '@rsbuild/core'
 
 export const mainConfig: EnvironmentConfig = {
   source: {
@@ -42,7 +42,7 @@ export const mainConfig: EnvironmentConfig = {
       },
     },
   },
-};
+}
 
 /**
  * plugin-main for rsbuild
@@ -50,9 +50,9 @@ export const mainConfig: EnvironmentConfig = {
 export const mainPlugin = (): RsbuildPlugin => ({
   name: 'electron-rsbuild:main',
   setup(api) {
-    api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
+    api.modifyEnvironmentConfig((config, {mergeEnvironmentConfig}) => {
       // TODO 更改 dev
-      return mergeEnvironmentConfig(config, mainConfig);
-    });
+      return mergeEnvironmentConfig(config, mainConfig)
+    })
   },
-});
+})
