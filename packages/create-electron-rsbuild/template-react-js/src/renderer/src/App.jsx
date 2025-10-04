@@ -40,7 +40,6 @@ function App() {
           </a>
         </div>
         <div className="action">
-          {/* biome-ignore lint/a11y/useValidAnchor: These are correct links but we need to use an onclick to open an external link in Electron */}
           <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
             Send IPC
           </a>
@@ -48,7 +47,6 @@ function App() {
       </div>
       {mainMessage?.message && (
         <div className="action">
-          {/* biome-ignore lint/a11y/useValidAnchor: These are correct links but we need to use an onclick to open an external link in Electron */}
           <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
             {mainMessage?.time}: {mainMessage?.message}
           </a>
