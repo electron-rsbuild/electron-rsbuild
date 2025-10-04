@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react'
-import Versions from './components/Versions'
-import electronRsbuildLogo from './assets/electron-rsbuild-logo.svg'
+import {useEffect, useState} from 'react'
 import background from './assets/background-lines.png'
+import electronRsbuildLogo from './assets/electron-rsbuild-logo.svg'
+import Versions from './components/Versions'
 
 function App() {
   const ipcHandle = () => window.electron.ipcRenderer.send('ping')
   const [mainMessage, setMainMessage] = useState({
     message: '',
-    time: 0
+    time: 0,
   })
 
-  const onReceiver = (_, data) => {
-    setMainMessage(data)
-  }
-
   useEffect(() => {
+    const onReceiver = (_, data) => {
+      setMainMessage(data)
+    }
     window.electron.ipcRenderer.on('pong', onReceiver)
     return () => {
       window.electron.ipcRenderer.removeListener('pong', onReceiver)
@@ -53,7 +52,7 @@ function App() {
           </a>
         </div>
       )}
-      <Versions></Versions>
+      <Versions />
     </>
   )
 }

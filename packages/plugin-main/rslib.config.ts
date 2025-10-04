@@ -1,10 +1,10 @@
-import { defineConfig } from '@rslib/core';
+import {defineConfig} from '@rslib/core'
 
 const shared = {
   dts: {
     bundle: false,
   },
-};
+}
 
 export default defineConfig({
   source: {
@@ -23,5 +23,5 @@ export default defineConfig({
       syntax: 'es2021',
     },
   ],
-  output: { target: 'node' },
-});
+  output: {target: 'node'},
+})

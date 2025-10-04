@@ -17,15 +17,12 @@
   "bin": {
     "create-electron-rsbuild": "./bin.js"
   },
-  "files": [
-    "template-*",
-    "dist",
-    "bin.js"
-  ],
+  "files": ["template-*", "dist", "bin.js"],
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",
-    "start": "node ./dist/index.js"
+    "start": "node ./dist/index.js",
+    "cleanup": "rimraf node_modules"
   },
   "dependencies": {
     "create-rstack": "1.0.9"

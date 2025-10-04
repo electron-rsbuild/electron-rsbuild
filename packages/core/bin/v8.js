@@ -1,6 +1,6 @@
-const vm = require('vm')
-const v8 = require('v8')
-const wrap = require('module').wrap
+const vm = require('node:vm')
+const v8 = require('node:v8')
+const wrap = require('node:module').wrap
 
 v8.setFlagsFromString('--no-lazy')
 v8.setFlagsFromString('--no-flush-bytecode')
@@ -22,7 +22,7 @@ process.stdin.on('end', () => {
       throw new Error(`javascript code must be string. ${typeof code} was given.`)
     }
 
-    const script = new vm.Script(wrap(code), { produceCachedData: true })
+    const script = new vm.Script(wrap(code), {produceCachedData: true})
     const bytecodeBuffer = script.createCachedData()
 
     process.stdout.write(bytecodeBuffer)

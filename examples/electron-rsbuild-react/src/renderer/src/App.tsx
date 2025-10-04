@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react'
-import Versions from './components/Versions'
-import electronRsbuildLogo from './assets/electron-rsbuild-logo.svg'
+import {useEffect, useState} from 'react'
 import background from './assets/background-lines.png'
+import electronRsbuildLogo from './assets/electron-rsbuild-logo.svg'
+import Versions from './components/Versions'
 
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
   const [mainMessage, setMainMessage] = useState({
     message: '',
-    time: 0
+    time: 0,
   })
 
-  const onReceiver = (_, data: any) => {
-    setMainMessage(data)
-  }
-
   useEffect(() => {
+    const onReceiver = (_, data: any) => {
+      setMainMessage(data)
+    }
     window.electron.ipcRenderer.on('pong', onReceiver)
     return () => {
       window.electron.ipcRenderer.removeListener('pong', onReceiver)
@@ -41,6 +40,7 @@ function App(): JSX.Element {
           </a>
         </div>
         <div className="action">
+          {/* biome-ignore lint/a11y/useValidAnchor: These are correct links but we need to use an onclick to open an external link in Electron */}
           <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
             Send IPC
           </a>
@@ -48,12 +48,13 @@ function App(): JSX.Element {
       </div>
       {mainMessage?.message && (
         <div className="action">
+          {/* biome-ignore lint/a11y/useValidAnchor: These are correct links but we need to use an onclick to open an external link in Electron */}
           <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
             {mainMessage?.time as number}: {mainMessage?.message}
           </a>
         </div>
       )}
-      <Versions></Versions>
+      <Versions />
     </>
   )
 }

@@ -10,13 +10,16 @@
     "build:core": "pnpm --filter=@electron-rsbuild/core run build",
     "build:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run build",
     "build:create": "pnpm --filter=create-electron-rsbuild run build",
+    "build": "pnpm run build:plugins && pnpm run build:core && pnpm run build:create",
     "clear": "nx run-many -t clear",
     "dev:packages": "pnpm run dev:plugins && pnpm run dev:core",
     "dev:core": "pnpm --filter=@electron-rsbuild/core run dev",
     "dev:plugins": "pnpm --filter=@electron-rsbuild/plugin-* run dev",
     "changeset": "changeset",
     "lint": "biome check . --diagnostic-level=warn",
-    "format": "prettier --write ."
+    "lint:fix": "biome check --write . --diagnostic-level=warn",
+    "format": "biome format --write .",
+    "cleanup": "pnpm --filter=@electron-rsbuild/* --filter=electron-rsbuild-react run cleanup & rimraf node_modules"
   },
   "repository": {
     "type": "git",
@@ -27,11 +30,6 @@
     "url": "https://github.com/electron-rsbuild/electron-rsbuild/issues"
   },
   "homepage": "https://github.com/electron-rsbuild/electron-rsbuild#readme",
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
   "dependencies": {
     "@rsbuild/core": "^1.1.0"
   },

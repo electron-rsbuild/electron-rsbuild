@@ -17,23 +17,19 @@
   "bin": {
     "electron-rsbuild": "bin/electron-rsbuild.mjs"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "dev": "rslib build --watch",
     "start": "rslib build --watch",
     "build": "rslib build",
-    "clear": "rimraf dist"
+    "clear": "rimraf dist",
+    "cleanup": "rimraf node_modules"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/electron-rsbuild/electron-rsbuild.git"
   },
-  "keywords": [
-    "electron-builder",
-    "electron-rsbuild"
-  ],
+  "keywords": ["electron-builder", "electron-rsbuild"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/electron-rsbuild/electron-rsbuild/issues"
