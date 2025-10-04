@@ -5,3 +5,7 @@ packages:
   - '!**/dist-types/**'
   - '!**/create-electron-rsbuild/template-*/**'
   - '!**/test-temp-*/**'
+
+# allow the Electron install script to be used with the electron-rsbuild-react package
+onlyBuiltDependencies:
+  - electron

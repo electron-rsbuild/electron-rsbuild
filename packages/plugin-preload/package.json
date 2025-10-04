@@ -12,7 +12,8 @@
     "dev": "rslib build --watch",
     "start": "rslib build --watch",
     "build": "rslib build",
-    "clear": "rimraf dist"
+    "clear": "rimraf dist",
+    "cleanup": "rimraf node_modules"
   },
   "dependencies": {
     "@electron-rsbuild/core": "workspace:*",

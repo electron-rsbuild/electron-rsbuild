@@ -3,6 +3,7 @@ import {cac} from 'cac'
 import colors from 'picocolors'
 import {type LogLevel, createLogger} from 'rslog'
 import {version} from '../package.json'
+import { InlineConfig } from './config'
 
 const cli = cac('electron-rsbuild')
 
@@ -86,7 +87,7 @@ cli
   // .option('--rendererOnly', `[boolean] only dev server for the renderer`)
   .action(async (root: string, options: DevCLIOptions & GlobalCLIOptions) => {
     const {createServer} = await import('./server')
-    const inlineConfig = createInlineConfig(root, options)
+    const inlineConfig = createInlineConfig(root, options) as InlineConfig
 
     try {
       // TODO: this used to pass options, but they weren't used in createServer; what should be done?
@@ -106,7 +107,7 @@ cli
  */
 cli.command('build [root]', 'build for production').action(async (root: string, options: GlobalCLIOptions) => {
   const {createBuild} = await import('./build')
-  const inlineConfig = createInlineConfig(root, options)
+  const inlineConfig = createInlineConfig(root, options) as InlineConfig
 
   if (options.entry) {
     process.env.ELECTRON_ENTRY = options.entry
@@ -129,7 +130,7 @@ cli
   // .option('--noSandbox', `[boolean] forces renderer process to run un-sandboxed`)
   .action(async (root: string, options: PreviewCLIOptions & GlobalCLIOptions) => {
     const {preview} = await import('./preview')
-    const inlineConfig = createInlineConfig(root, options)
+    const inlineConfig = createInlineConfig(root, options) as InlineConfig
     const {createBuild} = await import('./build')
 
     try {

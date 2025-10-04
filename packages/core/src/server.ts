@@ -34,7 +34,9 @@ export async function createServer(inlineConfig: InlineConfig): Promise<void> {
         },
       })
       const isMainPlugin = mainRsbuild.isPluginExists('electron-rsbuild:main', {environment: 'main'})
-      !isMainPlugin && mainRsbuild.addPlugins([mainPlugin()], {environment: 'main'})
+      if (!isMainPlugin) {
+        mainRsbuild.addPlugins([mainPlugin()], {environment: 'main'})
+      }
 
       await mainRsbuild.build()
       if (ps) {
@@ -59,7 +61,9 @@ export async function createServer(inlineConfig: InlineConfig): Promise<void> {
       })
 
       const isPreloadPlugin = preloadRsbuild.isPluginExists('electron-rsbuild:main', {environment: 'preload'})
-      !isPreloadPlugin && preloadRsbuild.addPlugins([preloadPlugin()], {environment: 'preload'})
+      if (!isPreloadPlugin) {
+        preloadRsbuild.addPlugins([preloadPlugin()], {environment: 'preload'})
+      }
       await preloadRsbuild.build()
     }
 

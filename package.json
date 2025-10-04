@@ -18,7 +18,8 @@
     "changeset": "changeset",
     "lint": "biome check . --diagnostic-level=warn",
     "lint:fix": "biome check --write . --diagnostic-level=warn",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "cleanup": "pnpm --filter=@electron-rsbuild/* --filter=electron-rsbuild-react run cleanup & rimraf node_modules"
   },
   "repository": {
     "type": "git",
@@ -29,9 +30,6 @@
     "url": "https://github.com/electron-rsbuild/electron-rsbuild/issues"
   },
   "homepage": "https://github.com/electron-rsbuild/electron-rsbuild#readme",
-  "workspaces": {
-    "packages": ["packages/*"]
-  },
   "dependencies": {
     "@rsbuild/core": "^1.1.0"
   },

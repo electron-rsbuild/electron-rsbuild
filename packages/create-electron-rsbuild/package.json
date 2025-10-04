@@ -21,7 +21,8 @@
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",
-    "start": "node ./dist/index.js"
+    "start": "node ./dist/index.js",
+    "cleanup": "rimraf node_modules"
   },
   "dependencies": {
     "create-rstack": "1.0.9"
