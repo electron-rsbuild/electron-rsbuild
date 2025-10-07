@@ -1,13 +1,15 @@
 {
   "name": "@electron-rsbuild/plugin-preload",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Electron main config plugin for Electron-Rsbuild",
   "author": "veaba",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "rslib build --watch",
     "start": "rslib build --watch",

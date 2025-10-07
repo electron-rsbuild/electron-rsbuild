@@ -1,6 +1,6 @@
 {
   "name": "create-electron-rsbuild",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Create a new Rsbuild project",
   "homepage": "https://electron-rsbuild.org",
   "repository": {
@@ -17,7 +17,11 @@
   "bin": {
     "create-electron-rsbuild": "./bin.js"
   },
-  "files": ["template-*", "dist", "bin.js"],
+  "files": [
+    "template-*",
+    "dist",
+    "bin.js"
+  ],
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",
