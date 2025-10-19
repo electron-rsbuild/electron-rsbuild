@@ -1,6 +1,6 @@
 import type {EnvironmentConfig, RsbuildPlugin} from '@rsbuild/core'
 
-export const mainConfig: EnvironmentConfig = {
+export const defaultMainConfig: EnvironmentConfig = {
   source: {
     entry: {
       index: './src/main/index.ts',
@@ -47,11 +47,12 @@ export const mainConfig: EnvironmentConfig = {
 /**
  * plugin-main for rsbuild
  * */
-export const mainPlugin = (): RsbuildPlugin => ({
+export const mainPlugin = (customMainConfig?: EnvironmentConfig={}): RsbuildPlugin => ({
   name: 'electron-rsbuild:main',
   setup(api) {
     api.modifyEnvironmentConfig((config, {mergeEnvironmentConfig}) => {
       // TODO 更改 dev
+      const mainConfig = Object.assign({}, defaultMainConfig, customMainConfig)
       return mergeEnvironmentConfig(config, mainConfig)
     })
   },
