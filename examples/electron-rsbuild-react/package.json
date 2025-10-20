@@ -1,6 +1,6 @@
 {
   "name": "electron-rsbuild-react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "private": true,
