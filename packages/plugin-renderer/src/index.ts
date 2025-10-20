@@ -1,7 +1,7 @@
 import {resolve} from 'node:path'
 import type {EnvironmentConfig, RsbuildPlugin} from '@rsbuild/core'
 
-export const rendererConfig: EnvironmentConfig = {
+export const defaultRendererConfig: EnvironmentConfig = {
   html: {
     title: 'Electron-Rsbuild App',
   },
@@ -25,11 +25,12 @@ export const rendererConfig: EnvironmentConfig = {
 /**
  * plugin-renderer for rsbuild
  * */
-export const rendererPlugin = (): RsbuildPlugin => ({
+export const rendererPlugin = (userRendererConfig?: EnvironmentConfig={}): RsbuildPlugin => ({
   name: 'electron-rsbuild:renderer',
   pre: ['rsbuild:react'],
   setup(api) {
     api.modifyEnvironmentConfig((config, {mergeEnvironmentConfig}) => {
+      const rendererConfig = Object.assign({}, defaultRendererConfig, userRendererConfig)
       return mergeEnvironmentConfig(config, rendererConfig)
     })
   },
