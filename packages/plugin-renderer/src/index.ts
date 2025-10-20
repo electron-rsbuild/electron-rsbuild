@@ -25,7 +25,7 @@ export const defaultRendererConfig: EnvironmentConfig = {
 /**
  * plugin-renderer for rsbuild
  * */
-export const rendererPlugin = (userRendererConfig?: EnvironmentConfig={}): RsbuildPlugin => ({
+export const rendererPlugin = (userRendererConfig?: EnvironmentConfig): RsbuildPlugin => ({
   name: 'electron-rsbuild:renderer',
   pre: ['rsbuild:react'],
   setup(api) {
