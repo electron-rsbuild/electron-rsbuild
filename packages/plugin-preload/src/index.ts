@@ -26,11 +26,11 @@ export const defaultPreloadConfig: EnvironmentConfig = {
 /**
  * plugin-preload for rsbuild
  * */
-export const preloadPlugin = (customPreloadConfig?: EnvironmentConfig={}): RsbuildPlugin => ({
+export const preloadPlugin = (userPreloadConfig?: EnvironmentConfig={}): RsbuildPlugin => ({
   name: 'electron-rsbuild:preload',
   setup(api) {
     api.modifyEnvironmentConfig((config, {mergeEnvironmentConfig}) => {
-      const preloadConfig = Object.assign({}, defaultPreloadConfig, customPreloadConfig)
+      const preloadConfig = Object.assign({}, defaultPreloadConfig, userPreloadConfig)
       return mergeEnvironmentConfig(config, preloadConfig)
     })
   },

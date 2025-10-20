@@ -47,12 +47,12 @@ export const defaultMainConfig: EnvironmentConfig = {
 /**
  * plugin-main for rsbuild
  * */
-export const mainPlugin = (customMainConfig?: EnvironmentConfig={}): RsbuildPlugin => ({
+export const mainPlugin = (userMainConfig?: EnvironmentConfig={}): RsbuildPlugin => ({
   name: 'electron-rsbuild:main',
   setup(api) {
     api.modifyEnvironmentConfig((config, {mergeEnvironmentConfig}) => {
       // TODO 更改 dev
-      const mainConfig = Object.assign({}, defaultMainConfig, customMainConfig)
+      const mainConfig = Object.assign({}, defaultMainConfig, userMainConfig)
       return mergeEnvironmentConfig(config, mainConfig)
     })
   },
