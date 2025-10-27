@@ -2,7 +2,7 @@
 
 > WIP, do not use it directly in the production environment.
 
-Export Next generation Electron build tooling based on Rsbuild.
+Explore the next generation Electron build tooling based on Rsbuild.
 
 [![Release](https://github.com/electron-rsbuild/electron-rsbuild/actions/workflows/release.yml/badge.svg)](https://github.com/electron-rsbuild/electron-rsbuild/actions/workflows/release.yml)
 
